@@ -40,6 +40,9 @@ class MetroStation {
     this.locationCode = locationCode;
 	this.locationCodes = {};		
 	this.trainGroup = {};		// Group:"1", class TrainGroup
+	this.openingTime = "";
+	this.firstTrains = {};
+	this.lastTrains = {};
 	this.trainProps = new TrainProperties();
 	
 	this.weekdayInfo = {};		// "weekday", class StationInfo
@@ -59,6 +62,14 @@ class MetroStation {
 	  }
 	  var trainTrack = this.trainGroup[direction];	  
 	  trainTrack.addTrain(line, cars, min, destinationCode, destinationName);
+  }
+  addEndTrain(type, time, destinationCode, destinationName, destinationLines) {
+	  var train = new EndMetroTrain(type, time, destinationCode, destinationName, destinationLines);
+	  if (type == "First") {
+		  this.firstTrains[train.Direction] = train;
+	  } else {
+		  this.lastTrains[train.Direction] = train;
+	  }
   }
   addInformation(openingTime, firstTrains, lastTrains) {
 	  this.openingTime = openingTime;
@@ -134,6 +145,18 @@ class MetroTrain {
 		this.DestinationCode = destinationCode;
 		this.DestinationName = destinationName;
 	}
+}
+
+class EndMetroTrain {
+	constructor(type, time, destinationCode, destinationName, destinationLines) {
+		this.Type = type;
+		this.Time = time;
+		this.DestinationCode = destinationCode;
+		this.DestinationName = destinationName;
+		this.DestinationLines = destinationLines;
+		this.trainProps = new TrainProperties();
+		this.Direction = this.trainProps.getLineDirection(destinationCode);
+	}	
 }
 
 /* -------------------------------------------------------------------- 

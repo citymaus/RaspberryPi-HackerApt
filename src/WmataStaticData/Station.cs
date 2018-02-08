@@ -41,6 +41,7 @@ namespace WmataStaticData
         {
             foreach (var station in AllStations)
             {
+                #region Update all schedules
                 foreach (var train in station.Monday.FirstTrains)
                 {
                     var destStation = AllStations.Find(s => s.Code == train.DestinationStation);
@@ -131,6 +132,7 @@ namespace WmataStaticData
                     train.DestinationStationName = destStation.StationName;
                     train.DestinationStationLines = destStation.AllLines();
                 }
+                #endregion
             }
         }
 

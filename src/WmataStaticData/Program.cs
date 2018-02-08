@@ -107,7 +107,7 @@ namespace WmataStaticData
                                   + "</td><td>" + lines
                                   + "</td><td>" + code
                                   + "</td><td>" + sharedStation
-                                  + "</td><td>" + station.Monday.OpeningTime
+                                  + "</td><td>" + station.Monday.OpeningTime 
                                   + "</td><td>" + station.Monday.FirstTrainsString()
                                   + "</td><td>" + station.Monday.LastTrainsString()
                                   + "</td></tr>\n";
