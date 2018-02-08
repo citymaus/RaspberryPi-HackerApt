@@ -84,7 +84,7 @@ namespace WmataStaticData
             var markdownOutput = "<b># CURRENT AS OF " + now + "</b><br/>";
             markdownOutput += "<table border=1 cellpadding=5 cellspacing=0>";
             markdownOutput += "<thead><tr><th>Index</th><th>Name</th><th>Lines</th><th>Code</th>" 
-                + "<th>Shares Station</th><th>Mon Opening</th><th>First Trains</th><th>Last Trains</th></tr></thead><tbody>";
+                + "<th>Shares Station</th><th>Monday Opening</th><th>Monday First Trains</th><th>Monday Last Trains</th></tr></thead><tbody>";
             for (var stationIndex = 0; stationIndex < allStations.Count; stationIndex++)
             {
                 var station = allStations[stationIndex];
@@ -132,7 +132,7 @@ namespace WmataStaticData
             // Create JSON
             using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\wmata\stationcodes.json", false))
             {
-                file.Write(JsonConvert.SerializeObject(allStations));
+                file.Write(JsonConvert.SerializeObject(stationJSON));
             }
         }
     }
