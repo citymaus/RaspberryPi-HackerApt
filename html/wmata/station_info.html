@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Metro Station Info</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="train.js"></script>
+</head>
+<body>
+<p id="demo"></p>
+<p id="debug"></p>
+<script type="text/javascript">
+    $(function() {
+		var allLines = {
+			"RD": "Red",
+			"GR": "Green",
+			"YL": "Yellow",
+			"BL": "Blue",
+			"OR": "Orange",
+			"SV": "Silver"
+		};	
+		var allStations = {			
+			"A01": "Metro Center",
+			"C01": "Metro Center",
+		};
+	
+		var displayObj = document.getElementById("demo");
+		var debug = document.getElementById("debug");
+		var allWeekdayStationData = {};
+		var allSaturdayStationData = {};
+		var allSundayStationData = {};
+      
+		function printInfo(stationCode){
+			var params = {
+				"api_key": "c872618b10584b00a0f0e2176b19a9d1",
+				//"StationCodes": "All"
+				// Request parameters
+				//"LineCode": lineColor,
+				//"StationCode": "E10",
+				"StationCode": stationCode,
+			};
+			$.ajax({
+				//url: "https://api.wmata.com/StationPrediction.svc/json/GetPrediction/All?" + $.param(params),
+				//url: "https://api.wmata.com/Rail.svc/json/jStations?" + $.param(params),
+				url: "https://api.wmata.com/Rail.svc/json/jStationTimes?" + $.param(params),
+				type: "GET",
+			})
+			.done(function(data) {
+				//displayObj.innerHTML = displayObj.innerHTML + "<br><b>" +  allLines[lineColor] + " Line</b><br>";
+				for (var item = 0, len = data.StationTimes.length; item < len; item++) {
+					var currStation = data.StationTimes[item];
+					if (allWeekdayStationData.length == 0 || !(currStation.StationName in allWeekdayStationData)) {
+						allWeekdayStationData[currStation.StationName] = new StationInfo(currStation.Code, currStation.Monday.OpeningTime, "weekday");
+					}
+					var weekdayStation = allWeekdayStationData[currStation.StationName];
+					weekdayStation.addFirstTrains(currStation.Monday.FirstTrains);
+					weekdayStation.addLastTrains(currStation.Monday.LastTrains);
+					
+					if (allSaturdayStationData.length == 0 || !(currStation.StationName in allSaturdayStationData)) {
+						allSaturdayStationData[currStation.StationName] = new StationInfo(currStation.Code, currStation.Saturday.OpeningTime, "saturday");
+					}
+					var saturdayStation = allSaturdayStationData[currStation.StationName];
+					saturdayStation.addFirstTrains(currStation.Saturday.FirstTrains);
+					saturdayStation.addLastTrains(currStation.Saturday.LastTrains);
+					
+					if (allSundayStationData.length == 0 || !(currStation.StationName in allSundayStationData)) {
+						allSundayStationData[currStation.StationName] = new StationInfo(currStation.Code, currStation.Sunday.OpeningTime, "sunday");
+					}
+					var sundayStation = allSundayStationData[currStation.StationName];
+					sundayStation.addFirstTrains(currStation.Sunday.FirstTrains);
+					sundayStation.addLastTrains(currStation.Sunday.LastTrains);
+					
+					//station.addLocationCode(currStation.Code);
+					
+					var weekday = currStation.Monday;
+					var saturday = currStation.Saturday;
+					var sunday = currStation.Sunday;
+				  
+					//station.addTrain(currTrain.Line, currTrain.Car, currTrain.Min, currTrain.DestinationCode, currTrain.DestinationName, //currTrain.Group);
+				  
+				  displayObj.innerHTML += "<br>" + currStation.Code + ": " + currStation.StationName + "<br>";
+				  displayObj.innerHTML += "<b>WEEKDAYS:</b><br>"
+				  displayObj.innerHTML += "Opens: " + weekday.OpeningTime + "<br>";
+				  for (var train = 0, len = weekday.FirstTrains.length; train < len; train++) {
+					displayObj.innerHTML += "First train Time: " + weekday.FirstTrains[train].Time 
+						+ " Dest: " + weekday.FirstTrains[train].DestinationStation + "<br>";
+				  }
+				  for (var train = 0, len = weekday.LastTrains.length; train < len; train++) {
+					displayObj.innerHTML += "Last train Time: " + weekday.LastTrains[train].Time 
+						+ " Dest: " + weekday.LastTrains[train].DestinationStation + "<br>";
+				  }
+				  displayObj.innerHTML += "<b>SATURDAY:</b><br>"
+				  displayObj.innerHTML += "Opens: " + saturday.OpeningTime + "<br>";
+				  for (var train = 0, len = saturday.FirstTrains.length; train < len; train++) {
+					displayObj.innerHTML += "First train Time: " + saturday.FirstTrains[train].Time 
+						+ " Dest: " + saturday.FirstTrains[train].DestinationStation + "<br>";
+				  }
+				  for (var train = 0, len = saturday.LastTrains.length; train < len; train++) {
+					displayObj.innerHTML += "Last train Time: " + saturday.LastTrains[train].Time 
+						+ " Dest: " + saturday.LastTrains[train].DestinationStation + "<br>";
+				  }
+				  displayObj.innerHTML += "<b>SUNDAY:</b><br>"
+				  displayObj.innerHTML += "Opens: " + sunday.OpeningTime + "<br>";
+				  for (var train = 0, len = sunday.FirstTrains.length; train < len; train++) {
+					displayObj.innerHTML += "First train Time: " + sunday.FirstTrains[train].Time 
+						+ " Dest: " + sunday.FirstTrains[train].DestinationStation + "<br>";
+				  }
+				  for (var train = 0, len = sunday.LastTrains.length; train < len; train++) {
+					displayObj.innerHTML += "Last train Time: " + sunday.LastTrains[train].Time 
+						+ " Dest: " + sunday.LastTrains[train].DestinationStation + "<br>";
+				  }
+				  displayObj.innerHTML += "<br>";
+				}
+			})
+			.fail(function(xhr, status, error) {
+				var err = eval("(" + xhr.responseText + ")");
+				displayObj.innerHTML = "error: " + err.Message;
+			});
+		}
+		
+		for (var station in allStations) {
+			printInfo(station);
+		}
+    });
+</script>
+</body>
+</html>

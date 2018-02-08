@@ -23,11 +23,11 @@ th {
 }
 
 .destinationHeader {
-    font-family: "Arial", Times, serif;
+   /* font-family: "Arial", Times, serif; */
 	background-color: #c2c2d6;
 	font-weight: bold;
     text-align: right;
-	font-size: 12px;
+	font-size: 14px;
 }
 
 .GR, .YL, .RD, .BL, .OR, .SV {

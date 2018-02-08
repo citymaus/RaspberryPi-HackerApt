@@ -69,17 +69,6 @@
 					var station = allStationData[currTrain.LocationName];
 					station.addLocationCode(currTrain.LocationCode);
 					station.addTrain(currTrain.Line, currTrain.Car, currTrain.Min, currTrain.DestinationCode, currTrain.DestinationName, currTrain.Group);
-					
-					/*if (currTrain.DestinationCode in northDestinations) {
-					northTrains = createRow(northTrains, currTrain.Line, currTrain.Car, currTrain.Min, currTrain.DestinationName);
-					} else if (currTrain.DestinationCode = southDestinations) {
-					southTrains = createRow(southTrains, currTrain.Line, currTrain.Car, currTrain.Min, currTrain.DestinationName);
-					}	else if (currTrain.DestinationCode = eastDestinations) {
-					eastTrains = createRow(eastTrains, currTrain.Line, currTrain.Car, currTrain.Min, currTrain.DestinationName);
-					}	else if (currTrain.DestinationCode = westDestinations) {
-					westTrains = createRow(westTrains, currTrain.Line, currTrain.Car, currTrain.Min, currTrain.DestinationName);
-					}	
-					*/
 				}	
 				
 				for (var stationCode in allStationData) {
@@ -116,27 +105,31 @@
 						westTrains = createRow(westTrains, currTrain.Line, currTrain.Cars, currTrain.Min, currTrain.DestinationName);						
 					}
 							
+					var trainProperties = new TrainProperties();
 					if (southTrains != "")
 					{
-						tableData += "<tr><td class='destinationHeader' style='text-align:center;'><b><i class='fas fa-angle-double-down'></i>" + "<td class='destinationHeader' colspan='3'>" + station.getDestinations("south") + "</td></tr>";
+						tableData += "<tr><td class='destinationHeader' style='text-align:center;'><b><i class='" +
+						trainProperties.getDirectionIcon("south") + "'></i>" + "<td class='destinationHeader' colspan='3'>" + station.getDestinations("south") + "</td></tr>";
 						tableData += southTrains;
 					}
 						
 					if (northTrains != "")
-					{		  
-						//Object.keys(northDestinations).map(function(x){return northDestinations[x];}).join(', ') 
-						tableData += "<tr><td class='destinationHeader' style='text-align:center;'><b><i class='fas fa-angle-double-up'></i>" + "<td class='destinationHeader' colspan='3'>" + station.getDestinations("north") + "</td></tr>";
+					{		   
+						tableData += "<tr><td class='destinationHeader' style='text-align:center;'><b><i class='" +
+						trainProperties.getDirectionIcon("north") + "'></i>" + "<td class='destinationHeader' colspan='3'>" + station.getDestinations("north") + "</td></tr>";
 						tableData += northTrains;
 					}
 					
 					if (eastTrains != "")
 					{		  
-						tableData += "<tr><td class='destinationHeader' style='text-align:center;'><b><i class='fas fa-angle-double-right'></i>" + "<td class='destinationHeader' colspan='3'>" + station.getDestinations("east") + "</td></tr>";
+						tableData += "<tr><td class='destinationHeader' style='text-align:center;'><b><i class='" +
+						trainProperties.getDirectionIcon("east") + "'></i>" + "<td class='destinationHeader' colspan='3'>" + station.getDestinations("east") + "</td></tr>";
 						tableData += eastTrains;
 					}
 					if (westTrains != "")
 					{		  
-						tableData += "<tr><td class='destinationHeader' style='text-align:center;'><b><i class='fas fa-angle-double-left'></i>" + "<td class='destinationHeader' colspan='3'>" + station.getDestinations("west") + "</td></tr>";
+						tableData += "<tr><td class='destinationHeader' style='text-align:center;'><b><i class='" +
+						trainProperties.getDirectionIcon("west") + "'></i>" + "<td class='destinationHeader' colspan='3'>" + station.getDestinations("west") + "</td></tr>";
 						tableData += westTrains;
 					}				
 					tableData += "</table>";	
