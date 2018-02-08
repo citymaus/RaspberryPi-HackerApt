@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Metro Data</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="wmata/train.js"></script>
+	<link href="css/style.css" rel="stylesheet">
+	<link href="css/fontawesome-all.css" rel="stylesheet">
+</head>
+<body>
+<p id="demo"></p>
+<script type="text/javascript">
+    $(function() {
+		var allLines = {
+			"RD": "Red",
+			"GR": "Green",
+			"YL": "Yellow",
+			"BL": "Blue",
+			"OR": "Orange",
+			"SV": "Silver"
+		};	
+		var allStations = {
+			//"E04": "Columbia Heights",
+			"B01": "Gallery Pl-Chinatown",
+			"F01": "Gallery Pl-Chinatown",
+			//"A02": "Farragut North",
+			//"A01": "Metro Center"
+			//"C01": "Metro Center"
+		};
+			
+		var displayObj = document.getElementById("demo");
+		var allStationData = {};
+
+		function createRow(currRows, line, cars, min, dest) {
+			currRows += "<tr>";
+			currRows += "<td class='" + line + "'>" + line + "</td>";
+			currRows += "<td>" + cars + "</td>";
+			currRows +=	"<td>" + dest + "</td>";
+			currRows += "<td>" + min;
+			if (min != "BRD" && min != "ARR") {
+				currRows += " min";
+			}
+			currRows += "</td>"
+			currRows += "</tr>";
+			return currRows;
+		}
+      
+		function stationInfo(stationList){
+			var params = {
+				"api_key": "c872618b10584b00a0f0e2176b19a9d1",
+				//"StationCodes": "All"
+				"StationCodes": stationList,
+				//"LineCode:" "RD",
+				// Request parameters
+				//"LineCode": lineColor,
+			};
+			$.ajax({
+				url: "https://api.wmata.com/StationPrediction.svc/json/GetPrediction/" + stationList + "?" + $.param(params),				
+				//url: "https://api.wmata.com/Rail.svc/json/jStations?" + $.param(params),
+				type: "GET",
+			})
+			.done(function(data) {									
+				for (var train = 0, len = data.Trains.length; train < len; train++) {
+					var currTrain = data.Trains[train];
+					
+					if (allStationData.length == 0 || !(currTrain.LocationName in allStationData)) {
+						allStationData[currTrain.LocationName] = new MetroStation(currTrain.LocationName, currTrain.LocationCode);
+					}
+					var station = allStationData[currTrain.LocationName];
+					station.addLocationCode(currTrain.LocationCode);
+					station.addTrain(currTrain.Line, currTrain.Car, currTrain.Min, currTrain.DestinationCode, currTrain.DestinationName, currTrain.Group);
+					
+					/*if (currTrain.DestinationCode in northDestinations) {
+					northTrains = createRow(northTrains, currTrain.Line, currTrain.Car, currTrain.Min, currTrain.DestinationName);
+					} else if (currTrain.DestinationCode = southDestinations) {
+					southTrains = createRow(southTrains, currTrain.Line, currTrain.Car, currTrain.Min, currTrain.DestinationName);
+					}	else if (currTrain.DestinationCode = eastDestinations) {
+					eastTrains = createRow(eastTrains, currTrain.Line, currTrain.Car, currTrain.Min, currTrain.DestinationName);
+					}	else if (currTrain.DestinationCode = westDestinations) {
+					westTrains = createRow(westTrains, currTrain.Line, currTrain.Car, currTrain.Min, currTrain.DestinationName);
+					}	
+					*/
+				}	
+				
+				for (var stationCode in allStationData) {
+				
+					var station = allStationData[stationCode];
+					var tableData = "<table>" + 
+					"<tr><th colspan=4 class='stationHeader'><b>STATION [" + station.getLocationCodes() + "]: " +  station.locationName + 
+						"</b></th></tr>";
+					
+					var northTrains = "";
+					var southTrains = "";
+					var eastTrains = "";
+					var westTrains = "";
+					
+					var northList = station.getTrains("north");
+					var southList = station.getTrains("south");
+					var eastList = station.getTrains("east");
+					var westList = station.getTrains("west");
+					
+					for (var i = 0, len = northList.length; i < len; i++) {
+						currTrain = northList[i];
+						northTrains = createRow(northTrains, currTrain.Line, currTrain.Cars, currTrain.Min, currTrain.DestinationName);						
+					}
+					for (var i = 0, len = southList.length; i < len; i++) {
+						currTrain = southList[i];
+						southTrains = createRow(southTrains, currTrain.Line, currTrain.Cars, currTrain.Min, currTrain.DestinationName);						
+					}					
+					for (var i = 0, len = eastList.length; i < len; i++) {
+						currTrain = eastList[i];
+						eastTrains = createRow(eastTrains, currTrain.Line, currTrain.Cars, currTrain.Min, currTrain.DestinationName);						
+					}
+					for (var i = 0, len = westList.length; i < len; i++) {
+						currTrain = westList[i];
+						westTrains = createRow(westTrains, currTrain.Line, currTrain.Cars, currTrain.Min, currTrain.DestinationName);						
+					}
+							
+					if (southTrains != "")
+					{
+						tableData += "<tr><td class='destinationHeader' style='text-align:center;'><b><i class='fas fa-angle-double-down'></i>" + "<td class='destinationHeader' colspan='3'>" + station.getDestinations("south") + "</td></tr>";
+						tableData += southTrains;
+					}
+						
+					if (northTrains != "")
+					{		  
+						//Object.keys(northDestinations).map(function(x){return northDestinations[x];}).join(', ') 
+						tableData += "<tr><td class='destinationHeader' style='text-align:center;'><b><i class='fas fa-angle-double-up'></i>" + "<td class='destinationHeader' colspan='3'>" + station.getDestinations("north") + "</td></tr>";
+						tableData += northTrains;
+					}
+					
+					if (eastTrains != "")
+					{		  
+						tableData += "<tr><td class='destinationHeader' style='text-align:center;'><b><i class='fas fa-angle-double-right'></i>" + "<td class='destinationHeader' colspan='3'>" + station.getDestinations("east") + "</td></tr>";
+						tableData += eastTrains;
+					}
+					if (westTrains != "")
+					{		  
+						tableData += "<tr><td class='destinationHeader' style='text-align:center;'><b><i class='fas fa-angle-double-left'></i>" + "<td class='destinationHeader' colspan='3'>" + station.getDestinations("west") + "</td></tr>";
+						tableData += westTrains;
+					}				
+					tableData += "</table>";	
+					displayObj.innerHTML = displayObj.innerHTML + "<br>" + tableData;
+				}					
+			})
+			.fail(function(xhr, status, error) {
+				var err = eval("(" + xhr.responseText + ")");
+				displayObj.innerHTML = "error: " + err.Message;
+			});
+		}
+		
+		var stationList = Object.keys(allStations).map(function(x){return x;}).join(',');
+		stationInfo(stationList);
+    });
+</script>
+</body>
+</html>

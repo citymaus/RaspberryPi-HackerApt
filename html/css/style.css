@@ -1,0 +1,62 @@
+table {
+    border: 2px solid black;
+	font-size: 15px;
+    font-family: "Times New Roman", Times, serif;
+}
+tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+td {
+	padding: 8px;
+}
+th {	
+    text-align: right;
+}
+
+.stationHeader {
+	padding: 12px;
+	background-color: #7f7f7f;
+	font-weight: bold;
+    text-align: center;	
+	color: white;
+	font-size: 15px;
+}
+
+.destinationHeader {
+    font-family: "Arial", Times, serif;
+	background-color: #c2c2d6;
+	font-weight: bold;
+    text-align: right;
+	font-size: 12px;
+}
+
+.GR, .YL, .RD, .BL, .OR, .SV {
+	font-weight: bold;
+	padding: 5px;
+    text-align: center;
+}
+
+.GR {
+    background-color: #4CAF50;
+    color: white;
+}
+.YL {
+    background-color: #ffff66;
+    color: black;	
+}
+.RD {
+    background-color: #ff4d4d;
+    color: black;	
+}
+.BL {	
+    background-color: #0066ff;
+    color: white;
+}
+.OR {	
+    background-color: #ff9933;
+    color: black;
+}
+.SV {
+    background-color: #d9d9d9;
+    color: black;
+}
