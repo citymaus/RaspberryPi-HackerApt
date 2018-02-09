@@ -1,53 +1,12 @@
-  /*
-		Car:"6"
-		Destination:"Ft.Tottn"
-		DestinationCode:"E06"
-		DestinationName:"Fort Totten"
-		Group:"1"
-		Line:"YL"
-		LocationCode:"E04"
-		LocationName:"Columbia Heights"
-		Min:"BRD"
-  */  
- 
-class StationInfo {
-	constructor(code, openingTime, day) {	
-		this.code = code;
-		this.openingTime = openingTime;
-		this.day = day;
-		this.firstTrains = {};	// "A01": "00:00"
-		this.lastTrains = {};
-	}
-	addFirstTrains(firstTrainList) {
-		for (var i = 0, len = firstTrainList.length; i < len; i++) {		
-			if (this.firstTrains.length == 0 || !(firstTrainList[i].DestinationStation in this.firstTrains)) {
-				this.firstTrains[firstTrainList[i].DestinationStation] = firstTrainList[i].Time;
-			}	
-		}
-	}
-	addLastTrains(lastTrainList) {
-		for (var i = 0, len = lastTrainList.length; i < len; i++) {		
-			if (this.lastTrains.length == 0 || !(lastTrainList[i].DestinationStation in this.lastTrains)) {
-				this.lastTrains[lastTrainList[i].DestinationStation] = lastTrainList[i].Time;
-			}	
-		}
-	}
-}
- 
 class MetroStation {
-  constructor(locationName, locationCode) {
+  constructor(locationName) {
     this.locationName = locationName;
-    this.locationCode = locationCode;
 	this.locationCodes = {};		
 	this.trainGroup = {};		// Group:"1", class TrainGroup
 	this.openingTime = "";
 	this.firstTrains = {};
 	this.lastTrains = {};
 	this.trainProps = new TrainProperties();
-	
-	this.weekdayInfo = {};		// "weekday", class StationInfo
-	this.saturdayInfo = {};
-	this.sundayInfo = {};
   }
   
   addLocationCode(locationCode) {
@@ -70,11 +29,6 @@ class MetroStation {
 	  } else {
 		  this.lastTrains[train.Direction] = train;
 	  }
-  }
-  addInformation(openingTime, firstTrains, lastTrains) {
-	  this.openingTime = openingTime;
-	  this.firstTrains = firstTrains;
-	  this.lastTrains = lastTrains;
   }
   getTrains(direction) {
 	  var trains = [];

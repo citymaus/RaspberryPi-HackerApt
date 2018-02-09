@@ -20,19 +20,25 @@
 			"SV": "Silver"
 		};	
 		var allStations = {
-			//"E04": "Columbia Heights",
+			"E04": "Columbia Heights",
 			"B01": "Gallery Pl-Chinatown",
 			"F01": "Gallery Pl-Chinatown",
-			//"A02": "Farragut North",
+			"C03": "Farragut West",
+			"A02": "Farragut North",
 			//"A01": "Metro Center"
 			//"C01": "Metro Center"
 		};
+		// TODO grab codes from names
+		var stationOrder = [ "Columbia Heights", "Farragut North", "Farragut West", "Gallery Pl-Chinatown" ];
 			
 		var displayObj = document.getElementById("demo");
 		var allStationData = {};
 		var stationData = {};
 		
-		var dayOfWeek = new Date().getDay();
+		var dateObj = new Date();
+		var dateNow = dateObj.toLocaleDateString();
+		var timeNow = dateObj.toLocaleTimeString();
+		var dayOfWeek = dateObj.getDay();
 		var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 		var today = days[dayOfWeek];
 		
@@ -45,13 +51,29 @@
 			currRows += "<td class='" + line + "'>" + line + "</td>";
 			currRows += "<td>" + cars + "</td>";
 			currRows +=	"<td>" + dest + "</td>";
-			currRows += "<td>" + min;
+			currRows += "<td style='text-align:right;'";
+			if (min == "BRD") { currRows += " class='blink_me'" }
+			currRows += ">" + min;
 			if (min != "BRD" && min != "ARR") {
 				currRows += " min";
 			}
 			currRows += "</td>"
 			currRows += "</tr>";
 			return currRows;
+		}
+		
+		function createLastTrainRow(currRows, line, time, dest) {
+			var lastTime = new Date(dateNow + " " + time);
+			var oneMinute = 1000*60;
+			var timeMath = Math.ceil((lastTime - dateObj) / oneMinute);
+			if (timeMath <= 160) {
+				currRows += "<tr>";
+				currRows += "<td class='" + line + "'>" + line + "</td>";
+				currRows += "<td colspan='2' class='lastTrain'>Last train to <b>" + dest + "</b>:</td>";
+				currRows += "<td style='text-align:right;'><b>" + lastTime.toLocaleTimeString() + "</b><br>(" + timeMath + " mins)</td>";
+				currRows += "</tr>";
+				return currRows;
+			}
 		}
       
 		function loadJSON(callback) {
@@ -83,43 +105,48 @@
 				type: "GET",
 			})
 			.done(function(data) {
-				var locationCode = "";
-				var locationName = "";
+				var locationNames = [];
+				// TODO: ordering stations
 				for (var train = 0, len = data.Trains.length; train < len; train++) {
-					//displayObj.innerHTML += stationData.Stations[0].Code;
 					var currTrain = data.Trains[train];
-					locationCode = currTrain.LocationCode;
-					locationName = currTrain.LocationName;
-										
+					if (locationNames.indexOf(currTrain.LocationName) < 0) {
+						locationNames.push(currTrain.LocationName);
+					}										
 					if (allStationData.length == 0 || !(currTrain.LocationName in allStationData)) {
-						allStationData[currTrain.LocationName] = new MetroStation(currTrain.LocationName, currTrain.LocationCode);
+						allStationData[currTrain.LocationName] = new MetroStation(currTrain.LocationName);
 					}
-					var station = allStationData[currTrain.LocationName];
-					station.addLocationCode(currTrain.LocationCode);
-					station.addTrain(currTrain.Line, currTrain.Car, currTrain.Min, currTrain.DestinationCode, currTrain.DestinationName, currTrain.Group);
+					// Stations can have multiple codes, get trainStation by name
+					var trainStation = allStationData[currTrain.LocationName];
+					trainStation.addLocationCode(currTrain.LocationCode);
+					trainStation.addTrain(currTrain.Line, currTrain.Car, currTrain.Min, currTrain.DestinationCode, currTrain.DestinationName, currTrain.Group);
 				}	
 					
 				// Add end trains
-				var currentStation = allStationData[locationName];
-				var currentStationData = stationData.Stations.filter(function( obj ) {
-				  return obj.Code == locationCode;
-				})[0];
-				var openingTime = currentStationData[today].OpeningTime;
-				for (var i = 0; i < currentStationData[today].FirstTrains.length; i++) {
-					var trainObj = currentStationData[today].FirstTrains[i];
-					currentStation.addEndTrain("First", trainObj.Time, trainObj.DestinationStation, trainObj.DestinationStationName
-, trainObj.DestinationStationLines);
-				}
-				for (var i = 0; i < currentStationData[today].LastTrains.length; i++) {
-					var trainObj = currentStationData[today].LastTrains[i];
-					currentStation.addEndTrain("Last", trainObj.Time, trainObj.DestinationStation, trainObj.DestinationStationName
-, trainObj.DestinationStationLines);
+				for (var k = 0; k < locationNames.length; k++) {
+					var currentStation = allStationData[locationNames[k]];
+					var allLocationCodes = currentStation.getLocationCodes().split(", ");
+					for (var j = 0; j < allLocationCodes.length; j++) {
+						var currentStationData = stationData.Stations.filter(function( obj ) {
+						  return obj.Code == allLocationCodes[j];
+						})[0];
+						var openingTime = currentStationData[today].OpeningTime;
+						for (var i = 0; i < currentStationData[today].FirstTrains.length; i++) {
+							var trainObj = currentStationData[today].FirstTrains[i];
+							currentStation.addEndTrain("First", trainObj.Time, trainObj.DestinationStation, trainObj.DestinationStationName
+		, trainObj.DestinationStationLines);
+						}
+						for (var i = 0; i < currentStationData[today].LastTrains.length; i++) {
+							var trainObj = currentStationData[today].LastTrains[i];
+							currentStation.addEndTrain("Last", trainObj.Time, trainObj.DestinationStation, trainObj.DestinationStationName
+		, trainObj.DestinationStationLines);
+						}
+					}
 				}
 				
-				for (var stationCode in allStationData) {
-				
-					var station = allStationData[stationCode];
-					var tableData = "<table>" + 
+				var pageTable = "<table class='outerTable'><tr>";
+				for (var st = 0; st < stationOrder.length; st++) {				
+					var station = allStationData[stationOrder[st]];
+					var tableData = "<td style='vertical-align:top;'><table>" + 
 					"<tr><th colspan=4 class='stationHeader'><b>STATION [" + station.getLocationCodes() + "]: " +  station.locationName + 
 						"</b></th></tr>";
 					
@@ -134,20 +161,36 @@
 					var westList = station.getTrains("west");
 					
 					for (var i = 0, len = northList.length; i < len; i++) {
-						currTrain = northList[i];
-						northTrains = createRow(northTrains, currTrain.Line, currTrain.Cars, currTrain.Min, currTrain.DestinationName);						
+						currTrain = northList[i];  
+						northTrains = createRow(northTrains, currTrain.Line, currTrain.Cars, currTrain.Min, currTrain.DestinationName);
+					}
+					var lastTrain = station.lastTrains["north"];
+					if (typeof lastTrain != "undefined") {
+						northTrains = createLastTrainRow(northTrains, lastTrain.DestinationLines, lastTrain.Time, lastTrain.DestinationName);
 					}
 					for (var i = 0, len = southList.length; i < len; i++) {
 						currTrain = southList[i];
 						southTrains = createRow(southTrains, currTrain.Line, currTrain.Cars, currTrain.Min, currTrain.DestinationName);						
-					}					
+					}		
+					var lastTrain = station.lastTrains["south"];
+					if (typeof lastTrain != "undefined") {
+						southTrains = createLastTrainRow(southTrains, lastTrain.DestinationLines, lastTrain.Time, lastTrain.DestinationName);
+					}			
 					for (var i = 0, len = eastList.length; i < len; i++) {
 						currTrain = eastList[i];
 						eastTrains = createRow(eastTrains, currTrain.Line, currTrain.Cars, currTrain.Min, currTrain.DestinationName);						
 					}
+					var lastTrain = station.lastTrains["east"];
+					if (typeof lastTrain != "undefined") {
+						eastTrains = createLastTrainRow(eastTrains, lastTrain.DestinationLines, lastTrain.Time, lastTrain.DestinationName);
+					}
 					for (var i = 0, len = westList.length; i < len; i++) {
 						currTrain = westList[i];
 						westTrains = createRow(westTrains, currTrain.Line, currTrain.Cars, currTrain.Min, currTrain.DestinationName);						
+					}
+					var lastTrain = station.lastTrains["west"];
+					if (typeof lastTrain != "undefined") {
+						westTrains = createLastTrainRow(westTrains, lastTrain.DestinationLines, lastTrain.Time, lastTrain.DestinationName);
 					}
 							
 					var trainProperties = new TrainProperties();
@@ -177,16 +220,17 @@
 						trainProperties.getDirectionIcon("west") + "'></i>" + "<td class='destinationHeader' colspan='3'>" + station.getDestinations("west") + "</td></tr>";
 						tableData += westTrains;
 					}				
-					tableData += "</table>";	
-					displayObj.innerHTML = displayObj.innerHTML + "<br>" + tableData;
-				}					
+					tableData += "</table></td>";	
+					pageTable += tableData;
+				}
+			    pageTable += "</tr></table>";
+				displayObj.innerHTML = pageTable;
 			})
 			.fail(function(xhr, status, error) {
 				var err = eval("(" + xhr.responseText + ")");
 				displayObj.innerHTML = "error: " + err.Message;
 			});
-		}
-		
+		}		
 		var stationList = Object.keys(allStations).map(function(x){return x;}).join(',');
 		loadJSON(setStationData);
 		stationInfo(stationList);
