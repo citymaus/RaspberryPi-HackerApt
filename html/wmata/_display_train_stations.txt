@@ -1,0 +1,9 @@
+#
+# Add train stations here, one per line, in order of desired display.
+# 	- Can use partial name, for example, "Gallery Pl" instead of 
+#	  official, "Gallery Pl-Chinatown"
+# -------------------------------------------------------------------
+Columbia Heights
+Farragut North
+Farragut West
+Gallery Pl

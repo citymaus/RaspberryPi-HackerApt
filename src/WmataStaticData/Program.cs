@@ -78,6 +78,7 @@ namespace WmataStaticData
 
         static void WriteStationDataToFiles(Stations stationJSON)
         {
+            var filename = "static_stationinfo";
             var allStations = stationJSON.AllStations;
 
             var now = DateTime.Now.ToString("yyyy-MM-dd (HH:mm:ss)");
@@ -120,17 +121,17 @@ namespace WmataStaticData
             markdownOutput += "<br>Metro Center: " + stationJSON.FindAllStationCodesByName("Metro Center");
             
             // Create markdown file
-            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\wmata\stationcodes.md", false))
+            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\wmata\" + filename + ".md", false))
             {
                 file.Write(markdownOutput);
             }
             // Create HTML file
-            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\wmata\stationcodes.html", false))
+            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\wmata\" + filename + ".html", false))
             {
                 file.Write(markdownOutput);
             }
             // Create JSON
-            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\wmata\stationcodes.json", false))
+            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\wmata\" + filename + ".json", false))
             {
                 file.Write(JsonConvert.SerializeObject(stationJSON));
             }
