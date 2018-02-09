@@ -1,4 +1,4 @@
-<b># CURRENT AS OF 2018-02-09 (15:42:47)</b><br/><table border=1 cellpadding=5 cellspacing=0><thead><tr><th>Index</th><th>Name</th><th>StopID</th><th>Routes</th></tr></thead><tbody><tr><td>1</td><td>MADISON DR + MONROE AVE</td><td>3000064</td><td>W14</td></tr>
+<b># CURRENT AS OF 2018-02-09 (15:48:07)</b><br/><table border=1 cellpadding=5 cellspacing=0><thead><tr><th>Index</th><th>Name</th><th>StopID</th><th>Routes</th></tr></thead><tbody><tr><td>1</td><td>MADISON DR + MONROE AVE</td><td>3000064</td><td>W14</td></tr>
 <tr><td>2</td><td>MADISON DR + MONROE AVE</td><td>3000065</td><td>W14</td></tr>
 <tr><td>3</td><td>MADISON DR + HARRISON AVE</td><td>3000066</td><td>W14</td></tr>
 <tr><td>4</td><td>MADISON DR + HARRISON AVE</td><td>3000067</td><td>W14</td></tr>

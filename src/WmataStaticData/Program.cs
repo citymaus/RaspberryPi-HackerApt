@@ -10,7 +10,7 @@ namespace WmataStaticData
 
             var stationDataBuilder = new StationDataBuilder(wmataApiKey);
             var stopDataBuilder = new StopDataBuilder(wmataApiKey);
-            //stationDataBuilder.MakeStationRequest();
+            stationDataBuilder.MakeStationRequest();
             stopDataBuilder.MakeStopRequest();
 
             Console.WriteLine("Hit ENTER to exit...");
