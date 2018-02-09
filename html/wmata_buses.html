@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DC Metro Train Station Data</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="wmata/bus.js"></script>
+	<link href="css/style.css" rel="stylesheet">
+	<link href="css/fontawesome-all.css" rel="stylesheet">
+</head>
+<body>
+<p id="display"></p>
+<script type="text/javascript">
+    $(function() {
+		var api_key = "{api_key}";
+		var userStopFile = "wmata/_display_bus_stops.txt";
+		var refreshRate = 0;	// TODO
+		// TODO incidents
+	
+		var stopCodeOrder = [];
+		var allStopData = {};
+		var staticStopData = {};
+			
+		var displayObj = document.getElementById("display");
+		
+		var dateObj = new Date();
+		var dateNow = dateObj.toLocaleDateString();
+		var timeNow = dateObj.toLocaleTimeString();
+		var dayOfWeek = dateObj.getDay();
+		var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+		var today = days[dayOfWeek];
+		
+		// File loading functions
+		// ----------------------------------------------------------
+		function loadJSON(callback) {
+			var xobj = new XMLHttpRequest();
+				xobj.overrideMimeType("application/json");
+			// Synchronous ajax call (false)
+			xobj.open('GET', 'wmata/static_busstopinfo.json', false);
+			xobj.onreadystatechange = function () {
+				  if (xobj.readyState == 4 && xobj.status == "200") {
+					callback(xobj.responseText);
+				  }
+			};
+			xobj.send(null);  			
+		}		
+		function loadRequestedStops(callback) {			
+			var xobj = new XMLHttpRequest();
+				xobj.overrideMimeType("application/json");
+			// Synchronous ajax call (false)
+			xobj.open('GET', userStopFile, false);
+			xobj.onreadystatechange = function () {
+				  if (xobj.readyState == 4 && xobj.status == "200") {
+					callback(xobj.responseText);
+				  }
+			};
+			xobj.send(null);  	
+		}		
+		function setStopDataCallback(data) {
+			staticStopData = JSON.parse(data);
+		}
+		function setRequestedStopsCallback(data) {
+			var lines = data.split('\n');
+			for (var line = 0; line < lines.length; line++) {
+				if (!(lines[line].charAt(0) == "#")) {
+					var findStop = lines[line].trim();
+					var foundStop = staticStopData.Stops.filter(function( obj ) {
+					  return obj.StopID.indexOf(findStop) !== -1;
+					})[0];
+					if (foundStop !== undefined) {
+						stopCodeOrder.push(foundStop.StopID);
+					} else {
+						displayObj.innerHTML += "<b>Error:</b> Stop (" + findStation + ") not found. "
+							+ "Please validate entries in \"" + userStopFile + "\".";
+						return;
+					}					
+				}
+			}
+			if (stopCodeOrder.length == 0) {
+				displayObj.innerHTML += "<b>Error:</b> No valid stops found in \"" + userStopFile + "\".";
+				return;
+			}
+		}
+		// ----------------------------------------------------------
+
+		//function createRow(currRows, line, cars, min, dest) {
+		function createRow(currRows, routeID, min) {
+			currRows += "<tr>";
+			//currRows += "<td class='" + line + "'>" + line + "</td>";
+			currRows += "<td>" + routeID + "</td>";
+			//currRows +=	"<td>" + dest + "</td>";
+			currRows += "<td style='text-align:right;'";
+			if (min == "0") { 
+				currRows += " class='blink_me'"; 
+				min = "ARR";
+			}
+			currRows += ">" + min;
+			if (min != "BRD" && min != "ARR") {
+				currRows += " min";
+			}
+			currRows += "</td>"
+			currRows += "</tr>";
+			return currRows;
+		}
+		
+		function createBookendTrainRow(train, type, currRows) {
+			if (typeof train != "undefined") {
+				var line = train.DestinationLines;
+				var time = train.Time;
+				var dest = train.DestinationName;
+				var type = type.charAt(0).toUpperCase() + type.substring(1);
+				var trainTime = new Date(dateNow + " " + time);
+								
+				// If after midnight, add a day
+				if (trainTime.getHours() < 3) {
+					trainTime.setDate(trainTime.getDate() + 1);
+				}
+				var oneMinute = 1000*60;
+				var timeMath = Math.ceil((trainTime - dateObj) / oneMinute);
+				var displayBookend = ((timeMath <= 160) && (timeMath > -60));
+				if (displayBookend) {
+					currRows += "<tr>";
+					currRows += "<td class='" + line + "'>" + line + "</td>";
+					currRows += "<td colspan='2' class='bookendTrain'>" + type + " train to <b>" + dest + "</b>:</td>";
+					currRows += "<td style='text-align:right;'><b>" + trainTime.toLocaleTimeString() + "</b><br>(" + timeMath + " mins)</td>";
+					currRows += "</tr>";
+				}
+			}
+			return currRows;
+		}
+		
+		function displayStopInfo(stopID){
+			var currentStopData = staticStopData.Stops.filter(function( obj ) {
+			  return obj.StopID == stopID;
+			})[0];			
+												
+			if (allStopData.length == 0 || !(stopID in allStopData)) {
+				allStopData[stopID] = new BusStop(currentStopData.StopID, currentStopData.Name, currentStopData.Lat, currentStopData.Lon, currentStopData.Routes);
+				//allStopData[currTrain.LocationName] = new MetroStation(currTrain.LocationName);
+			}
+			var busStop = allStopData[stopID];
+			
+			var params = {
+				"api_key": api_key,
+				"StopID": stopID,
+			};
+			$.ajax({
+				url: "https://api.wmata.com/NextBusService.svc/json/jPredictions?" + $.param(params),
+				//url: "https://api.wmata.com/StationPrediction.svc/json/GetPrediction/" + stationCodeList + "?" + $.param(params),
+				type: "GET",
+			})
+			.done(function(data) {
+				//var locationNames = [];
+				for (var bus = 0; bus < data.Predictions.length; bus++) {
+					var currBus = data.Predictions[bus];
+					//if (locationNames.indexOf(currTrain.LocationName) < 0) {
+					//	locationNames.push(currTrain.LocationName);
+					//}	
+					
+					//busStop.addLocationCode(currTrain.LocationCode);
+					busStop.addBus(currBus.VehicleID, currBus.TripID, currBus.RouteID, currBus.Minutes, currBus.DirectionNum, currBus.DirectionText);
+					//busStop.addTrain(currTrain.Line, currTrain.Car, currTrain.Min, currTrain.DestinationCode, currTrain.DestinationName, currTrain.Group);
+				}						
+				
+				//var pageTable = "<table class='outerTable'><tr>";
+				for (var busIdx = 0; busIdx < busStop.AllBuses.length; busIdx++) {				
+					//var station = allStationData[stationOrder[st]];
+					//var openingTime = new Date(dateNow + " " + station.openingTime);
+					var tableData = "<td style='vertical-align:top;'><table>" + 
+					"<tr><th colspan=4 class='stationHeader'><b>" + busStop.StopName + " "
+						+ "[" + busStop.StopID + "] "
+						+ "</b>"
+					//	+ "<span style='font-size:10px;'>(" + openingTime.toLocaleTimeString() + " OPEN)</span>"
+						+ "</th></tr>";
+					
+					var pendingBusesHTML = "";
+					
+					var busList = busStop.getBuses();
+					
+					// All buses
+					var busProperties = new BusProperties();
+					var direction = "";
+					var directionText = "";
+					for (var i = 0, len = busList.length; i < len; i++) {
+						currBus = busList[i];
+						directionText = currBus.DirectionText;
+						direction = busProperties.getDirection(directionText);
+						pendingBusesHTML = createRow(pendingBusesHTML, currBus.RouteID, currBus.Minutes);
+					}
+					
+					if (pendingBusesHTML != "")
+					{
+						tableData += "<tr><td class='destinationHeader' style='text-align:center;'><b><i class='" +
+						busProperties.getDirectionIcon(direction) + "'></i>" + "<td class='destinationHeader' colspan='3'>" + directionText + "</td></tr>";
+						tableData += pendingBusesHTML;
+					}
+							
+					tableData += "</table></td>";	
+					//pageTable += tableData;
+				}
+				displayObj.innerHTML = tableData;
+				//return tableData;
+			    //pageTable += "</tr></table>";
+				//displayObj.innerHTML = pageTable;
+			})
+			.fail(function(xhr, status, error) {
+				var err = eval("(" + xhr.responseText + ")");
+				displayObj.innerHTML += "<br>Error: " + err.Message;
+			});
+		}		
+		// TODO multiple stops
+		// Load up static helper files
+		loadJSON(setStopDataCallback);
+		loadRequestedStops(setRequestedStopsCallback);
+		
+		// Display station data
+		//var stationCodeList = stationCodes.join(",");
+//		var stationOrderList = stopCodeOrder.join(",");
+		//var pageTable = "<table class='outerTable'><tr>";
+		for (var s = 0; s < stopCodeOrder.length; s++) {
+			//pageTable += displayStopInfo(stopCodeOrder[s]);
+			displayStopInfo(stopCodeOrder[s]);
+		}
+		//pageTable += "</tr></table>";
+	//	displayObj.innerHTML = pageTable;
+    });
+</script>
+</body>
+</html>

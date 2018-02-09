@@ -89,8 +89,7 @@ class TrainGroup {
 		  return "";
 	  }
 	  return Object.keys(destinations).map(function(x){return destinations[x];}).join(', ');
-  }
-  
+  }  
 }
 
 class MetroTrain {

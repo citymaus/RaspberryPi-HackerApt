@@ -136,7 +136,7 @@ namespace WmataStaticData
     public class Stop
     {
         [JsonProperty("StopID")]
-        public string StopId { get; set; }
+        public string StopID { get; set; }
         [JsonProperty("Name")]
         public string Name { get; set; }
         [JsonProperty("Lat")]
@@ -146,7 +146,7 @@ namespace WmataStaticData
         [JsonProperty("Routes")]
         public List<string> RouteList { get; set; }
         //public List<Route> Routes { get; set; }
-        //public List<Route> Routes { get; set => new Route().RouteId = value; } // TODO
+        //public List<Route> Routes { get; set => new Route().RouteID = value; } // TODO
     }
 
     public class Routes
@@ -157,7 +157,7 @@ namespace WmataStaticData
     public class Route
     {
         [JsonProperty("RouteID")]
-        public string RouteId { get; set; }
+        public string RouteID { get; set; }
         [JsonProperty("Name")]
         public string Name { get; set; }
         [JsonProperty("LineDescription")]

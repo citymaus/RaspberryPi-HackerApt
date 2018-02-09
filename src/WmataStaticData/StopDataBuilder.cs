@@ -66,14 +66,14 @@ namespace WmataStaticData
             // Save route information to main Stops object
          /*   foreach (var stop in stopJSON.AllStops)
             {
-                foreach (var routeId in stop.RouteList)
+                foreach (var routeID in stop.RouteList)
                 {
-                    var route = routeJSON.AllRoutes.Find(r => r.RouteId == routeId);
+                    var route = routeJSON.AllRoutes.Find(r => r.RouteID == routeID);
                     if (!stop.Routes.Contains(route))
                     {
                         stop.Routes.Add(route);
                     }
-                    // var route = stopJSON.AllStops.Find(s => s.StopId == stop.)
+                    // var route = stopJSON.AllStops.Find(s => s.StopID == stop.)
                 }
                 */
                 /*
@@ -107,12 +107,12 @@ namespace WmataStaticData
             for (var stopIndex = 0; stopIndex < allStops.Count; stopIndex++)
             {
                 var stop = allStops[stopIndex];
-                var stopId = stop.StopId;
+                var stopID = stop.StopID;
                 var name = stop.Name;
                 var routes = stop.RouteList;
                 markdownOutput += "<tr><td>" + (stopIndex + 1)
                                   + "</td><td>" + name
-                                  + "</td><td>" + stopId
+                                  + "</td><td>" + stopID
                                   + "</td><td>" + string.Join("<br>", routes)
                                   + "</td></tr>\n";
             }
@@ -183,12 +183,12 @@ namespace WmataStaticData
             for (var routeIndex = 0; routeIndex < allRoutes.Count; routeIndex++)
             {
                 var route = allRoutes[routeIndex];
-                var routeId = route.RouteId;
+                var routeID = route.RouteID;
                 var name = route.Name;
                 var description = route.LineDescription;
                 markdownOutput += "<tr><td>" + (routeIndex + 1)
                                   + "</td><td>" + name
-                                  + "</td><td>" + routeId
+                                  + "</td><td>" + routeID
                                   + "</td><td>" + description
                                   + "</td></tr>\n";
             }

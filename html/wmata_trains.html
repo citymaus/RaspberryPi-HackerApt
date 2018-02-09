@@ -11,7 +11,7 @@
 <p id="display"></p>
 <script type="text/javascript">
     $(function() {
-		var api_key = "c872618b10584b00a0f0e2176b19a9d1";
+		var api_key = "{api_key}";
 		var userStationFile = "wmata/_display_train_stations.txt";
 		var refreshRate = 0;	// TODO
 		// TODO incidents
@@ -64,7 +64,7 @@
 			for (var line = 0; line < lines.length; line++) {
 				if (!(lines[line].charAt(0) == "#")) {
 					var findStation = lines[line].trim();
-					var foundStation = staticStationData.Stations.filter(function( obj, st ) {
+					var foundStation = staticStationData.Stations.filter(function( obj ) {
 					  return obj.StationName.indexOf(findStation) !== -1;
 					})[0];
 					if (foundStation !== undefined) {
@@ -96,7 +96,7 @@
 			currRows += "<td>" + cars + "</td>";
 			currRows +=	"<td>" + dest + "</td>";
 			currRows += "<td style='text-align:right;'";
-			if (min == "BRD") { currRows += " class='blink_me'" }
+			if (min == "BRD") { currRows += " class='blink_me'"; }
 			currRows += ">" + min;
 			if (min != "BRD" && min != "ARR") {
 				currRows += " min";
