@@ -46,9 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StationDataBuilder.cs" />
+    <Compile Include="StopDataBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Station.cs" />
+    <Compile Include="Stop.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

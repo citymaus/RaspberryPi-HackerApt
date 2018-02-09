@@ -14,6 +14,7 @@
 		var api_key = "{api_key}";
 		var userStationFile = "wmata/_display_train_stations.txt";
 		var refreshRate = 0;	// TODO
+		// TODO incidents
 	
 		var stationOrder = [];
 		var stationCodes = [];
@@ -180,9 +181,13 @@
 				var pageTable = "<table class='outerTable'><tr>";
 				for (var st = 0; st < stationOrder.length; st++) {				
 					var station = allStationData[stationOrder[st]];
+					var openingTime = new Date(dateNow + " " + station.openingTime);
 					var tableData = "<td style='vertical-align:top;'><table>" + 
-					"<tr><th colspan=4 class='stationHeader'><b>STATION [" + station.getLocationCodes() + "]: " +  station.locationName + 
-						"</b> Opens " + station.openingTime + "</th></tr>";
+					"<tr><th colspan=4 class='stationHeader'><b>" + station.locationName + " "
+						//+ "[" + station.getLocationCodes() + "] "
+						+ "</b>"
+						+ "<span style='font-size:10px;'>(" + openingTime.toLocaleTimeString() + " OPEN)</span>"
+						+ "</th></tr>";
 					
 					var northTrainsHTML = "";
 					var southTrainsHTML = "";

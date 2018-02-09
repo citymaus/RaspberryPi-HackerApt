@@ -1,45 +1,40 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+/*
+ *   
+ *       "Stops": [
+        {
+            "Lat": 38.878356,
+            "Lon": -76.990378,
+            "Name": "K ST + POTOMAC AVE",
+            "Routes": [
+                "V7",
+                "V7c",
+                "V7cv1",
+                "V7v1",
+                "V7v2",
+                "V8",
+                "V9"
+            ],
+            "StopID": "1000533"
+        },
+    }
+ * */
 
 namespace WmataStaticData
 {
-    public class Stations
+    public class Stops
     {
-        [JsonProperty("Stations")]
-        public List<Station> AllStations { get; set; }
-        [JsonProperty("StationTimes")]
-        public List<Station> AllStationTimes { set => AllStations = value; }
+        [JsonProperty("Stops")]
+        public List<Stop> AllStops { get; set; }
+        //[JsonProperty("StationTimes")]
+        //public List<Station> AllStationTimes { set => AllStations = value; }
 
-        public string FindAllStationCodesByName(string stationName, bool asJSON = false)
-        {
-            string stationCodes = "";
-            List<string> stationCodeList = new List<string>();
-            string fullStationName = stationName;
-            foreach (var station in AllStations)
-            {
-                if (station.StationName.Contains(stationName))
-                {
-                    fullStationName = station.StationName;
-                    stationCodeList.Add(station.Code);
-                }
-            }
-            if (asJSON)
-            {
-                foreach (var code in stationCodeList)
-                {
-                    stationCodes += "\"" + code + "\": \"" + fullStationName + "\", ";
-                }
-            }
-            else
-            {
-                stationCodes = string.Join(",", stationCodeList);
-            }
-            return stationCodes;
-        }
 
-        public void SetTrainProperties()
+        public void SetStopProperties()
         {
-            foreach (var station in AllStations)
+            /*
+            foreach (var station in AllStops)
             {
                 #region Update all schedules
                 foreach (var train in station.Monday.FirstTrains)
@@ -134,125 +129,38 @@ namespace WmataStaticData
                 }
                 #endregion
             }
+            */
         }
     }
 
-    public class StationTimesJSON
+    public class Stop
     {
-        [JsonProperty("StationTimes")]
-        public List<Station> StationInfos { get; set; }
-    }
-
-    public class Station
-    {
-        [JsonProperty("Code")]
-        public string Code { get; set; }
-        [JsonProperty("StationName")]
-        public string StationName { get; set; }
+        [JsonProperty("StopID")]
+        public string StopId { get; set; }
         [JsonProperty("Name")]
-        public string Name { set => StationName = value; }
+        public string Name { get; set; }
         [JsonProperty("Lat")]
         public double Lat { get; set; }
         [JsonProperty("Lon")]
-        public double Lon { get; set; }
-        [JsonProperty("LineCode1")]
-        public string LineCode1 { get; set; }
-        [JsonProperty("LineCode2")]
-        public string LineCode2 { get; set; }
-        [JsonProperty("LineCode3")]
-        public string LineCode3 { get; set; }
-        [JsonProperty("LineCode4")]
-        public string LineCode4 { get; set; }
-        [JsonProperty("StationTogether1")]
-        public string StationTogether1 { get; set; }
-        [JsonProperty("StationTogether2")]
-        public string StationTogether2 { get; set; }
-        [JsonProperty("Address")]
-        public Address Address { get; set; }
-
-        [JsonProperty("Monday")]
-        public Schedule Monday { get; set; }
-        [JsonProperty("Tuesday")]
-        public Schedule Tuesday { get; set; }
-        [JsonProperty("Wednesday")]
-        public Schedule Wednesday { get; set; }
-        [JsonProperty("Thursday")]
-        public Schedule Thursday { get; set; }
-        [JsonProperty("Friday")]
-        public Schedule Friday { get; set; }
-        [JsonProperty("Saturday")]
-        public Schedule Saturday { get; set; }
-        [JsonProperty("Sunday")]
-        public Schedule Sunday { get; set; }
-
-        public string AllLines()
-        {
-            string lines = LineCode1;
-            if (LineCode2 != null)
-                lines += " " + LineCode2;
-            if (LineCode3 != null)
-                lines += " " + LineCode3;
-            if (LineCode4 != null)
-                lines += " " + LineCode4;
-            return lines;
-        }
+        public double Long { get; set; }
+        [JsonProperty("Routes")]
+        public List<string> RouteList { get; set; }
+        //public List<Route> Routes { get; set; }
+        //public List<Route> Routes { get; set => new Route().RouteId = value; } // TODO
     }
 
-    public class Address
+    public class Routes
     {
-        [JsonProperty("City")]
-        public string City { get; set; }
-        [JsonProperty("State")]
-        public string State { get; set; }
-        [JsonProperty("Street")]
-        public string Street { get; set; }
-        [JsonProperty("Zip")]
-        public string Zip { get; set; }
+        [JsonProperty("Routes")]
+        public List<Route> AllRoutes { get; set; }
     }
-
-    public class Schedule
+    public class Route
     {
-        [JsonProperty("OpeningTime")]
-        public string OpeningTime { get; set; }
-        [JsonProperty("FirstTrains")]
-        public List<Train> FirstTrains { get; set; }
-        [JsonProperty("LastTrains")]
-        public List<Train> LastTrains { get; set; }
-
-        public string FirstTrainsString()
-        {
-            string times = "";
-            foreach (var train in FirstTrains)
-            {
-                times += train + "<br>";
-            }
-            return times.TrimEnd("<br>".ToCharArray());
-        }
-        public string LastTrainsString()
-        {
-            string times = "";
-            foreach (var train in LastTrains)
-            {
-                times += train + "<br>";
-            }
-            return times.TrimEnd("<br>".ToCharArray());
-        }
-    }
-
-    public class Train
-    {
-        [JsonProperty("Time")]
-        public string Time { get; set; }
-        [JsonProperty("DestinationStation")]
-        public string DestinationStation { get; set; }
-
-        public string DestinationStationName { get; set; }
-        public string DestinationStationLines { get; set; }
-
-        public override string ToString()
-        {
-            return "Time: " + Time + " > " + DestinationStation + "-" 
-                + DestinationStationName + "(" + DestinationStationLines + ")";
-        }
+        [JsonProperty("RouteID")]
+        public string RouteId { get; set; }
+        [JsonProperty("Name")]
+        public string Name { get; set; }
+        [JsonProperty("LineDescription")]
+        public string LineDescription { get; set; }
     }
 }
