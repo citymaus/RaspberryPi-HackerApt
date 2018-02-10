@@ -1,0 +1,4 @@
+*.rb linguist-language=C#
+*.rb linguist-language=javascript
+*.rb linguist-language=html
+*.rb linguist-language=css
