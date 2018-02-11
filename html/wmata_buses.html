@@ -11,7 +11,7 @@
 <p id="display"></p>
 <script type="text/javascript">
     $(function() {
-		var api_key = "{api_key}";
+		var api_key = "{set keys in /html/api/api_keys.txt}";
 		var userStopFile = "wmata/_display_bus_stops.txt";
 		var refreshRate = 0;	// TODO
 		// TODO incidents
@@ -31,6 +31,18 @@
 		
 		// File loading functions
 		// ----------------------------------------------------------
+		function loadAPIKey(callback, apiName) {
+			var xobj = new XMLHttpRequest();
+				xobj.overrideMimeType("application/json");
+			// Synchronous ajax call (false)
+			xobj.open('GET', 'api/api_keys.txt', false);
+			xobj.onreadystatechange = function () {
+				  if (xobj.readyState == 4 && xobj.status == "200") {
+					callback(xobj.responseText, apiName);
+				  }
+			};
+			xobj.send(null);  			
+		}
 		function loadJSON(callback) {
 			var xobj = new XMLHttpRequest();
 				xobj.overrideMimeType("application/json");
@@ -54,7 +66,19 @@
 				  }
 			};
 			xobj.send(null);  	
-		}		
+		}			
+		function setAPIKey(data, apiName) {
+			var lines = data.split('\n');
+			for (var line = 0; line < lines.length; line++) {
+				if (!(lines[line].charAt(0) == "#") && (lines[line] !== "")) {
+					var currentKey = lines[line].trim();
+					if (currentKey.indexOf(apiName) > -1) {
+						api_key = currentKey.replace(apiName + " KEY:", "").trim();
+						return;
+					}			
+				}
+			}
+		}
 		function setStopDataCallback(data) {
 			staticStopData = JSON.parse(data);
 		}
@@ -191,6 +215,7 @@
 			return tableData;
 		}
 		// Load up static helper files
+		loadAPIKey(setAPIKey, "WMATA");
 		loadJSON(setStopDataCallback);
 		loadRequestedStops(setRequestedStopsCallback);
 		

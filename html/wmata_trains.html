@@ -3,7 +3,7 @@
 <head>
     <title>DC Metro Train Station Data</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="wmata/train.js"></script>
+    <script src="api/wmata/train.js"></script>
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/fontawesome-all.css" rel="stylesheet">
 </head>
@@ -11,7 +11,7 @@
 <p id="display"></p>
 <script type="text/javascript">
     $(function() {
-		var api_key = "{api_key}";
+		var api_key = "{set keys in /html/api/api_keys.txt}";
 		var userStationFile = "api/wmata/_display_train_stations.txt";
 		var refreshRate = 0;	// TODO
 		// TODO incidents
@@ -32,6 +32,18 @@
 		
 		// File loading functions
 		// ----------------------------------------------------------
+		function loadAPIKey(callback, apiName) {
+			var xobj = new XMLHttpRequest();
+				xobj.overrideMimeType("application/json");
+			// Synchronous ajax call (false)
+			xobj.open('GET', 'api/api_keys.txt', false);
+			xobj.onreadystatechange = function () {
+				  if (xobj.readyState == 4 && xobj.status == "200") {
+					callback(xobj.responseText, apiName);
+				  }
+			};
+			xobj.send(null);  			
+		}
 		function loadJSON(callback) {
 			var xobj = new XMLHttpRequest();
 				xobj.overrideMimeType("application/json");
@@ -56,6 +68,18 @@
 			};
 			xobj.send(null);  	
 		}		
+		function setAPIKey(data, apiName) {
+			var lines = data.split('\n');
+			for (var line = 0; line < lines.length; line++) {
+				if (!(lines[line].charAt(0) == "#") && (lines[line] !== "")) {
+					var currentKey = lines[line].trim();
+					if (currentKey.indexOf(apiName) > -1) {
+						api_key = currentKey.replace(apiName + " KEY:", "").trim();
+						return;
+					}			
+				}
+			}
+		}
 		function setStationDataCallback(data) {
 			staticStationData = JSON.parse(data);
 		}
@@ -284,6 +308,7 @@
 		}		
 		
 		// Load up static helper files
+		loadAPIKey(setAPIKey, "WMATA");
 		loadJSON(setStationDataCallback);
 		loadRequestedStations(setRequestedStationsCallback);
 		
