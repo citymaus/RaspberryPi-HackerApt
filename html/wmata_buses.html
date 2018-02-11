@@ -3,7 +3,7 @@
 <head>
     <title>DC Metro Bus Stop Data</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="wmata/bus.js"></script>
+    <script src="api/wmata/bus.js"></script>
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/fontawesome-all.css" rel="stylesheet">
 </head>
@@ -35,7 +35,7 @@
 			var xobj = new XMLHttpRequest();
 				xobj.overrideMimeType("application/json");
 			// Synchronous ajax call (false)
-			xobj.open('GET', 'wmata/static_busstopinfo.json', false);
+			xobj.open('GET', 'api/wmata/static_busstopinfo.json', false);
 			xobj.onreadystatechange = function () {
 				  if (xobj.readyState == 4 && xobj.status == "200") {
 					callback(xobj.responseText);
