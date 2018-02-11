@@ -62,7 +62,7 @@
 		function setRequestedStationsCallback(data) {
 			var lines = data.split('\n');
 			for (var line = 0; line < lines.length; line++) {
-				if (!(lines[line].charAt(0) == "#")) {
+				if (!(lines[line].charAt(0) == "#") && (lines[line] !== "")) {
 					var findStation = lines[line].trim();
 					var foundStation = staticStationData.Stations.filter(function( obj ) {
 					  return obj.StationName.indexOf(findStation) !== -1;
@@ -92,7 +92,16 @@
 
 		function createRow(currRows, line, cars, min, dest) {
 			currRows += "<tr>";
-			currRows += "<td class='" + line + "'>" + line + "</td>";
+			//currRows += "<td class='" + line + "'>" + line + "</td>";
+			
+			var textColor = "color:white;";
+			if (line.trim() == "YL") {
+				textColor = "color:black;";
+			}
+			currRows += "<td class='" + line + "'><span class='fa-stack fa-1x'><i class='fas fa-circle fa-stack-2x'></i>";
+			currRows += "<strong class='fa-stack-1x fa-stack-text'>"
+				+ "<span style='" + textColor + "'>" + line + "</span></strong></span></td>";
+			
 			currRows += "<td>" + cars + "</td>";
 			currRows +=	"<td>" + dest + "</td>";
 			currRows += "<td style='text-align:right;'";
@@ -186,7 +195,7 @@
 					"<tr><th colspan=4 class='stationHeader'><b>" + station.locationName + " "
 						//+ "[" + station.getLocationCodes() + "] "
 						+ "</b>"
-						+ "<span style='font-size:10px;'>(" + openingTime.toLocaleTimeString() + " OPEN)</span>"
+						+ "<span style='font-size:10px;'> &nbsp; " + openingTime.toLocaleTimeString() + " <i class='far fa-play-circle'></span>"
 						+ "</th></tr>";
 					
 					var northTrainsHTML = "";
@@ -261,7 +270,11 @@
 					tableData += "</table></td>";	
 					pageTable += tableData;
 				}
-			    pageTable += "</tr></table>";
+			    pageTable += "</tr>";
+				pageTable += "<tr><td class='lastUpdated' colspan='" + stationNameOrder.length + "'>" 
+					+ "<span style='font-size: 10px;'>" + dateNow + "</span>" 
+					+ " &nbsp;" + timeNow + "</td></tr>"
+				pageTable += "</table>";
 				displayObj.innerHTML = pageTable;
 			})
 			.fail(function(xhr, status, error) {

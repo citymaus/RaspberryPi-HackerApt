@@ -1,9 +1,11 @@
 #
 # Add bus stops by number here, one per line, in order of desired display.
 # -------------------------------------------------------------------
-# 16th St. NW + M St. NW (Northbound)
+# -- 16th St. NW + Irving St. NW (Southbound)
+1002872
+# -- 14th St. NW + Irving St. NW (Southbound)
+1003087
+# -- 16th St. NW + M St. NW (Northbound)
 1001325
-# 14th St. NW + Irving St. NW (Southbound)
-#1003087
-# 14th St. NW + N St. NW (Northbound)
-#1001362
+# -- 14th St. NW + N St. NW (Northbound)
+1001362

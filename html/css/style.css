@@ -49,6 +49,11 @@ th {
 	text-align: right;
 }
 
+.lastUpdated {
+	background-color: white;
+	text-align: right;
+}
+
 .blink_me {
 	font-weight: bold;
 	animation: blinker 1.5s linear infinite;
@@ -65,26 +70,52 @@ th {
 }
 
 .GR {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #95d097;
+	color: #3e8e41;
 }
 .YL {
-    background-color: #ffff66;
-    color: black;	
+    background-color: #ffffb3;
+    color: #ffff00;
 }
 .RD {
-    background-color: #ff4d4d;
-    color: black;	
+    background-color: #ff9999;
+    color: #ff1a1a;	
 }
 .BL {	
-    background-color: #0066ff;
-    color: white;
+    background-color: #80b3ff;
+    color: #0066ff;
 }
 .OR {	
-    background-color: #ff9933;
-    color: black;
+    background-color: #ffcc99;
+    color: #ff9933;
 }
 .SV {
     background-color: #d9d9d9;
     color: black;
+}
+
+.busStopID {
+	margin-top: .3em;
+}
+
+.BS1, .BS2, .BS4, .BS9, .B52, .B54 {
+	/*font-family: "Times New Roman", Times, sans-serif; */
+	font-family: "Microsoft YaHei", Helvetica, sans-serif; 
+	font-size: 10pt;
+    text-align: center;
+	/*font-weight: bold;
+	padding: 5px;
+    text-align: center;
+	margin-top: .3em; */
+}
+.BS9 {
+	background-color: #29a329;
+}
+.BS2, .BS4 {
+    background-color: #99e699;
+    /*color: white; */
+}
+.BS1 {
+    background-color: #c2f0c2;
+    /*color: white; */
 }
