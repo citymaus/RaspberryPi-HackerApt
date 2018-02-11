@@ -12,7 +12,7 @@
 <script type="text/javascript">
     $(function() {
 		var api_key = "{api_key}";
-		var userStationFile = "wmata/_display_train_stations.txt";
+		var userStationFile = "api/wmata/_display_train_stations.txt";
 		var refreshRate = 0;	// TODO
 		// TODO incidents
 	
@@ -36,7 +36,7 @@
 			var xobj = new XMLHttpRequest();
 				xobj.overrideMimeType("application/json");
 			// Synchronous ajax call (false)
-			xobj.open('GET', 'wmata/static_stationinfo.json', false);
+			xobj.open('GET', 'api/wmata/static_stationinfo.json', false);
 			xobj.onreadystatechange = function () {
 				  if (xobj.readyState == 4 && xobj.status == "200") {
 					callback(xobj.responseText);

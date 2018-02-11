@@ -121,17 +121,17 @@ namespace WmataStaticData
             markdownOutput += "<br>Metro Center: " + stationJSON.FindAllStationCodesByName("Metro Center");
 
             // Create markdown file
-            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\wmata\" + _filename + ".md", false))
+            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\api\wmata\" + _filename + ".md", false))
             {
                 file.Write(markdownOutput);
             }
             // Create HTML file
-            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\wmata\" + _filename + ".html", false))
+            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\api\wmata\" + _filename + ".html", false))
             {
                 file.Write(markdownOutput);
             }
             // Create JSON
-            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\wmata\" + _filename + ".json", false))
+            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\api\wmata\" + _filename + ".json", false))
             {
                 file.Write(JsonConvert.SerializeObject(stationJSON));
             }

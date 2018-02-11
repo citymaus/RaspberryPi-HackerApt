@@ -194,17 +194,17 @@ namespace WmataStaticData
             }
             markdownOutput += "</tbody></table>";
             // Create markdown file
-            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\wmata\" + _routeFilename + ".md", false))
+            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\api\wmata\" + _routeFilename + ".md", false))
             {
                 file.Write(markdownOutput);
             }
             // Create HTML file
-            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\wmata\" + _routeFilename + ".html", false))
+            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\api\wmata\" + _routeFilename + ".html", false))
             {
                 file.Write(markdownOutput);
             }
             // Create JSON
-            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\wmata\" + _routeFilename + ".json", false))
+            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\api\wmata\" + _routeFilename + ".json", false))
             {
                 file.Write(JsonConvert.SerializeObject(routesJSON));
             }
