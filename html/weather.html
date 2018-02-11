@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>DC Metro Bus Stop Data</title>
+    <title>DC Weather Data</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="api/wmata/bus.js"></script>
+    <script src="api/darksky/weather.js"></script>
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/fontawesome-all.css" rel="stylesheet">
 </head>
@@ -17,13 +17,19 @@
 		// 	https://api.darksky.net/forecast/d04e09fcbfb2aaece8b8eb7b9c958d91/37.8267,-122.4233
 		// 	https://api.darksky.net/forecast/d04e09fcbfb2aaece8b8eb7b9c958d91/38.9281,-77.0342?exclude=minutely
 		
-		var api_key = "d04e09fcbfb2aaece8b8eb7b9c958d91";
+		var api_key = "{set keys in /html/api/api_keys.txt}";;
 		var coordinates = "38.9281,-77.0342";
 		var darkSkyUrl_forecast = "https://api.darksky.net/forecast/";
 		//var userStationFile = "wmata/_display_train_stations.txt";
 		var refreshRate = 0;	// TODO
 		
-		var staticStationData = {};
+		var staticWeatherData = {};		
+		var allWeatherAlerts = [];
+		var allWeatherHourly = {};
+		var allWeatherDaily = {};
+		
+		var displayObj = document.getElementById("display");
+		
 		
 		var dateObj = new Date();
 		var dateNow = dateObj.toLocaleDateString();
@@ -31,57 +37,185 @@
 		var dayOfWeek = dateObj.getDay();
 		var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 		var today = days[dayOfWeek];
+		var timezone = "";
+		var offset = "";
 		
 		// File loading functions
 		// ----------------------------------------------------------
+		function loadAPIKey(callback, apiName) {
+			var xobj = new XMLHttpRequest();
+				xobj.overrideMimeType("application/json");
+			// Synchronous ajax call (false)
+			xobj.open('GET', 'api/api_keys.txt', false);
+			xobj.onreadystatechange = function () {
+				  if (xobj.readyState == 4 && xobj.status == "200") {
+					callback(xobj.responseText, apiName);
+				  }
+			};
+			xobj.send(null);  			
+		}
 		function loadJSON(callback) {
 			var xobj = new XMLHttpRequest();
 				xobj.overrideMimeType("application/json");
 			// Synchronous ajax call (false)
-			xobj.open('GET', 'darksky/static_dcexample.json', false);
+			xobj.open('GET', 'api/darksky/static_dcexample.json', false);
 			xobj.onreadystatechange = function () {
 				  if (xobj.readyState == 4 && xobj.status == "200") {
 					callback(xobj.responseText);
 				  }
 			};
 			xobj.send(null);  			
-		}	
-		function setStationDataCallback(data) {
-			staticStationData = JSON.parse(data);
+		}			
+		function setAPIKey(data, apiName) {
+			var lines = data.split('\n');
+			for (var line = 0; line < lines.length; line++) {
+				if (!(lines[line].charAt(0) == "#") && (lines[line] !== "")) {
+					var currentKey = lines[line].trim();
+					if (currentKey.indexOf(apiName) > -1) {
+						api_key = currentKey.replace(apiName + " KEY:", "").trim();
+						return;
+					}			
+				}
+			}
+		}
+		function setWeatherDataCallback(data) {
+			staticWeatherData = JSON.parse(data);
 		}	
 	
-		function saveStopInfo(stopID){
-			var currentStopData = staticStopData.Stops.filter(function( obj ) {
-			  return obj.StopID == stopID;
-			})[0];			
-												
-			if (allStopData.length == 0 || !(stopID in allStopData)) {
-				allStopData[stopID] = new BusStop(currentStopData.StopID, currentStopData.Name, currentStopData.Lat, currentStopData.Lon, currentStopData.Routes);
+		function saveWeatherInfoStatic(){
+			offset = staticWeatherData.offset;
+			timezone = staticWeatherData.timezone;
+			var weatherHourly = staticWeatherData.hourly;
+			var weatherDaily = staticWeatherData.daily;
+			var weatherAlerts = staticWeatherData.alerts;
+			
+			allWeatherHourly = new WeatherHourlies(weatherHourly, offset);
+			allWeatherDaily = new WeatherDailies(weatherDaily, offset);
+
+			for (var i = 0; i < weatherAlerts.length; i++) {
+				allWeatherAlerts.push(new WeatherAlert(weatherAlerts[i]));
 			}
-			var busStop = allStopData[stopID];
+		}    
+		function saveWeatherInfoAJAX(stopID){
+		//	var currentStopData = staticStopData.Stops.filter(function( obj ) {
+		//	  return obj.StopID == stopID;
+		//	})[0];			
+												
+		//	if (allStopData.length == 0 || !(stopID in allStopData)) {
+		//		allStopData[stopID] = new BusStop(currentStopData.StopID, currentStopData.Name, currentStopData.Lat, currentStopData.Lon, currentStopData.Routes);
+		//	}
+		//	var busStop = allStopData[stopID];
 			
 			var params = {
-				"api_key": api_key,
-				"StopID": stopID,
+				"exclude": "minutely",
 			};
 			$.ajax({
-				url: "https://api.wmata.com/NextBusService.svc/json/jPredictions?" + $.param(params),
+				url: "https://api.darksky.net/forecast/" + api_key + "/" + coordinates + "?" + $.param(params),
 				type: "GET",
 				async: false,
 			})
 			.done(function(data) {
-				for (var bus = 0; bus < data.Predictions.length; bus++) {
-					var currBus = data.Predictions[bus];
-					busStop.addBus(currBus.VehicleID, currBus.TripID, currBus.RouteID, currBus.Minutes, currBus.DirectionNum, currBus.DirectionText);
-				}	
+			//	for (var bus = 0; bus < data.Predictions.length; bus++) {
+			//		var currBus = data.Predictions[bus];
+			//		busStop.addBus(currBus.VehicleID, currBus.TripID, currBus.RouteID, currBus.Minutes, currBus.DirectionNum, currBus.DirectionText);
+			//	}	
 			})
 			.fail(function(xhr, status, error) {
 				var err = eval("(" + xhr.responseText + ")");
 				displayObj.innerHTML += "<br>Error: " + err.Message;
 			});
-		}    
+			
+		}  
+		function displayWeatherInfo() {
+			var weatherUtils = new WeatherUtils();
+			var pageHTML = "<table class='outerTable'>";
+			
+			// Alerts
+			if (allWeatherAlerts.length > 0) {
+				pageHTML += "<tr><td colspan='4' width='100%'>";
+				pageHTML += "<table border=0 cellpadding=5 cellspacing=0>";
+				for (var a = 0; a < allWeatherAlerts.length; a++) {
+					var currentAlert = allWeatherAlerts[a];
+					pageHTML += "<tr><td>";
+					pageHTML += currentAlert.title + " (" + currentAlert.regions.join(",") + ")<br>";
+					pageHTML += "Severity: " + currentAlert.severity + "<br>"
+					pageHTML += "Issued: " + currentAlert.getDate(currentAlert.time) + " " + currentAlert.getTime(currentAlert.time) + "<br>";
+					pageHTML += "Expires: " + currentAlert.getDate(currentAlert.expires) + " " + currentAlert.getTime(currentAlert.expires) + "<br>"
+					pageHTML += "<br>" + currentAlert.description + "<br>";
+					pageHTML += "<a href='" + currentAlert.moreInfoUri + "'>MORE INFO</a>";
+					pageHTML += "</td></tr>";
+				}
+				pageHTML += "</table></td></tr>";
+			}
+			
+			// Today
+			pageHTML += "<tr><td style='vertical-align:top;' rowspan='2'>";
+			var currentHour = allWeatherHourly.allHours[0];
+			pageHTML += currentHour.getDay() + " ";
+			pageHTML += currentHour.getDate() + " ";
+			pageHTML += currentHour.getTime() + "<br>";
+			pageHTML += currentHour.icon + "<br>";
+			pageHTML += currentHour.temperature + "&#0176; F &nbsp;";
+			pageHTML += currentHour.summary + "<br>";
+			// EVERY THREE HOURS
+			for (var h = 2; h < 9; h += 3) {	
+				var currentForecast = allWeatherHourly.allHours[h];
+				pageHTML += currentForecast.getTime() + " ";
+				pageHTML += currentForecast.icon + "<br>";
+			}
+			var todayForecast = allWeatherDaily.allDays[0];
+			pageHTML += todayForecast.temperatureHigh + "&#0176; F" + " / ";
+			pageHTML += todayForecast.temperatureLow + "&#0176; F<br>";
+			pageHTML += todayForecast.precipType + " " + todayForecast.precipProbability + "%<br>";
+			pageHTML += "sunrise: " + weatherUtils.getTime(todayForecast.sunriseTime) + "<br>";
+			pageHTML += "sunset: " + weatherUtils.getTime(todayForecast.sunsetTime);
+			pageHTML += "</td>";
+			
+			// Next six days
+			for (var day = 1; day < 4; day++) {
+				pageHTML += "<td>";
+				var currentDay = allWeatherDaily.allDays[day];
+				pageHTML += currentDay.getDay() + " ";
+				pageHTML += currentDay.getDate() + "<br>";
+				pageHTML += currentDay.summary + "<br>";
+				pageHTML += currentDay.temperatureHigh + "&#0176; F" + " / ";
+				pageHTML += currentDay.temperatureLow + "&#0176; F";
+				pageHTML += "</td>";
+			}
+			pageHTML += "</tr><tr>";
+			for (var day = 4; day < 7; day++) {				
+				pageHTML += "<td>";
+				var currentDay = allWeatherDaily.allDays[day];
+				pageHTML += currentDay.getDay() + " ";
+				pageHTML += currentDay.getDate() + "<br>";
+				pageHTML += currentDay.summary + "<br>";
+				pageHTML += currentDay.temperatureHigh + "&#0176; F" + " / ";
+				pageHTML += currentDay.temperatureLow + "&#0176; F";
+				pageHTML += "</td>";
+			}
+			pageHTML += "</tr></table>";
+			return pageHTML;
+		}
 		
-		loadJSON(setStationDataCallback);
+		// Load up static helper files
+		loadAPIKey(setAPIKey, "DARKSKY");
+		loadJSON(setWeatherDataCallback);
+		
+		saveWeatherInfoStatic();
+		//saveWeatherInfoAJAX();
+		
+		var pageHTML = "<table class='outerTable'><tr>";
+	//	for (var s = 0; s < stopCodeOrder.length; s++) {
+			pageHTML += "<td style='vertical-align:top;' colspan=2>";
+			pageHTML += displayWeatherInfo();
+			pageHTML += "</td>";
+	//	}
+		pageHTML += "<tr><td><a href='https://darksky.net/poweredby/'>Powered by Dark Sky</a></td><td class='lastUpdated'>"
+					+ "<span style='font-size: 10px;'>" + dateNow + "</span>" 
+					+ " &nbsp;" + timeNow;
+		pageHTML += "</td></tr>";
+		pageHTML += "</table>";
+		displayObj.innerHTML = pageHTML;
 	});
 </script>
 </body>
