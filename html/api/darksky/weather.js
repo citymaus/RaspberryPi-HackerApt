@@ -7,28 +7,6 @@ class WeatherHourlies {
 			this.allHours.push(new WeatherHour(hourlyData.data[h]));
 		}
 	}
-					/*
-				time:1518375600
-				
-				
-				apparentTemperature:62.32
-				cloudCover:0.5
-				dewPoint:60.69
-				humidity:0.96
-				icon:"rain"
-				ozone:294.76
-				precipIntensity:0.0283
-				precipProbability:0.31
-				precipType:"rain"
-				pressure:1010.9
-				summary:"Light Rain"
-				temperature:61.93
-				uvIndex:2
-				visibility:6.58
-				windBearing:189
-				windGust:9.27
-				windSpeed:6.45
-				*/
 }
 class WeatherHour {
 	constructor(weather) {
@@ -89,7 +67,7 @@ class WeatherDaily {
 		this.temperatureHigh = weather.temperatureHigh;
 		this.temperatureLow = weather.temperatureLow;
 		
-		this.precipProbability = weather.precipProbability;
+		this.precipProbability = weather.precipProbability * 100;
 		this.precipType = weather.precipType;
 		this.precipAccumulation = weather.precipAccumulation;
 		
@@ -137,48 +115,6 @@ class WeatherDaily {
 	getTime() {
 		return this.util.getTime(this.time);
 	}
-	/*
-				time:1518325200
-				
-					apparentTemperatureHigh:67.52
-				apparentTemperatureHighTime:1518386400
-				apparentTemperatureLow:28.11
-				apparentTemperatureLowTime:1518440400
-				apparentTemperatureMax:67.52
-				apparentTemperatureMaxTime:1518386400
-				apparentTemperatureMin:48.01
-				apparentTemperatureMinTime:1518332400
-				cloudCover:0.82
-				dewPoint:54.49
-				humidity:0.92
-				icon:"rain"
-				moonPhase:0.87
-				ozone:298.93
-				precipIntensity:0.0319
-				precipIntensityMax:0.1092
-				precipIntensityMaxTime:1518350400
-				precipProbability:1
-				precipType:"rain"
-				pressure:1014.02
-				summary:"Rain in the morning and afternoon."
-				sunriseTime:1518350716
-				sunsetTime:1518388931
-				temperatureHigh:67.17
-				temperatureHighTime:1518386400
-				temperatureLow:36.52
-				temperatureLowTime:1518440400
-				temperatureMax:67.17
-				temperatureMaxTime:1518386400
-				temperatureMin:48.01
-				temperatureMinTime:1518332400
-				uvIndex:3
-				uvIndexTime:1518368400
-				visibility:4.63
-				windBearing:209
-				windGust:27.82
-				windGustTime:1518390000
-				windSpeed:4.06
-				*/
 }
 class WeatherAlert {	
 	constructor(alertData) {
@@ -211,6 +147,7 @@ class WeatherAlert {
 class WeatherUtils {
   constructor() {
 		this.days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+		this.months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   }
 	getDay(timeInSecs) {
 		var dateObj = new Date(timeInSecs * 1000);
@@ -222,7 +159,11 @@ class WeatherUtils {
 	}
 	getDate(timeInSecs) {
 		var dateObj = new Date(timeInSecs * 1000);
-		return dateObj.toLocaleDateString();
+		var day = dateObj.getDate();
+		if (parseInt(day) < 9) {
+			day = "0" + day;
+		}
+		return this.months[dateObj.getMonth()] + " " + day;
 	}
 	getTime(timeInSecs) {	
 		var dateObj = new Date(timeInSecs * 1000);
@@ -298,6 +239,17 @@ class WeatherUtils {
 			iconClass = "hail";
 		}
 		return iconClass;
+	}
+	getDayBackgroundColor(iconName) {
+		var cssClass = "weather-panel-back-sun";
+		
+		if (iconName.indexOf("cloudy") != -1) {
+			cssClass = "weather-panel-back-cloudy";
+		}
+		if ((iconName.indexOf("snow") != -1) || (iconName.indexOf("rain") != -1)) {
+			cssClass = "weather-panel-back-rain";
+		}
+		return cssClass;
 	}
 	getDirection(directionText) {
 		if(directionText.toLowerCase().indexOf("north") > -1) {

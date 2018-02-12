@@ -128,3 +128,30 @@ th {
 .forecast-hi {
 	font-size: 18pt;
 }
+
+.weather-icon {
+	color: #FFFFFF;
+}
+
+.weather-uppercase {
+	text-transform: uppercase;
+}
+.weather-day {	
+	color: #FFFFFF;
+	font-size: 15pt;
+	font-weight: bold;
+}
+.weather-date {
+	text-align: right;
+	padding-left: 10px;
+}
+
+.weather-panel-back-cloudy {
+	background-color: #4FBEBD;
+}
+.weather-panel-back-rain {
+	background-color: #4199B9;	
+}
+.weather-panel-back-sun {	
+	background-color: #E2C746;
+}

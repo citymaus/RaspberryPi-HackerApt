@@ -127,12 +127,12 @@
 			
 			// Today
 			// -------------------------------------------------------------
-			pageHTML += "<tr><td style='vertical-align:top;' rowspan='2'>";
 			var currentHour = allWeatherHourly.allHours[0];
-			pageHTML += currentHour.getDay() + " ";
-			pageHTML += currentHour.getDate() + " ";
+			pageHTML += "<tr><td style='vertical-align:top;' rowspan='2' class='" + weatherUtils.getDayBackgroundColor(currentHour.icon) + "'>";
+			pageHTML += "<span class='weather-day weather-uppercase'>" + currentHour.getDay() + "</span> ";
+			pageHTML += "<span class='weather-uppercase weather-date'>" + currentHour.getDate() + "</span><br>";
 			pageHTML += currentHour.getTime() + "<br>";
-			pageHTML += "<i class='icon diw-" + weatherUtils.getWeatherIcon(currentHour.icon);
+			pageHTML += "<i class='weather-icon icon diw-" + weatherUtils.getWeatherIcon(currentHour.icon);
 			pageHTML += "' style='font-size:55pt;' title='" + currentHour.icon + "'></i><br>";
 			pageHTML += "<span class='forecast-hi'>" + Math.round(currentHour.temperature) + "&#0176;</span>";
 			pageHTML += "&nbsp;";
@@ -143,7 +143,7 @@
 				var currentForecast = allWeatherHourly.allHours[h];
 				pageHTML += "<tr>";
 				pageHTML += "<td>" + currentForecast.getTime() + "</td>";
-				pageHTML += "<td><i class='icon diw-" + weatherUtils.getWeatherIcon(currentForecast.icon);
+				pageHTML += "<td><i class='weather-icon icon diw-" + weatherUtils.getWeatherIcon(currentForecast.icon);
 				pageHTML += "' style='font-size:25pt;' title='" + currentForecast.icon + "'></i></td></tr>";
 			}
 			pageHTML += "</table>";
@@ -169,11 +169,11 @@
 			// Next six days
 			// -------------------------------------------------------------
 			for (var day = 1; day < 4; day++) {
-				pageHTML += "<td>";
 				var currentDay = allWeatherDaily.allDays[day];
-				pageHTML += currentDay.getDay() + " ";
-				pageHTML += currentDay.getDate() + "<br>";
-				pageHTML += "<i class='icon diw-" + weatherUtils.getWeatherIcon(currentDay.icon);
+				pageHTML += "<td class='" + weatherUtils.getDayBackgroundColor(currentDay.icon) + "'>";
+				pageHTML += "<span class='weather-uppercase weather-day'>" + currentDay.getDay() + "</span> ";
+				pageHTML += "<span class='weather-uppercase weather-date'>" + currentDay.getDate() + "</span><br>";
+				pageHTML += "<i class='weather-icon icon diw-" + weatherUtils.getWeatherIcon(currentDay.icon);
 				pageHTML += "' style='font-size:55pt;' title='" + currentDay.icon + "'></i><br>";
 				pageHTML += "<span class='forecast-hi'>" + Math.round(currentDay.temperatureHigh) + "&#0176;</span>" + " / ";
 				pageHTML += Math.round(currentDay.temperatureLow) + "&#0176;<br>";
@@ -189,11 +189,11 @@
 			}
 			pageHTML += "</tr><tr>";
 			for (var day = 4; day < 7; day++) {				
-				pageHTML += "<td>";
 				var currentDay = allWeatherDaily.allDays[day];
-				pageHTML += currentDay.getDay() + " ";
-				pageHTML += currentDay.getDate() + "<br>";
-				pageHTML += "<i class='icon diw-" + weatherUtils.getWeatherIcon(currentDay.icon);
+				pageHTML += "<td class='" + weatherUtils.getDayBackgroundColor(currentDay.icon) + "'>";
+				pageHTML += "<span class='weather-uppercase weather-day'>" + currentDay.getDay() + "</span> ";
+				pageHTML += "<span class='weather-uppercase weather-date'>" + currentDay.getDate() + "</span><br>";
+				pageHTML += "<i class='weather-icon icon diw-" + weatherUtils.getWeatherIcon(currentDay.icon);
 				pageHTML += "' style='font-size:55pt;' title='" + currentDay.icon + "'></i><br>";
 				pageHTML += "<span class='forecast-hi'>" + Math.round(currentDay.temperatureHigh) + "&#0176;</span>" + " / ";
 				pageHTML += Math.round(currentDay.temperatureLow) + "&#0176;<br>";
