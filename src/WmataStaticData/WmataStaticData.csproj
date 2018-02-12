@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiKeyHelper.cs" />
     <Compile Include="StationDataBuilder.cs" />
     <Compile Include="StopDataBuilder.cs" />
     <Compile Include="Program.cs" />

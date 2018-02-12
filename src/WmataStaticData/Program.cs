@@ -6,7 +6,8 @@ namespace WmataStaticData
     {
         static void Main(string[] args)
         {
-            var wmataApiKey = "{api_key}";
+            var apiKeyHelper = new ApiKeyHelper("WMATA");
+            var wmataApiKey = apiKeyHelper.ApiKey;
 
             var stationDataBuilder = new StationDataBuilder(wmataApiKey);
             var stopDataBuilder = new StopDataBuilder(wmataApiKey);
