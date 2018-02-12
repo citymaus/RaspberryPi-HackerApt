@@ -5,7 +5,7 @@ namespace WmataStaticData
     public class ApiKeyHelper
     {
         private const string _keyFile = @"..\..\..\..\html\api\api_keys.txt";
-        private const string _unsetKey = "{set keys in /html/api/api_keys.txt}";
+        private const string _unsetKey = "{}";
         private string _keyName;
         private string _apiKey;
 
