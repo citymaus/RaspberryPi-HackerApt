@@ -119,3 +119,7 @@ th {
     background-color: #c2f0c2;
     /*color: white; */
 }
+
+.forecast-hi {
+	font-size: 18pt;
+}

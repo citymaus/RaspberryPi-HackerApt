@@ -1,10 +1,10 @@
 class WeatherHourlies {
-	constructor(hourlyData, offset) {
+	constructor(hourlyData) {
 		this.icon = hourlyData.icon;
 		this.summary = hourlyData.summary;
 		this.allHours = [];
 		for (var h = 0; h < hourlyData.data.length; h++) {
-			this.allHours.push(new WeatherHour(hourlyData.data[h], offset));
+			this.allHours.push(new WeatherHour(hourlyData.data[h]));
 		}
 	}
 					/*
@@ -31,9 +31,8 @@ class WeatherHourlies {
 				*/
 }
 class WeatherHour {
-	constructor(weather, offset) {
+	constructor(weather) {
 		this.util = new WeatherUtils();
-		this.offset = offset;
 		
 		this.summary = weather.summary;
 		this.time = weather.time;
@@ -69,20 +68,19 @@ class WeatherHour {
 }
 
 class WeatherDailies {	
-	constructor(dailyData, offset) {
+	constructor(dailyData) {
 		this.icon = dailyData.icon;
 		this.summary = dailyData.summary;
 		this.allDays = [];
 		for (var h = 0; h < dailyData.data.length; h++) {
-			this.allDays.push(new WeatherDaily(dailyData.data[h], offset));
+			this.allDays.push(new WeatherDaily(dailyData.data[h]));
 		}
 	}
 }
 
 class WeatherDaily {
-	constructor(weather, offset) {
+	constructor(weather) {
 		this.util = new WeatherUtils();
-		this.offset = offset;
 		
 		this.summary = weather.summary;
 		this.time = weather.time;
@@ -93,6 +91,7 @@ class WeatherDaily {
 		
 		this.precipProbability = weather.precipProbability;
 		this.precipType = weather.precipType;
+		this.precipAccumulation = weather.precipAccumulation;
 		
 		this.sunriseTime = weather.sunriseTime;
 		this.sunsetTime = weather.sunsetTime;
@@ -230,7 +229,75 @@ class WeatherUtils {
 		return dateObj.toLocaleTimeString();
 	}
 	getWeatherIcon(iconName) {
+		var iconClass = "";
+		if (iconName == "clear-day") {
+			iconClass = "sun";
+		} 
+		if (iconName == "clear-night") {
+			iconClass = "moon-stars";
+		} 
+		if (iconName == "rain") {
+			iconClass = "cloud-rain-2";
+		}
+		if (iconName == "snow") {
+			iconClass = "snow";
+		}
+		if (iconName == "sleet") {
+			iconClass = "hail";		
+		}
+		if (iconName == "wind") {
+			iconClass = "wind";
+		}
+		if (iconName == "fog") {
+			iconClass = "fog";
+		}
+		if (iconName == "cloudy") {
+			iconClass = "clouds";
+		}
+		if (iconName == "partly-cloudy-day") {
+			iconClass = "cloud-sun";
+		}
+		if (iconName == "partly-cloudy-night") {
+			iconClass = "cloud-moon";			
+		} 
+		if (iconName == "hail") {
+			iconClass = "hail";
+		}
+		if (iconName == "thunderstorm") {
+			iconClass = "cloud-lightning";			
+		} 
+		if (iconName == "tornado") {
+			iconClass = "tornado";
+		}
 		
+		if (iconName == "degrees-fahrenheit") {
+			iconClass = "degrees-fahrenheit";
+		}
+		
+		// thermometer-100
+		// umbrella
+		// raindrop
+		return iconClass;
+	}
+	getPrecipWeatherIcon(iconName, chance) {	
+		var iconClass = "";
+		if (iconName == "rain") {
+			if (chance >= 50) {
+				iconClass = "umbrella";
+			} else {
+				iconClass = "raindrop";
+			}
+		}
+		if (iconName == "snow") {
+			iconClass = "snow";
+		}
+		if (iconName == "sleet") {
+			iconClass = "hail";
+		}
+		if (iconName == "hail") {
+			iconClass = "hail";
+		}
+		return iconClass;
 	}
 	getDirection(directionText) {
 		if(directionText.toLowerCase().indexOf("north") > -1) {

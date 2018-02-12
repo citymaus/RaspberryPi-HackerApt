@@ -6,6 +6,8 @@
     <script src="api/darksky/weather.js"></script>
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/fontawesome-all.css" rel="stylesheet">
+    <!--<link href="css/dripicons-style.css" rel="stylesheet" > -->
+    <link href="css/dripicons-webfont.css" rel="stylesheet">
 </head>
 <body>
 <p id="display"></p>
@@ -83,29 +85,18 @@
 		}	
 	
 		function saveWeatherInfoStatic(){
-			offset = staticWeatherData.offset;
-			timezone = staticWeatherData.timezone;
 			var weatherHourly = staticWeatherData.hourly;
 			var weatherDaily = staticWeatherData.daily;
 			var weatherAlerts = staticWeatherData.alerts;
 			
-			allWeatherHourly = new WeatherHourlies(weatherHourly, offset);
-			allWeatherDaily = new WeatherDailies(weatherDaily, offset);
+			allWeatherHourly = new WeatherHourlies(weatherHourly);
+			allWeatherDaily = new WeatherDailies(weatherDaily);
 
 			for (var i = 0; i < weatherAlerts.length; i++) {
 				allWeatherAlerts.push(new WeatherAlert(weatherAlerts[i]));
 			}
 		}    
 		function saveWeatherInfoAJAX(stopID){
-		//	var currentStopData = staticStopData.Stops.filter(function( obj ) {
-		//	  return obj.StopID == stopID;
-		//	})[0];			
-												
-		//	if (allStopData.length == 0 || !(stopID in allStopData)) {
-		//		allStopData[stopID] = new BusStop(currentStopData.StopID, currentStopData.Name, currentStopData.Lat, currentStopData.Lon, currentStopData.Routes);
-		//	}
-		//	var busStop = allStopData[stopID];
-			
 			var params = {
 				"exclude": "minutely",
 			};
@@ -115,10 +106,19 @@
 				async: false,
 			})
 			.done(function(data) {
-			//	for (var bus = 0; bus < data.Predictions.length; bus++) {
-			//		var currBus = data.Predictions[bus];
-			//		busStop.addBus(currBus.VehicleID, currBus.TripID, currBus.RouteID, currBus.Minutes, currBus.DirectionNum, currBus.DirectionText);
-			//	}	
+				var weatherData = data;
+				var weatherHourly = weatherData.hourly;
+				var weatherDaily = weatherData.daily;
+				var weatherAlerts = weatherData.alerts;
+				
+				allWeatherHourly = new WeatherHourlies(weatherHourly);
+				allWeatherDaily = new WeatherDailies(weatherDaily);
+
+				if (weatherAlerts !== undefined) {
+					for (var i = 0; i < weatherAlerts.length; i++) {
+						allWeatherAlerts.push(new WeatherAlert(weatherAlerts[i]));
+					}
+				}
 			})
 			.fail(function(xhr, status, error) {
 				var err = eval("(" + xhr.responseText + ")");
@@ -134,52 +134,82 @@
 			if (allWeatherAlerts.length > 0) {
 				pageHTML += "<tr><td colspan='4' width='100%'>";
 				pageHTML += "<table border=0 cellpadding=5 cellspacing=0>";
-				for (var a = 0; a < allWeatherAlerts.length; a++) {
-					var currentAlert = allWeatherAlerts[a];
-					pageHTML += "<tr><td>";
-					pageHTML += currentAlert.title + " (" + currentAlert.regions.join(",") + ")<br>";
-					pageHTML += "Severity: " + currentAlert.severity + "<br>"
-					pageHTML += "Issued: " + currentAlert.getDate(currentAlert.time) + " " + currentAlert.getTime(currentAlert.time) + "<br>";
-					pageHTML += "Expires: " + currentAlert.getDate(currentAlert.expires) + " " + currentAlert.getTime(currentAlert.expires) + "<br>"
-					pageHTML += "<br>" + currentAlert.description + "<br>";
-					pageHTML += "<a href='" + currentAlert.moreInfoUri + "'>MORE INFO</a>";
-					pageHTML += "</td></tr>";
+				if (allWeatherAlerts !== undefined || allWeatherAlerts.length > 0) {
+					for (var a = 0; a < allWeatherAlerts.length; a++) {
+						var currentAlert = allWeatherAlerts[a];
+						pageHTML += "<tr><td>";
+						pageHTML += currentAlert.title + " (" + currentAlert.regions.join(",") + ")<br>";
+						pageHTML += "Severity: " + currentAlert.severity + "<br>"
+						pageHTML += "Issued: " + currentAlert.getDate(currentAlert.time) + " " + currentAlert.getTime(currentAlert.time) + "<br>";
+						pageHTML += "Expires: " + currentAlert.getDate(currentAlert.expires) + " " + currentAlert.getTime(currentAlert.expires) + "<br>"
+						pageHTML += "<br>" + currentAlert.description + "<br>";
+						pageHTML += "<a href='" + currentAlert.moreInfoUri + "'>MORE INFO</a>";
+						pageHTML += "</td></tr>";
+					}
 				}
 				pageHTML += "</table></td></tr>";
 			}
 			
 			// Today
+			// -------------------------------------------------------------
 			pageHTML += "<tr><td style='vertical-align:top;' rowspan='2'>";
 			var currentHour = allWeatherHourly.allHours[0];
 			pageHTML += currentHour.getDay() + " ";
 			pageHTML += currentHour.getDate() + " ";
 			pageHTML += currentHour.getTime() + "<br>";
-			pageHTML += currentHour.icon + "<br>";
-			pageHTML += currentHour.temperature + "&#0176; F &nbsp;";
+			pageHTML += "<i class='icon diw-" + weatherUtils.getWeatherIcon(currentHour.icon);
+			pageHTML += "' style='font-size:55pt;' title='" + currentHour.icon + "'></i><br>";
+			pageHTML += "<span class='forecast-hi'>" + Math.round(currentHour.temperature) + "&#0176;</span>";
+			pageHTML += "&nbsp;";
 			pageHTML += currentHour.summary + "<br>";
 			// EVERY THREE HOURS
+			pageHTML += "<table border=1 cellpadding=10 cellspacing=0>";
 			for (var h = 2; h < 9; h += 3) {	
 				var currentForecast = allWeatherHourly.allHours[h];
-				pageHTML += currentForecast.getTime() + " ";
-				pageHTML += currentForecast.icon + "<br>";
+				pageHTML += "<tr>";
+				pageHTML += "<td>" + currentForecast.getTime() + "</td>";
+				pageHTML += "<td><i class='icon diw-" + weatherUtils.getWeatherIcon(currentForecast.icon);
+				pageHTML += "' style='font-size:25pt;' title='" + currentForecast.icon + "'></i></td></tr>";
 			}
+			pageHTML += "</table>";
+			
 			var todayForecast = allWeatherDaily.allDays[0];
-			pageHTML += todayForecast.temperatureHigh + "&#0176; F" + " / ";
-			pageHTML += todayForecast.temperatureLow + "&#0176; F<br>";
-			pageHTML += todayForecast.precipType + " " + todayForecast.precipProbability + "%<br>";
-			pageHTML += "sunrise: " + weatherUtils.getTime(todayForecast.sunriseTime) + "<br>";
-			pageHTML += "sunset: " + weatherUtils.getTime(todayForecast.sunsetTime);
+			pageHTML += "<span class='forecast-hi'>" + Math.round(todayForecast.temperatureHigh) + "&#0176;</span>" + " / ";
+			pageHTML += Math.round(todayForecast.temperatureLow) + "&#0176;<br>";
+			
+			pageHTML += "<table border=1 cellpadding=10 cellspacing=0>";
+			pageHTML += "<tr><td>";
+			pageHTML += "<i class='icon diw-" + weatherUtils.getPrecipWeatherIcon(todayForecast.precipType, todayForecast.precipType);
+			pageHTML += "' style='font-size:25pt;' title='" + todayForecast.precipType + "'></i>";
+			pageHTML += "</td><td>";
+			pageHTML += Math.round(todayForecast.precipProbability) + "%";
+			pageHTML += "</td></tr><tr>";			
+			pageHTML += "<td><i class='icon diw-sun-low' title='sunrise'></i></td><td>";
+			pageHTML += weatherUtils.getTime(todayForecast.sunriseTime) + "</td><tr>";
+			pageHTML += "<td><i class='icon diw-sun-lower' title='sunset'></i></td><td>";
+			pageHTML += weatherUtils.getTime(todayForecast.sunsetTime) + "</td></tr></table>";
 			pageHTML += "</td>";
+			// -------------------------------------------------------------
 			
 			// Next six days
+			// -------------------------------------------------------------
 			for (var day = 1; day < 4; day++) {
 				pageHTML += "<td>";
 				var currentDay = allWeatherDaily.allDays[day];
 				pageHTML += currentDay.getDay() + " ";
 				pageHTML += currentDay.getDate() + "<br>";
+				pageHTML += "<i class='icon diw-" + weatherUtils.getWeatherIcon(currentDay.icon);
+				pageHTML += "' style='font-size:55pt;' title='" + currentDay.icon + "'></i><br>";
+				pageHTML += "<span class='forecast-hi'>" + Math.round(currentDay.temperatureHigh) + "&#0176;</span>" + " / ";
+				pageHTML += Math.round(currentDay.temperatureLow) + "&#0176;<br>";
 				pageHTML += currentDay.summary + "<br>";
-				pageHTML += currentDay.temperatureHigh + "&#0176; F" + " / ";
-				pageHTML += currentDay.temperatureLow + "&#0176; F";
+				pageHTML += "<table border=1 cellpadding=10 cellspacing=0>";
+				pageHTML += "<tr><td>";
+				pageHTML += "<i class='icon diw-" + weatherUtils.getPrecipWeatherIcon(currentDay.precipType, currentDay.precipProbability);
+				pageHTML += "' style='font-size:25pt;' title='" + currentDay.precipType + "'></i>";
+				pageHTML += "</td><td>";
+				pageHTML += Math.round(currentDay.precipProbability) + "%";
+				pageHTML += "</td></tr></table>";
 				pageHTML += "</td>";
 			}
 			pageHTML += "</tr><tr>";
@@ -188,12 +218,22 @@
 				var currentDay = allWeatherDaily.allDays[day];
 				pageHTML += currentDay.getDay() + " ";
 				pageHTML += currentDay.getDate() + "<br>";
+				pageHTML += "<i class='icon diw-" + weatherUtils.getWeatherIcon(currentDay.icon);
+				pageHTML += "' style='font-size:55pt;' title='" + currentDay.icon + "'></i><br>";
+				pageHTML += "<span class='forecast-hi'>" + Math.round(currentDay.temperatureHigh) + "&#0176;</span>" + " / ";
+				pageHTML += Math.round(currentDay.temperatureLow) + "&#0176;<br>";
 				pageHTML += currentDay.summary + "<br>";
-				pageHTML += currentDay.temperatureHigh + "&#0176; F" + " / ";
-				pageHTML += currentDay.temperatureLow + "&#0176; F";
+				pageHTML += "<table border=1 cellpadding=10 cellspacing=0>";
+				pageHTML += "<tr><td>";
+				pageHTML += "<i class='icon diw-" + weatherUtils.getPrecipWeatherIcon(currentDay.precipType, currentDay.precipProbability);
+				pageHTML += "' style='font-size:25pt;' title='" + currentDay.precipType + "'></i>";
+				pageHTML += "</td><td>";
+				pageHTML += Math.round(currentDay.precipProbability) + "%";
+				pageHTML += "</td></tr></table>";
 				pageHTML += "</td>";
 			}
 			pageHTML += "</tr></table>";
+			// -------------------------------------------------------------
 			return pageHTML;
 		}
 		
@@ -201,8 +241,8 @@
 		loadAPIKey(setAPIKey, "DARKSKY");
 		loadJSON(setWeatherDataCallback);
 		
-		saveWeatherInfoStatic();
-		//saveWeatherInfoAJAX();
+		//saveWeatherInfoStatic();
+		saveWeatherInfoAJAX();
 		
 		var pageHTML = "<table class='outerTable'><tr>";
 	//	for (var s = 0; s < stopCodeOrder.length; s++) {
