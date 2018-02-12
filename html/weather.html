@@ -4,6 +4,7 @@
     <title>DC Weather Data</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="api/darksky/weather.js"></script>
+    <script src="js/api_key.js"></script>
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/fontawesome-all.css" rel="stylesheet">
     <!--<link href="css/dripicons-style.css" rel="stylesheet" > -->
@@ -13,13 +14,11 @@
 <p id="display"></p>
 <script type="text/javascript">
     $(function() {
-		//DARK SKY API: 1000 requests per day, 41 per hour.
-		// Every 15 minutes: 96 requests/day
-		// Every 5 minutes: 288 requests/day
-		// 	https://api.darksky.net/forecast/d04e09fcbfb2aaece8b8eb7b9c958d91/37.8267,-122.4233
-		// 	https://api.darksky.net/forecast/d04e09fcbfb2aaece8b8eb7b9c958d91/38.9281,-77.0342?exclude=minutely
+		// Set DARKSKY API key in: 	/html/api/api_keys.txt
+		//	DARK SKY API: 1000 requests per day, 41 per hour.
+		// 		Every 15 minutes: 96 requests/day
+		// 		Every 5 minutes: 288 requests/day
 		
-		var api_key = "{set keys in /html/api/api_keys.txt}";;
 		var coordinates = "38.9281,-77.0342";
 		var darkSkyUrl_forecast = "https://api.darksky.net/forecast/";
 		//var userStationFile = "wmata/_display_train_stations.txt";
@@ -44,18 +43,6 @@
 		
 		// File loading functions
 		// ----------------------------------------------------------
-		function loadAPIKey(callback, apiName) {
-			var xobj = new XMLHttpRequest();
-				xobj.overrideMimeType("application/json");
-			// Synchronous ajax call (false)
-			xobj.open('GET', 'api/api_keys.txt', false);
-			xobj.onreadystatechange = function () {
-				  if (xobj.readyState == 4 && xobj.status == "200") {
-					callback(xobj.responseText, apiName);
-				  }
-			};
-			xobj.send(null);  			
-		}
 		function loadJSON(callback) {
 			var xobj = new XMLHttpRequest();
 				xobj.overrideMimeType("application/json");
@@ -67,19 +54,7 @@
 				  }
 			};
 			xobj.send(null);  			
-		}			
-		function setAPIKey(data, apiName) {
-			var lines = data.split('\n');
-			for (var line = 0; line < lines.length; line++) {
-				if (!(lines[line].charAt(0) == "#") && (lines[line] !== "")) {
-					var currentKey = lines[line].trim();
-					if (currentKey.indexOf(apiName) > -1) {
-						api_key = currentKey.replace(apiName + " KEY:", "").trim();
-						return;
-					}			
-				}
-			}
-		}
+		}		
 		function setWeatherDataCallback(data) {
 			staticWeatherData = JSON.parse(data);
 		}	
@@ -101,7 +76,7 @@
 				"exclude": "minutely",
 			};
 			$.ajax({
-				url: "https://api.darksky.net/forecast/" + api_key + "/" + coordinates + "?" + $.param(params),
+				url: "https://api.darksky.net/forecast/" + apiKeyHelper.apiKey + "/" + coordinates + "?" + $.param(params),
 				type: "GET",
 				async: false,
 			})
@@ -238,7 +213,7 @@
 		}
 		
 		// Load up static helper files
-		loadAPIKey(setAPIKey, "DARKSKY");
+		var apiKeyHelper = new ApiKeyHelper("DARKSKY");
 		loadJSON(setWeatherDataCallback);
 		
 		//saveWeatherInfoStatic();
@@ -250,7 +225,8 @@
 			pageHTML += displayWeatherInfo();
 			pageHTML += "</td>";
 	//	}
-		pageHTML += "<tr><td><a href='https://darksky.net/poweredby/'>Powered by Dark Sky</a></td><td class='lastUpdated'>"
+		pageHTML += "<tr><td class='lastUpdated'>"
+					+ "<span class='api-link'>[ <a href='https://darksky.net/poweredby/'>Powered by Dark Sky</a> ]</span>"
 					+ "<span style='font-size: 10px;'>" + dateNow + "</span>" 
 					+ " &nbsp;" + timeNow;
 		pageHTML += "</td></tr>";

@@ -120,6 +120,11 @@ th {
     /*color: white; */
 }
 
+.api-link {
+	font-size: 8pt;
+	padding-right: 15px;
+}
+
 .forecast-hi {
 	font-size: 18pt;
 }
