@@ -2,6 +2,7 @@ class ApiKeyHelper {
 	constructor(apiKeyName) {
 		this.keyName = apiKeyName;
 		this.apiKey = "{set keys in /html/api/api_keys.txt}";
+		this.error = "";
 		
 		this.loadAPIKey(this.setAPIKey, this);
 	}
@@ -10,10 +11,12 @@ class ApiKeyHelper {
 		var xobj = new XMLHttpRequest();
 		xobj.overrideMimeType("application/json");
 		// Synchronous ajax call (false)
-		xobj.open('GET', '../api/api_keys.txt', false);
+		xobj.open('GET', 'api/api_keys.txt', false);
 		xobj.onreadystatechange = function () {
 			  if (xobj.readyState == 4 && xobj.status == "200") {
 				callback(xobj.responseText, ptr);
+			  } else {
+				  this.error = "Error loading keys in " + xobj.responseUrl;
 			  }
 		};
 		xobj.send(null);  			
