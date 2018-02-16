@@ -160,12 +160,22 @@
 }
 .forecast-summary {	
 	float:left;
+	margin-bottom:10px;
 }
 .forecast-next-seven {
 	width:180px;
 }
 .forecast-hi {
 	font-size: 18pt;
+}
+.forecast-left {
+	float:left;
+	width:70%;	
+}
+.forecast-right {
+	float:right;
+	width:30%;
+	/*padding-right:10px; */
 }
 
 .weather-icon {
