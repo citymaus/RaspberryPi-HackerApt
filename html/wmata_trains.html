@@ -217,7 +217,7 @@
 				for (var st = 0; st < stationOrder.length; st++) {				
 					var station = allStationData[stationOrder[st]];
 					var openingTime = new Date(dateNow + " " + station.openingTime);
-					var tableData = "<td style='vertical-align:top;'><table>" + 
+					var tableData = "<td style='vertical-align:top;'><table class='metroTable'>" + 
 					"<tr><th colspan=4 class='stationHeader'><b>" + station.locationName + " "
 						//+ "[" + station.getLocationCodes() + "] "
 						+ "</b>"

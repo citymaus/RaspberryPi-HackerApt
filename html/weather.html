@@ -6,6 +6,7 @@
     <script src="api/darksky/weather.js"></script>
     <script src="js/api_key.js"></script>
 	<link href="css/style.css" rel="stylesheet">
+	<link href="css/weather-bar.css" rel="stylesheet">
 	<link href="css/fontawesome-all.css" rel="stylesheet">
     <!--<link href="css/dripicons-style.css" rel="stylesheet" > -->
     <link href="css/dripicons-webfont.css" rel="stylesheet">
@@ -127,7 +128,8 @@
 			// Today
 			// -------------------------------------------------------------
 			var currentHour = allWeatherHourly.allHours[0];
-			pageHTML += "<tr><td style='vertical-align:top;' rowspan='2' class='" + weatherUtils.getDayBackgroundColor(currentHour.icon) + "'>";
+			pageHTML += "<tr><td style='vertical-align:top;' rowspan='2' class='weather-panel " 
+				+ weatherUtils.getDayBackgroundColor(currentHour.icon) + "'>";
 			pageHTML += "<span class='weather-day weather-uppercase'>" + currentHour.getDay() + "</span> ";
 			pageHTML += "<span class='weather-uppercase weather-date'>" + currentHour.getDate() + "</span><br>";
 			pageHTML += currentHour.getTime() + "<br>";
@@ -163,52 +165,51 @@
 			pageHTML += "<td><i class='icon diw-sun-lower' title='sunset'></i></td><td>";
 			pageHTML += weatherUtils.getTime(todayForecast.sunsetTime) + "</td></tr></table>";
 			pageHTML += "</td>";
-			// -------------------------------------------------------------
 			
+			// -------------------------------------------------------------			
 			// Next six days
-			// -------------------------------------------------------------
-			for (var day = 1; day < 4; day++) {
-				var currentDay = allWeatherDaily.allDays[day];
-				pageHTML += "<td class='forecast-next-seven " + weatherUtils.getDayBackgroundColor(currentDay.icon) + "'>";
-				pageHTML += "<span class='weather-uppercase weather-day'>" + currentDay.getDay() + "</span> ";
-				pageHTML += "<span class='weather-uppercase weather-date'>" + currentDay.getDate() + "</span><br>";
-				pageHTML += "<i class='weather-icon weather-icon icon diw-" + weatherUtils.getWeatherIcon(currentDay.icon);
-				pageHTML += "' title='" + currentDay.icon + "'></i><br>";
-				pageHTML += "<span class='forecast-hi'>" + Math.round(currentDay.temperatureHigh) + "&#0176;</span>" + " / ";
-				pageHTML += Math.round(currentDay.temperatureLow) + "&#0176;<br>";
-				pageHTML += "<span class='forecast-summary'>" + currentDay.summary + "</span><br>";
-				pageHTML += "<table border=1 cellpadding=10 cellspacing=0>";
-				pageHTML += "<tr><td>";
-				pageHTML += "<i class='icon diw-" + weatherUtils.getPrecipWeatherIcon(currentDay.precipType, currentDay.precipProbability);
-				pageHTML += "' style='font-size:25pt;' title='" + currentDay.precipType + "'></i>";
-				pageHTML += "</td><td>";
-				pageHTML += Math.round(currentDay.precipProbability) + "%";
-				pageHTML += "</td></tr></table>";
-				pageHTML += "</td>";
-			}
+			// -------------------------------------------------------------			
+			pageHTML += forecastRow(weatherUtils, allWeatherDaily, 1, 4);
 			pageHTML += "</tr><tr>";
-			for (var day = 4; day < 7; day++) {				
-				var currentDay = allWeatherDaily.allDays[day];
-				pageHTML += "<td class='forecast-next-seven " + weatherUtils.getDayBackgroundColor(currentDay.icon) + "'>";
-				pageHTML += "<span class='weather-uppercase weather-day'>" + currentDay.getDay() + "</span> ";
-				pageHTML += "<span class='weather-uppercase weather-date'>" + currentDay.getDate() + "</span><br>";
-				pageHTML += "<i class='weather-icon icon diw-" + weatherUtils.getWeatherIcon(currentDay.icon);
-				pageHTML += "' title='" + currentDay.icon + "'></i><br>";
-				pageHTML += "<span class='forecast-hi'>" + Math.round(currentDay.temperatureHigh) + "&#0176;</span>" + " / ";
-				pageHTML += Math.round(currentDay.temperatureLow) + "&#0176;<br>";
-				pageHTML += "<span class='forecast-summary'>" + currentDay.summary + "</span><br>";
-				pageHTML += "<table border=1 cellpadding=10 cellspacing=0>";
-				pageHTML += "<tr><td>";
-				pageHTML += "<i class='icon diw-" + weatherUtils.getPrecipWeatherIcon(currentDay.precipType, currentDay.precipProbability);
-				pageHTML += "' style='font-size:25pt;' title='" + currentDay.precipType + "'></i>";
-				pageHTML += "</td><td>";
-				pageHTML += Math.round(currentDay.precipProbability) + "%";
-				pageHTML += "</td></tr></table>";
-				pageHTML += "</td>";
-			}
+			pageHTML += forecastRow(weatherUtils, allWeatherDaily, 4, 7);
 			pageHTML += "</tr></table>";
 			// -------------------------------------------------------------
 			return pageHTML;
+		}
+		
+		function forecastRow(weatherUtils, allWeatherDaily, startDay, endDay) {	
+			var rowHTML = "";
+			for (var day = startDay; day < endDay; day++) {		
+				var currentDay = allWeatherDaily.allDays[day];
+				rowHTML += "<td class='forecast-next-seven weather-panel "
+					+ weatherUtils.getDayBackgroundColor(currentDay.icon) + "'>";
+				rowHTML += "<span class='weather-uppercase weather-day day-" + currentDay.getDay() + "'>" + currentDay.getDay() + "</span> ";
+				rowHTML += "<span class='weather-uppercase weather-date'>" + currentDay.getDate() + "</span><br>";
+				rowHTML += "<i class='weather-icon icon diw-" + weatherUtils.getWeatherIcon(currentDay.icon);
+				rowHTML += "' title='" + currentDay.icon + "'></i><br>";
+				
+				// Vertical Bar Test
+				// https://stackoverflow.com/questions/4245209/vertical-css-html5-progress-bar
+				rowHTML += "<div id='outer'><div id='inner' style='height: 55%;bottom: 25%'>";
+				rowHTML += "<div id='bar-temp'>55</div>";
+				rowHTML += "</div></div>";
+				
+				// Horizontal bar TEST
+				rowHTML += "<div class='weather-bar blue stripes'><span style='width: " + Math.round(currentDay.temperatureHigh) + "%'></span></div>";
+				
+				rowHTML += "<span class='forecast-hi'>" + Math.round(currentDay.temperatureHigh) + "&#0176;</span>" + " / ";
+				rowHTML += Math.round(currentDay.temperatureLow) + "&#0176;<br>";
+				rowHTML += "<span class='forecast-summary'>" + currentDay.summary + "</span><br>";
+				rowHTML += "<table border=1 cellpadding=10 cellspacing=0>";
+				rowHTML += "<tr><td>";
+				rowHTML += "<i class='icon diw-" + weatherUtils.getPrecipWeatherIcon(currentDay.precipType, currentDay.precipProbability);
+				rowHTML += "' style='font-size:25pt;' title='" + currentDay.precipType + "'></i>";
+				rowHTML += "</td><td>";
+				rowHTML += Math.round(currentDay.precipProbability) + "%";
+				rowHTML += "</td></tr></table>";
+				rowHTML += "</td>";
+			}
+			return rowHTML;
 		}
 		
 		// Load up static helper files
@@ -221,15 +222,15 @@
 		//saveWeatherInfoStatic();
 		saveWeatherInfoAJAX();
 		
-		var pageHTML = "<table class='outerTable'><tr>";
-	//	for (var s = 0; s < stopCodeOrder.length; s++) {
-			pageHTML += "<td style='vertical-align:top;' colspan=2>";
-			pageHTML += displayWeatherInfo();
-			pageHTML += "</td>";
-	//	}
+		var pageHTML = "<table class='' border=0 cellpadding=0 cellspacing=0><tr>";
+		pageHTML += "<td style='vertical-align:top;' colspan=2>";
+		pageHTML += displayWeatherInfo();
+		pageHTML += "</td>";
 		pageHTML += "<tr><td class='lastUpdated'>"
+					+ "<div>"
 					+ "<span class='api-link'>[ <a href='https://darksky.net/poweredby/'>Powered by Dark Sky</a> ]</span>"
 					+ "<span style='font-size: 10px;'>" + dateNow + "</span>" 
+					+ "</div>"
 					+ " &nbsp;" + timeNow;
 		pageHTML += "</td></tr>";
 		pageHTML += "</table>";

@@ -1,18 +1,13 @@
-table {
-    border: 2px solid black;
-	font-size: 15px;
-    font-family: "Times New Roman", Times, serif;
-}
-tr:nth-child(even) {
-	background-color: #f2f2f2;
-}
-td {
-	padding: 8px;
-}
-th {	
-    text-align: right;
-}
 
+/*
+	------------------
+	GENERAL CSS
+	------------------
+*/
+.api-link {
+	font-size: 8pt;
+	padding-right: 15px;
+}
 .outerTable {
 	padding-left: 10px;
 	padding-right: 10px;
@@ -23,6 +18,30 @@ th {
 	vertical-align: top;
 }
 
+/*
+	------------------
+	METRO TRAIN CSS
+	------------------
+*/
+.metroTable {	
+    border: 2px solid black;
+	font-size: 15px;
+    font-family: "Times New Roman", Times, serif;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	margin: 5px;
+}
+.metroTable tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+.metroTable td {
+	padding: 8px;
+}
+.metroTable th {	
+    text-align: right;
+}
+
+
 .stationHeader {
 	font-family: "Microsoft YaHei", Helvetica, sans-serif;
 	padding: 12px;
@@ -31,6 +50,8 @@ th {
     text-align: center;	
 	color: white;
 	font-size: 15px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
 }
 
 .destinationHeader {
@@ -93,6 +114,11 @@ th {
     background-color: #d9d9d9;
     color: black;
 }
+/*
+	------------------
+	METRO BUS CSS
+	------------------
+*/
 
 .busStopID {
 	margin-top: .3em;
@@ -120,13 +146,17 @@ th {
     /*color: white; */
 }
 
-.api-link {
-	font-size: 8pt;
-	padding-right: 15px;
-}
 
+/*
+	------------------
+	WEATHER CSS
+	------------------
+*/
 .forecast-table {
-	font-family: "Cambria", Helvetica, sans-serif; 	
+	/*font-family: "Cambria", Helvetica, sans-serif;  */
+	font-family: "Oswald", sans-serif;	
+	border-spacing: 8px;
+    border-collapse: separate;
 }
 .forecast-summary {	
 	float:left;
@@ -155,7 +185,12 @@ th {
 	float:left;
 	width:60%;
 	/*font-family: "Microsoft YaHei", Helvetica, sans-serif; */
-	font-family: "Cambria", Helvetica, sans-serif; 
+	/*font-family: "Cambria", Helvetica, sans-serif; */
+	font-family: "Oswald", sans-serif;
+}
+.day-Saturday, .day-Sunday {
+	color: #FFFF00;
+	font-size: 16pt;
 }
 .weather-date {
 	text-align: right;
@@ -166,6 +201,10 @@ th {
 	line-height: 0px;
 }
 
+.weather-panel {
+	border-radius: 20px;
+	padding: 18px;
+}
 .weather-panel-back-cloudy {
 	background-color: #32BEBC;
 }
