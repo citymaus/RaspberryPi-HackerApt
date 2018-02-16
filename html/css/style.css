@@ -232,3 +232,15 @@
 .weather-panel-back-sun tr:nth-child(even) {	
 	background-color: #E5C851;
 }
+/*
+             "clear-day",
+                "clear-night",
+                "partly-cloudy-day",
+                "partly-cloudy-night",
+                "cloudy",
+                "rain",
+                "sleet",
+                "snow",
+                "wind",
+                "fog"
+*/

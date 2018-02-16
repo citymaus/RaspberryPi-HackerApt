@@ -3,6 +3,12 @@
   text-align: center;
 }
 */
+.vertical-meter {
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	-o-transform: rotate(90deg);
+	transform: rotate(90deg);
+}
 .relative-wrap {
     /*relative on second parent*/
     position: relative;
@@ -52,7 +58,8 @@
     top: 150px;
     left: 225px;
     height: 50px;
-    width: 50px;
+    width: 100%;
+	text-align:center;
    /* background: red; */
     z-index: 500;
 }

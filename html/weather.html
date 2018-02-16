@@ -191,25 +191,38 @@
 				// Vertical Bar Test
 				// https://stackoverflow.com/questions/4245209/vertical-css-html5-progress-bar
 				//https://stackoverflow.com/questions/8837050/allow-specific-tag-to-override-overflowhidden
+				// Try Waterfall charts!
+				//https://developers.google.com/chart/interactive/docs/gallery/candlestickchart
+				var tempHigh = Math.round(currentDay.temperatureHigh);
+				var tempLow = Math.round(currentDay.temperatureLow);
 				var topTemp = 80;
 				var bottomTemp = 25;
-				var totalTemp = topTemp - bottomTemp;
+				tempHigh = topTemp;
+				tempLow = bottomTemp;
+				//topTemp = tempHigh;
+				//bottomTemp = tempLow+10;
+				var totalTemp = (topTemp - bottomTemp)// + 10); // Add 10 for tiny differences
+				//var topTempPosition = (100-topTemp+5);
+				var topTempPosition = (100-tempHigh-15); // this is right at tempHigh = 80
+				var bottomTempPosition = (tempLow-20); // this is right at tempHigh = 80
 				rowHTML += "<div class='relative-wrap'>";
-				rowHTML += "<div class='overflow-wrap'>";
-				rowHTML += "<div class='ignore-overflow' style='top: " + (100-topTemp) + "%; left: 2px;'>" + topTemp  + "&#0176;</div>";
-				//rowHTML += "<div>99</div>"
-				rowHTML += "<div class='respect-overflow' style='height: " + totalTemp + "%;bottom: " + bottomTemp + "%; z-index:300;'>";
-				rowHTML += 		"<div></div>";
+				rowHTML += 		"<div class='overflow-wrap'>";
+				rowHTML += 			"<div class='ignore-overflow' style='top: " + topTempPosition + "%; left: 2px;'>" + tempHigh  + "&#0176;</div>";
+				rowHTML += 			"<div class='respect-overflow' style='height: " + totalTemp + "%;bottom: " + tempLow + "%; z-index:300;'>";
+				rowHTML += 				"<div></div>";
+				rowHTML += 			"</div>";
+				rowHTML += 			"<div class='ignore-overflow' style='bottom: " + bottomTempPosition + "%; left: 2px;'>" + tempLow  + "&#0176;</div>";
+				rowHTML += 		"</div>";
 				rowHTML += "</div>";
-				rowHTML += "<div class='ignore-overflow' style='bottom: " + bottomTemp + "%; left: 0px;'>" + bottomTemp  + "&#0176;</div>";
-				//rowHTML += "<div class='bar-side-temp' style='bottom: 6;'>" + bottomTemp + "&#0176;</div>";
-				rowHTML += "</div></div>";
+				
+				// Meter test
+				//rowHTML += "<meter value='30' max='100' class='vertical-meter'>Low</meter>";
 				
 				// Horizontal bar TEST
-				rowHTML += "<div class='weather-bar blue stripes'><span style='width: " + Math.round(currentDay.temperatureHigh) + "%'></span></div>";
+				rowHTML += "<div class='weather-bar blue stripes'><span style='width: " + tempHigh + "%'></span></div>";
 				
-				rowHTML += "<span class='forecast-hi'>" + Math.round(currentDay.temperatureHigh) + "&#0176;</span>" + " / ";
-				rowHTML += Math.round(currentDay.temperatureLow) + "&#0176;<br>";
+				rowHTML += "<span class='forecast-hi'>" + tempHigh + "&#0176;</span>" + " / ";
+				rowHTML += tempLow + "&#0176;<br>";
 				rowHTML += "<span class='forecast-summary'>" + currentDay.summary + "</span><br>";
 				rowHTML += "<table border=1 cellpadding=10 cellspacing=0>";
 				rowHTML += "<tr><td>";
