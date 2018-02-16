@@ -193,10 +193,14 @@
 				//https://stackoverflow.com/questions/8837050/allow-specific-tag-to-override-overflowhidden
 				// Try Waterfall charts!
 				//https://developers.google.com/chart/interactive/docs/gallery/candlestickchart
+				// Trying to emulate:
+				// https://blog.darksky.net/forecast-embeds/
 				var tempHigh = Math.round(currentDay.temperatureHigh);
 				var tempLow = Math.round(currentDay.temperatureLow);
-				var topTemp = 80;
-				var bottomTemp = 25;
+				//var topTemp = 80;
+				//var bottomTemp = 25;
+				var topTemp = 60;
+				var bottomTemp = 45;
 				tempHigh = topTemp;
 				tempLow = bottomTemp;
 				//topTemp = tempHigh;
@@ -243,8 +247,8 @@
 		}
 		loadJSON(setWeatherDataCallback);
 		
-		//saveWeatherInfoStatic();
-		saveWeatherInfoAJAX();
+		saveWeatherInfoStatic();
+		//saveWeatherInfoAJAX();
 		
 		var pageHTML = "<table class='' border=0 cellpadding=0 cellspacing=0><tr>";
 		pageHTML += "<td style='vertical-align:top;' colspan=2>";
