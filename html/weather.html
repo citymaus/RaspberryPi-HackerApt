@@ -190,8 +190,19 @@
 				
 				// Vertical Bar Test
 				// https://stackoverflow.com/questions/4245209/vertical-css-html5-progress-bar
-				rowHTML += "<div id='outer'><div id='inner' style='height: 55%;bottom: 25%'>";
-				rowHTML += "<div id='bar-temp'>55</div>";
+				//https://stackoverflow.com/questions/8837050/allow-specific-tag-to-override-overflowhidden
+				var topTemp = 80;
+				var bottomTemp = 25;
+				var totalTemp = topTemp - bottomTemp;
+				rowHTML += "<div class='relative-wrap'>";
+				rowHTML += "<div class='overflow-wrap'>";
+				rowHTML += "<div class='ignore-overflow' style='top: " + (100-topTemp) + "%; left: 2px;'>" + topTemp  + "&#0176;</div>";
+				//rowHTML += "<div>99</div>"
+				rowHTML += "<div class='respect-overflow' style='height: " + totalTemp + "%;bottom: " + bottomTemp + "%; z-index:300;'>";
+				rowHTML += 		"<div></div>";
+				rowHTML += "</div>";
+				rowHTML += "<div class='ignore-overflow' style='bottom: " + bottomTemp + "%; left: 0px;'>" + bottomTemp  + "&#0176;</div>";
+				//rowHTML += "<div class='bar-side-temp' style='bottom: 6;'>" + bottomTemp + "&#0176;</div>";
 				rowHTML += "</div></div>";
 				
 				// Horizontal bar TEST
