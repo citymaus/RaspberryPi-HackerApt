@@ -319,21 +319,15 @@
 		}
 		loadJSON(setWeatherDataCallback);
 		
-		saveWeatherInfoStatic();
-		//saveWeatherInfoAJAX();
+		//saveWeatherInfoStatic();
+		saveWeatherInfoAJAX();
 		
 		var showAlerts = false;
 		var pageHTML = "<table border=0 cellpadding=0 cellspacing=0><tr>";
 		pageHTML += "<td style='vertical-align:top;' colspan=2>";
 		pageHTML += displayWeatherInfo(showAlerts);
-		pageHTML += "</td>";
-		pageHTML += "<tr><td class='lastUpdated' style='padding-right:18px;'>"
-					+ "<div>"
-					+ "<span class='api-link'>[ <a href='https://darksky.net/poweredby/'>Powered by Dark Sky</a> ]</span>"
-					+ "<span style='font-size: 10px;'>" + dateNow + "</span>" 
-					+ "</div>"
-					+ " &nbsp;" + timeNow;
 		pageHTML += "</td></tr>";
+		pageHTML += apiKeyHelper.apiKeyLastUpdated("https://darksky.net/poweredby/", "Powered by Dark Sky", dateNow, timeNow, 18);
 		pageHTML += "</table>";
 		displayObj.innerHTML = pageHTML;
 	});

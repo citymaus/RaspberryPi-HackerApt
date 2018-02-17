@@ -297,10 +297,7 @@
 					pageTable += tableData;
 				}
 			    pageTable += "</tr>";
-				pageTable += "<tr><td class='lastUpdated' colspan='" + stationNameOrder.length + "'>" 
-					+ "<span class='api-link'>[ <a href='https://developer.wmata.com'>WMATA Developer API</a> ]</span>"
-					+ "<span style='font-size: 10px;'>" + dateNow + "</span>" 
-					+ " &nbsp;" + timeNow + "</td></tr>"
+				pageTable += apiKeyHelper.apiKeyLastUpdated("https://developer.wmata.com", "WMATA Developer API", dateNow, timeNow, 8, stationNameOrder.length);
 				pageTable += "</table>";
 				displayObj.innerHTML = pageTable;
 			})

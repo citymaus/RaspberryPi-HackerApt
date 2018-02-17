@@ -33,4 +33,15 @@ class ApiKeyHelper {
 			}
 		}
 	}
+	apiKeyLastUpdated(apiLink, apiLinkText, dateNow, timeNow, extraPadding = 0, colspan = 1) {
+		var lastHTML = "";
+		lastHTML += "<tr><td class='lastUpdated' style='padding-right:" + extraPadding + "px;' colspan='" + colspan + "'>"
+					+ "<div>"
+					+ "<span class='api-link'>[ <a href='" + apiLink + "'>" + apiLinkText + "</a> ]</span>"
+					+ "<span style='font-size: 10px;'>" + dateNow + "</span>" 
+					+ "</div>"
+					+ " &nbsp;" + timeNow;
+		lastHTML += "</td></tr>";
+		return lastHTML;
+	}
 }

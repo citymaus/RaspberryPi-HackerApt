@@ -164,7 +164,7 @@
 		
 		function displayStopInfo(stopID){
 			var busStop = allStopData[stopID];
-			var tableData = "<table>" + 
+			var tableData = "<table class='metroTable'>" + 
 			"<tr><th colspan=4 class='stationHeader'><b>" + busStop.StopName + "<br>"
 				+ "[" + busStop.StopID + "] "
 				+ "</b>"
@@ -206,18 +206,15 @@
 		}
 		var daysOfStatusFeed = 7;
 		var pageHTML = displayStatusFeed(daysOfStatusFeed);
-		pageHTML += "<table class='metroTable outerTable'>";
+		pageHTML += "<table class=''>";
 		pageHTML += "<tr>";
 		for (var s = 0; s < stopCodeOrder.length; s++) {
 			pageHTML += "<td style='vertical-align:top;'>";
 			pageHTML += displayStopInfo(stopCodeOrder[s]);
 			pageHTML += "</td>";
 		}
-		pageHTML += "<tr><td class='lastUpdated' colspan='" + stopCodeOrder.length + "'>" 
-					+ "<span class='api-link'>[ <a href='https://developer.wmata.com'>WMATA Developer API</a> ]</span>"
-					+ "<span style='font-size: 10px;'>" + dateNow + "</span>" 
-					+ " &nbsp;" + timeNow;
-		pageHTML += "</td></tr>";
+		pageHTML += "</tr>";
+		pageHTML += apiKeyHelper.apiKeyLastUpdated("https://developer.wmata.com", "WMATA Developer API", dateNow, timeNow, 8, stopCodeOrder.length);
 		pageHTML += "</table>";
 		displayObj.innerHTML = pageHTML;
     });
