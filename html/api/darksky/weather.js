@@ -169,6 +169,49 @@ class WeatherUtils {
 		var dateObj = new Date(timeInSecs * 1000);
 		return dateObj.toLocaleTimeString();
 	}
+	getShortenedSummary(iconName) {
+		var summary = "";
+		if (iconName == "clear-day") {
+			summary = "sunny";
+		} 
+		if (iconName == "clear-night") {
+			summary = "clear";
+		} 
+		if (iconName == "rain") {
+			summary = "rainy";
+		}
+		if (iconName == "snow") {
+			summary = "snow";
+		}
+		if (iconName == "sleet") {
+			summary = "sleet";		
+		}
+		if (iconName == "wind") {
+			summary = "wind";
+		}
+		if (iconName == "fog") {
+			summary = "foggy";
+		}
+		if (iconName == "cloudy") {
+			summary = "cloudy";
+		}
+		if (iconName == "partly-cloudy-day") {
+			summary = "partly cloudy";
+		}
+		if (iconName == "partly-cloudy-night") {
+			summary = "partly cloudy";			
+		} 
+		if (iconName == "hail") {
+			summary = "hail";
+		}
+		if (iconName == "thunderstorm") {
+			summary = "thunderstorms";			
+		} 
+		if (iconName == "tornado") {
+			summary = "tornados";
+		}
+		return summary;
+	}
 	getWeatherIcon(iconName) {
 		var iconClass = "";
 		if (iconName == "clear-day") {
@@ -246,8 +289,11 @@ class WeatherUtils {
 		if (iconName.indexOf("cloudy") != -1) {
 			cssClass = "weather-panel-back-cloudy";
 		}
-		if ((iconName.indexOf("snow") != -1) || (iconName.indexOf("rain") != -1)) {
+		if ((iconName.indexOf("snow") != -1) || (iconName.indexOf("rain") != -1) || (iconName.indexOf("sleet") != -1)) {
 			cssClass = "weather-panel-back-rain";
+		}
+		if ((iconName.indexOf("fog") != -1) || (iconName.indexOf("wind") != -1)) {
+			cssClass = "weather-panel-back-fog";
 		}
 		return cssClass;
 	}

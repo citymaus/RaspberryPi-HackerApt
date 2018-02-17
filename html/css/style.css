@@ -162,6 +162,7 @@
 .forecast-summary {	
 	float:left;
 	margin-bottom:10px;
+	text-transform: uppercase;
 }
 .forecast-next-seven {
 	width:180px;
@@ -216,6 +217,16 @@
 	top: -12px;
 }
 
+.precip-box {
+	background-color:#fff;
+	border-radius: 10px;
+}
+.precip-box-icon {
+    position: absolute;
+	top:10px;
+	margin-top: 5px;
+}
+
 .weather-panel {
 	border-radius: 20px;
 	padding: 18px;
@@ -239,6 +250,15 @@
 }
 .weather-panel-back-rain.today tr:nth-child(even) {
 	background-color: #2999B7;	
+}
+.weather-panel-back-fog {	
+	background-color: #bbb;
+}
+.weather-panel-back-fog.today tr:nth-child(odd) {
+	background-color: #aaa;
+}
+.weather-panel-back-fog.today tr:nth-child(even) {	
+	background-color: #bbb;
 }
 .weather-panel-back-sun {	
 	background-color: #E5C851;

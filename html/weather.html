@@ -242,7 +242,11 @@
 				// Candlestick test
 				var todayHigh = Math.round(currentDay.temperatureHigh);
 				var todayLow = Math.round(currentDay.temperatureLow);
-				var candlestickLength = (todayHigh-todayLow)*4;
+				var diff = todayHigh-todayLow;
+				if (diff == 0) {
+					diff = 1;
+				}
+				var candlestickLength = diff*4;
 				var fromTop = ((highestTemp-todayHigh)*4) - 60;
 				var totalPossibleCandlestickHeight = (highestTemp-lowestTemp) * 5;
 				totalPossibleCandlestickHeight = 200;
@@ -269,26 +273,26 @@
 				// High/low and summary
 				rowHTML += 		"<span class='forecast-hi'>" + todayHigh + "&#0176;</span>" + " / ";
 				rowHTML += 		todayLow + "&#0176;<br>";
-				rowHTML += 		"<span class='forecast-summary'>" + currentDay.summary + "</span><br>";
+				rowHTML += 		"<span class='forecast-summary'>" + weatherUtils.getShortenedSummary(currentDay.icon) + "</span><br>";
 				
 				// Precip data
 				var precipProbability = Math.round(currentDay.precipProbability);
-				rowHTML += 	"<table border=1 cellpadding=10 cellspacing=0>";
+				rowHTML += 	"<table border=0 cellpadding=4 cellspacing=0 class='precip-box'>";
 				rowHTML += 		"<tr>";
-				rowHTML += 			"<td>";
+				rowHTML += 			"<td rowspan=2>";
 				rowHTML += 				"<div class='overflow-wrap'>";
 				rowHTML += 					"<div class='respect-overflow' style='height: " + precipProbability + "%; z-index:300;'>";
 				rowHTML += 						"<div></div>";
 				rowHTML += 					"</div>";
 				rowHTML += 				"</div>";
 				rowHTML += 			"</td>";
-				rowHTML += 			"<td rowspan=2>";
+				rowHTML += 			"<td style='precip-box-icon'>";
 				rowHTML += 				"<i class='icon diw-" + weatherUtils.getPrecipWeatherIcon(currentDay.precipType, currentDay.precipProbability);
-				rowHTML += 					"' style='font-size:25pt;' title='" + currentDay.precipType + "'></i>";
+				rowHTML += 					"' style='font-size:22pt;position:relative;top:7px;left:-2px;' title='" + currentDay.precipType + "'></i>";
 				rowHTML += 			"</td>";
 				rowHTML += 		"</tr>";
 				rowHTML +=  	"<tr>";
-				rowHTML += 			"<td>";
+				rowHTML += 			"<td style='position:relative;top:-4px;'>";
 				rowHTML += 			precipProbability + "%";
 				rowHTML += 			"</td>";
 				rowHTML += 		"</tr>";
