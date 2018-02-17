@@ -218,13 +218,19 @@
 }
 
 .precip-box {
-	background-color:#fff;
-	border-radius: 10px;
+	background-color:#fff!important;
+	border-radius: 10px!important;
 }
-.precip-box-icon {
-    position: absolute;
-	top:10px;
-	margin-top: 5px;
+.precip-box tr {	
+	background-color:#fff!important;
+}
+.precip-box tr:first-child td:first-child {
+    border-top-left-radius: 10px!important;
+    border-top-right-radius: 10px!important;
+}
+.precip-box tr:last-child td:last-child {
+    border-bottom-left-radius: 10px!important;
+    border-bottom-right-radius: 10px!important;
 }
 
 .weather-panel {
@@ -251,6 +257,7 @@
 .weather-panel-back-rain.today tr:nth-child(even) {
 	background-color: #2999B7;	
 }
+
 .weather-panel-back-fog {	
 	background-color: #bbb;
 }

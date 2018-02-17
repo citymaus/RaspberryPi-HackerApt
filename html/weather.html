@@ -153,17 +153,44 @@
 			pageHTML += "<span class='forecast-hi'>" + Math.round(todayForecast.temperatureHigh) + "&#0176;</span>" + " / ";
 			pageHTML += Math.round(todayForecast.temperatureLow) + "&#0176;<br>";
 			
-			pageHTML += "<table border=1 cellpadding=10 cellspacing=0>";
-			pageHTML += "<tr><td>";
-			pageHTML += "<i class='icon diw-" + weatherUtils.getPrecipWeatherIcon(todayForecast.precipType, todayForecast.precipType);
-			pageHTML += "' title='" + todayForecast.precipType + "'></i>";
-			pageHTML += "</td><td>";
-			pageHTML += Math.round(todayForecast.precipProbability) + "%";
-			pageHTML += "</td></tr><tr>";			
-			pageHTML += "<td><i class='icon diw-sun-low' title='sunrise'></i></td><td>";
+						
+			pageHTML += "<table border=1 cellpadding=10 cellspacing=0>";			
+			//pageHTML += "<tr><td>";
+			//pageHTML += "<i class='icon diw-" + weatherUtils.getPrecipWeatherIcon(todayForecast.precipType, todayForecast.precipType);
+			//pageHTML += "' title='" + todayForecast.precipType + "'></i>";
+			//pageHTML += "</td><td>";
+			//pageHTML += Math.round(todayForecast.precipProbability) + "%";
+			//pageHTML += "</td></tr>";	
+			
+			pageHTML += "<tr><td><i class='icon diw-sun-low' title='sunrise'></i></td><td>";
 			pageHTML += weatherUtils.getTime(todayForecast.sunriseTime) + "</td><tr>";
 			pageHTML += "<td><i class='icon diw-sun-lower' title='sunset'></i></td><td>";
 			pageHTML += weatherUtils.getTime(todayForecast.sunsetTime) + "</td></tr></table>";
+			
+			// Precipitation percent
+			var precipProbability = Math.round(todayForecast.precipProbability);
+			pageHTML += "<table border=0 cellpadding=4 cellspacing=0 class='precip-box'>";
+			pageHTML += 	"<tr class='precip-box'>";
+			pageHTML += 		"<td rowspan=2 class='precip-box'>";
+			pageHTML += 			"<div class='overflow-wrap'>";
+			pageHTML += 				"<div class='respect-overflow' style='height: " + precipProbability + "%; z-index:300;'>";
+			pageHTML += 					"<div></div>";
+			pageHTML += 				"</div>";
+			pageHTML += 			"</div>";
+			pageHTML += 		"</td>";
+			pageHTML += 		"<td class='precip-box'>";
+			pageHTML += 			"<i class='icon diw-" + weatherUtils.getPrecipWeatherIcon(todayForecast.precipType, precipProbability);
+			pageHTML += 				"' style='font-size:22pt;position:relative;top:7px;left:-2px;' title='" + todayForecast.precipType + "'></i>";
+			pageHTML += 		"</td>";
+			pageHTML += 	"</tr>";
+			pageHTML +=  "<tr>";
+			pageHTML += 		"<td style='position:relative;top:-4px;'>";
+			pageHTML += 		precipProbability + "%";
+			pageHTML += 		"</td>";
+			pageHTML += 	"</tr>";
+			pageHTML += "</table>";
+			
+			// End of today cell
 			pageHTML += "</td>";
 			
 			// -------------------------------------------------------------			
@@ -270,33 +297,37 @@
 				// Horizontal bar TEST
 				//rowHTML += "<div class='weather-bar blue stripes'><span style='width: " + todayHigh + "%'></span></div>";
 				
+				rowHTML += "<table border=0 cellpadding=2 cellspacing=0 width='100%'><tr>";
+				rowHTML += "<td>";
 				// High/low and summary
 				rowHTML += 		"<span class='forecast-hi'>" + todayHigh + "&#0176;</span>" + " / ";
 				rowHTML += 		todayLow + "&#0176;<br>";
-				rowHTML += 		"<span class='forecast-summary'>" + weatherUtils.getShortenedSummary(currentDay.icon) + "</span><br>";
+				rowHTML += 		"<span class='forecast-summary'>" + weatherUtils.getShortenedSummary(currentDay.icon) + "</span>";
+				rowHTML += "</td><td align=right>";
 				
 				// Precip data
 				var precipProbability = Math.round(currentDay.precipProbability);
-				rowHTML += 	"<table border=0 cellpadding=4 cellspacing=0 class='precip-box'>";
-				rowHTML += 		"<tr>";
-				rowHTML += 			"<td rowspan=2>";
-				rowHTML += 				"<div class='overflow-wrap'>";
-				rowHTML += 					"<div class='respect-overflow' style='height: " + precipProbability + "%; z-index:300;'>";
-				rowHTML += 						"<div></div>";
+				rowHTML += 		"<table border=0 cellpadding=4 cellspacing=0 class='precip-box'>";
+				rowHTML += 			"<tr>";
+				rowHTML += 				"<td rowspan=2 class='precip-box'>";
+				rowHTML += 					"<div class='overflow-wrap'>";
+				rowHTML += 						"<div class='respect-overflow' style='height: " + precipProbability + "%; z-index:300;'>";
+				rowHTML += 							"<div></div>";
+				rowHTML += 						"</div>";
 				rowHTML += 					"</div>";
-				rowHTML += 				"</div>";
-				rowHTML += 			"</td>";
-				rowHTML += 			"<td style='precip-box-icon'>";
-				rowHTML += 				"<i class='icon diw-" + weatherUtils.getPrecipWeatherIcon(currentDay.precipType, currentDay.precipProbability);
-				rowHTML += 					"' style='font-size:22pt;position:relative;top:7px;left:-2px;' title='" + currentDay.precipType + "'></i>";
-				rowHTML += 			"</td>";
-				rowHTML += 		"</tr>";
-				rowHTML +=  	"<tr>";
-				rowHTML += 			"<td style='position:relative;top:-4px;'>";
-				rowHTML += 			precipProbability + "%";
-				rowHTML += 			"</td>";
-				rowHTML += 		"</tr>";
-				rowHTML += 	"</table>";
+				rowHTML += 				"</td>";
+				rowHTML += 				"<td class='precip-box'>";
+				rowHTML += 					"<i class='icon diw-" + weatherUtils.getPrecipWeatherIcon(currentDay.precipType, currentDay.precipProbability);
+				rowHTML += 						"' style='font-size:22pt;position:relative;top:7px;left:-2px;' title='" + currentDay.precipType + "'></i>";
+				rowHTML += 				"</td>";
+				rowHTML += 			"</tr>";
+				rowHTML +=  		"<tr class='precip-box'>";
+				rowHTML += 				"<td style='position:relative;top:-4px;'>";
+				rowHTML += 				precipProbability + "%";
+				rowHTML += 				"</td>";
+				rowHTML += 			"</tr>";
+				rowHTML += 		"</table>";
+				rowHTML += "</td></tr></table>"
 				
 				rowHTML += "</td>";
 			}
