@@ -153,8 +153,9 @@
 	------------------
 */
 .forecast-table {
-	/*font-family: "Cambria", Helvetica, sans-serif;  */
-	font-family: "Oswald", sans-serif;	
+	font-family: "Cambria", Helvetica, sans-serif;  
+	/*font-family: "Oswald", sans-serif;	*/
+	/*font-family: "Candara", serif; */
 	border-spacing: 8px;
     border-collapse: separate;
 }
@@ -180,9 +181,10 @@
 
 .weather-icon {
 	color: #FFFFFF;
-	float:center;
-	font-size:60pt;
-	width:100%;
+	/*float:center; */
+	font-size:80pt;
+	vertical-align: center;
+	/*width:100%; */
 }
 
 .weather-uppercase {
@@ -190,17 +192,19 @@
 }
 .weather-day {	
 	color: #FFFFFF;
-	font-size: 15pt;
+	vertical-align: top;
+	font-size: 19pt;
 	font-weight: bold;
 	float:left;
-	width:60%;
+	width:50%;
 	/*font-family: "Microsoft YaHei", Helvetica, sans-serif; */
 	/*font-family: "Cambria", Helvetica, sans-serif; */
-	font-family: "Oswald", sans-serif;
+	font-family: "Cambria Math", Helvetica, sans-serif; 
+	/*font-family: "Oswald", sans-serif; */
 }
 .day-Saturday, .day-Sunday {
-	color: #FFFF00;
-	font-size: 16pt;
+	background-color: #FFFF00;
+	border-radius: 4px;
 }
 .weather-date {
 	text-align: right;
@@ -214,6 +218,7 @@
 .weather-panel {
 	border-radius: 20px;
 	padding: 18px;
+	vertical-align: top;
 }
 .weather-panel-back-cloudy {
 	background-color: #32BEBC;

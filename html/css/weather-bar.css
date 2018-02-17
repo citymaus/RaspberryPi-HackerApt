@@ -3,6 +3,27 @@
   text-align: center;
 }
 */
+.temp-range-candlestick {
+	position: relative;
+	width: 20px;
+	margin: 18px auto 0;
+	font-size: 12px;
+	border-radius: 200px;
+}
+.candlestick_high_temp {
+	position: absolute;
+	width: 100%;
+	top: -16px;
+	left: 2px;
+}
+
+.candlestick_low_temp {
+	position: absolute;
+	width: 100%;
+	bottom: -16px;
+	left: 2px;
+}
+
 .vertical-meter {
 	-webkit-transform: rotate(90deg);
 	-moz-transform: rotate(90deg);

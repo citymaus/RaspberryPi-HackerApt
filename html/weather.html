@@ -101,12 +101,12 @@
 			});
 			
 		}  
-		function displayWeatherInfo() {
+		function displayWeatherInfo(showAlerts) {
 			var weatherUtils = new WeatherUtils();
 			var pageHTML = "<table class='outerTable forecast-table'>";
 			
 			// Alerts
-			if (allWeatherAlerts.length > 0) {
+			if (allWeatherAlerts.length > 0 && showAlerts) {
 				pageHTML += "<tr><td colspan='4' width='100%'>";
 				pageHTML += "<table border=0 cellpadding=5 cellspacing=0>";
 				if (allWeatherAlerts !== undefined || allWeatherAlerts.length > 0) {
@@ -179,14 +179,25 @@
 		
 		function forecastRow(weatherUtils, allWeatherDaily, startDay, endDay) {	
 			var rowHTML = "";
+			var highestTemp = Math.round(allWeatherDaily.allDays[startDay].temperatureHigh);
+			var lowestTemp = Math.round(allWeatherDaily.allDays[startDay].temperatureLow);
+			for (var day = startDay; day < endDay; day++) {		
+				if (allWeatherDaily.allDays[day].temperatureHigh > highestTemp) {
+					highestTemp = Math.round(allWeatherDaily.allDays[day].temperatureHigh);
+				}
+				if (allWeatherDaily.allDays[day].temperatureLow < lowestTemp) {
+					lowestTemp = Math.round(allWeatherDaily.allDays[day].temperatureLow);
+				}
+			}
+			var totalPossibleCandlestickHeight = (highestTemp-lowestTemp) * 4;
 			for (var day = startDay; day < endDay; day++) {		
 				var currentDay = allWeatherDaily.allDays[day];
 				rowHTML += "<td class='forecast-next-seven weather-panel "
-					+ weatherUtils.getDayBackgroundColor(currentDay.icon) + "'>";
-				rowHTML += "<span class='weather-uppercase weather-day day-" + currentDay.getDay() + "'>" + currentDay.getDay() + "</span> ";
-				rowHTML += "<span class='weather-uppercase weather-date'>" + currentDay.getDate() + "</span><br>";
-				rowHTML += "<i class='weather-icon icon diw-" + weatherUtils.getWeatherIcon(currentDay.icon);
-				rowHTML += "' title='" + currentDay.icon + "'></i><br>";
+								+ weatherUtils.getDayBackgroundColor(currentDay.icon) + "'>";
+				rowHTML += "<div><span class='weather-uppercase weather-day day-" + currentDay.getDay() + "'>" + currentDay.getDay() + "</span> ";
+				rowHTML += "<span class='weather-uppercase weather-date'>" + currentDay.getDate() + "</span></div>";
+				//rowHTML += "<i class='weather-icon icon diw-" + weatherUtils.getWeatherIcon(currentDay.icon);
+				//rowHTML += "' title='" + currentDay.icon + "'></i><br>";
 				
 				// Vertical Bar Test
 				// https://stackoverflow.com/questions/4245209/vertical-css-html5-progress-bar
@@ -195,6 +206,7 @@
 				//https://developers.google.com/chart/interactive/docs/gallery/candlestickchart
 				// Trying to emulate:
 				// https://blog.darksky.net/forecast-embeds/
+				// Like this for precip probability
 				var tempHigh = Math.round(currentDay.temperatureHigh);
 				var tempLow = Math.round(currentDay.temperatureLow);
 				//var topTemp = 80;
@@ -209,6 +221,7 @@
 				//var topTempPosition = (100-topTemp+5);
 				var topTempPosition = (100-tempHigh-15); // this is right at tempHigh = 80
 				var bottomTempPosition = (tempLow-20); // this is right at tempHigh = 80
+				/*
 				rowHTML += "<div class='relative-wrap'>";
 				rowHTML += 		"<div class='overflow-wrap'>";
 				rowHTML += 			"<div class='ignore-overflow' style='top: " + topTempPosition + "%; left: 2px;'>" + tempHigh  + "&#0176;</div>";
@@ -218,15 +231,35 @@
 				rowHTML += 			"<div class='ignore-overflow' style='bottom: " + bottomTempPosition + "%; left: 2px;'>" + tempLow  + "&#0176;</div>";
 				rowHTML += 		"</div>";
 				rowHTML += "</div>";
+				*/
+				
+				// Candlestick test
+				var todayHigh = Math.round(currentDay.temperatureHigh);
+				var todayLow = Math.round(currentDay.temperatureLow);
+				var candlestickLength = (todayHigh-todayLow)*4;
+				var fromTop = (highestTemp-todayHigh)*4;
+				rowHTML += "<div style='height: " + totalPossibleCandlestickHeight + "px;'>";	
+				rowHTML += 		"<span style='width:50%;'>";
+				rowHTML += 		"<div class='temp-range-candlestick' ";
+				rowHTML += 		"style='height: " + candlestickLength + "px; top: " + fromTop + "px; background-color: rgb(0, 170, 255);'>";
+				rowHTML += 			"<span class='candlestick_high_temp'>" + todayHigh + "&deg;</span>";
+				rowHTML += 			"<span class='candlestick_low_temp'>" + todayLow + "&deg;</span>";
+				rowHTML += 		"</div>";
+				rowHTML += 		"</span>";
+				rowHTML += 		"<span style='width:50%;'>";
+				rowHTML += 		"<i class='weather-icon icon diw-" + weatherUtils.getWeatherIcon(currentDay.icon);
+				rowHTML += 		"' title='" + currentDay.icon + "'></i>";
+				rowHTML += 		"</span>";
+				rowHTML += "</div>";
 				
 				// Meter test
 				//rowHTML += "<meter value='30' max='100' class='vertical-meter'>Low</meter>";
 				
 				// Horizontal bar TEST
-				rowHTML += "<div class='weather-bar blue stripes'><span style='width: " + tempHigh + "%'></span></div>";
+				rowHTML += "<div class='weather-bar blue stripes'><span style='width: " + todayHigh + "%'></span></div>";
 				
-				rowHTML += "<span class='forecast-hi'>" + tempHigh + "&#0176;</span>" + " / ";
-				rowHTML += tempLow + "&#0176;<br>";
+				rowHTML += "<span class='forecast-hi'>" + todayHigh + "&#0176;</span>" + " / ";
+				rowHTML += todayLow + "&#0176;<br>";
 				rowHTML += "<span class='forecast-summary'>" + currentDay.summary + "</span><br>";
 				rowHTML += "<table border=1 cellpadding=10 cellspacing=0>";
 				rowHTML += "<tr><td>";
@@ -250,9 +283,10 @@
 		saveWeatherInfoStatic();
 		//saveWeatherInfoAJAX();
 		
+		var showAlerts = false;
 		var pageHTML = "<table class='' border=0 cellpadding=0 cellspacing=0><tr>";
 		pageHTML += "<td style='vertical-align:top;' colspan=2>";
-		pageHTML += displayWeatherInfo();
+		pageHTML += displayWeatherInfo(showAlerts);
 		pageHTML += "</td>";
 		pageHTML += "<tr><td class='lastUpdated'>"
 					+ "<div>"
