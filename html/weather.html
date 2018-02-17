@@ -141,15 +141,18 @@
 			//pageHTML += "<span class='weather-icon'><i class='icon diw-" + weatherUtils.getWeatherIcon(currentHour.icon);
 			//pageHTML += "' title='" + currentHour.icon + "'></i></span><br>";
 			
-			pageHTML += "<span class='forecast-hi'>" + Math.round(currentHour.temperature) + "&#0176;</span><br>";
+			pageHTML += "<table border=0 cellpadding=0 cellspacing=2 width='100%'><tr></tr><tr><td>";
+			pageHTML += "<span class='forecast-hi'>" + Math.round(currentHour.temperature) + "&#0176;</span></td>";
+			pageHTML += "<td style='align:right;'>";
 			pageHTML += "<span class='forecast-summary'>" + currentHour.summary + "</span>";
+			pageHTML += "</td></tr></table>";
 			
 			//pageHTML += "<span class='forecast-hi'>" + Math.round(currentHour.temperature) + "&#0176;</span>";
 			//pageHTML += "&nbsp;";
 			//pageHTML += "<span class='forecast-summary'>" + currentHour.summary + "</span><br>";
 			
 			// EVERY THREE HOURS
-			pageHTML += "<table border=0 cellpadding=10 cellspacing=0 class='forecast-next-hours'>";
+			pageHTML += "<table border=0 cellpadding=5 cellspacing=0 class='forecast-next-hours'>";
 			for (var h = 2; h < 9; h += 3) {	
 				var currentForecast = allWeatherHourly.allHours[h];
 				pageHTML += "<tr>";
@@ -320,11 +323,11 @@
 		//saveWeatherInfoAJAX();
 		
 		var showAlerts = false;
-		var pageHTML = "<table class='' border=0 cellpadding=0 cellspacing=0><tr>";
+		var pageHTML = "<table border=0 cellpadding=0 cellspacing=0><tr>";
 		pageHTML += "<td style='vertical-align:top;' colspan=2>";
 		pageHTML += displayWeatherInfo(showAlerts);
 		pageHTML += "</td>";
-		pageHTML += "<tr><td class='lastUpdated'>"
+		pageHTML += "<tr><td class='lastUpdated' style='padding-right:18px;'>"
 					+ "<div>"
 					+ "<span class='api-link'>[ <a href='https://darksky.net/poweredby/'>Powered by Dark Sky</a> ]</span>"
 					+ "<span style='font-size: 10px;'>" + dateNow + "</span>" 

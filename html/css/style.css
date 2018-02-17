@@ -7,6 +7,13 @@
 .api-link {
 	font-size: 8pt;
 	padding-right: 15px;
+	font-family: "Cambria", Helvetica, sans-serif;
+}
+.lastUpdated {
+	background-color: white;
+	text-align: right;
+	font-size: 10pt;
+	font-family: "Cambria", Helvetica, sans-serif;
 }
 .outerTable {
 	padding-left: 10px;
@@ -67,11 +74,6 @@
 .bookendTrain {
 	font-size: 12px; 
 	font-style: italic;
-	text-align: right;
-}
-
-.lastUpdated {
-	background-color: white;
 	text-align: right;
 }
 
