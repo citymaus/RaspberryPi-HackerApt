@@ -213,38 +213,40 @@
 	float:right;
 	width:50%;
 	line-height: 0px;
+	top: -12px;
 }
 
 .weather-panel {
 	border-radius: 20px;
 	padding: 18px;
 	vertical-align: top;
+	width: 200px;
 }
 .weather-panel-back-cloudy {
 	background-color: #32BEBC;
 }
-.weather-panel-back-cloudy tr:nth-child(odd) {
+.weather-panel-back-cloudy.today tr:nth-child(odd) {
 	background-color: #228281;
 }
-.weather-panel-back-cloudy tr:nth-child(even) {
+.weather-panel-back-cloudy.today tr:nth-child(even) {
 	background-color: #32BEBC;
 }
 .weather-panel-back-rain {
 	background-color: #2999B7;	
 }
-.weather-panel-back-rain tr:nth-child(odd) {
+.weather-panel-back-rain.today tr:nth-child(odd) {
 	background-color: #1D758B;
 }
-.weather-panel-back-rain tr:nth-child(even) {
+.weather-panel-back-rain.today tr:nth-child(even) {
 	background-color: #2999B7;	
 }
 .weather-panel-back-sun {	
 	background-color: #E5C851;
 }
-.weather-panel-back-sun tr:nth-child(odd) {
+.weather-panel-back-sun.today tr:nth-child(odd) {
 	background-color: #D2A91A;
 }
-.weather-panel-back-sun tr:nth-child(even) {	
+.weather-panel-back-sun.today tr:nth-child(even) {	
 	background-color: #E5C851;
 }
 /*
