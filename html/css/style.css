@@ -164,6 +164,12 @@
 	margin-bottom:10px;
 	text-transform: uppercase;
 }
+.forecast-next-hours, .forecast-sunrise-sunset {
+	width: 100%;
+	/*border-radius: 20px;*/
+	/*border: 2px solid #777; */
+	border: 2px solid #000;
+}
 .forecast-next-seven {
 	width:180px;
 }
