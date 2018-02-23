@@ -213,7 +213,8 @@
 					}
 				}
 				
-				var pageTable = "<table class='outerTable'><tr>";
+				var pageTable = "<table class='outerTable'><tr>";				
+				pageTable += "<td class='wmata-side-title'>TRAINS</td>";
 				for (var st = 0; st < stationOrder.length; st++) {				
 					var station = allStationData[stationOrder[st]];
 					var openingTime = new Date(dateNow + " " + station.openingTime);
@@ -297,7 +298,7 @@
 					pageTable += tableData;
 				}
 			    pageTable += "</tr>";
-				pageTable += apiKeyHelper.apiKeyLastUpdated("https://developer.wmata.com", "WMATA Developer API", dateNow, timeNow, 8, stationNameOrder.length);
+				pageTable += apiKeyHelper.apiKeyLastUpdated("https://developer.wmata.com", "WMATA Developer API", dateNow, timeNow, 8, stationNameOrder.length + 1);
 				pageTable += "</table>";
 				displayObj.innerHTML = pageTable;
 			})

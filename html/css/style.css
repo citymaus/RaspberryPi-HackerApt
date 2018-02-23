@@ -24,6 +24,35 @@
 	border-spacing: 0px;
 	vertical-align: top;
 }
+.wmata-side-title {
+	font-family: "Cambria", Helvetica, sans-serif;  
+	text-transform: uppercase;
+	font-size: 28pt;
+    /* text-align: right; */
+	font-weight: bold;
+	padding: 0px;
+	margin: 0px;
+		
+    position: relative;
+	top: -100px;
+	right: -40px;
+	/*display: inline; */
+    /*right: 0; */
+    /*left: 367px; 
+    height: 260px;
+    top: -4px;
+	*/
+	/* Safari */
+	-webkit-transform: rotate(-90deg);	
+	/* Firefox */
+	-moz-transform: rotate(-90deg);	
+	/* IE */
+	-ms-transform: rotate(-90deg);	
+	/* Opera */
+	-o-transform: rotate(-90deg);	
+	/* Internet Explorer */
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
 
 /*
 	------------------

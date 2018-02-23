@@ -72,12 +72,19 @@
 				allWeatherAlerts.push(new WeatherAlert(weatherAlerts[i]));
 			}
 		}    
-		function saveWeatherInfoAJAX(stopID) {
+		function saveWeatherInfoAJAX(useProxy = false) {
+			// To allow CORS, use proxy here
+			var proxy = "https://cors-anywhere.herokuapp.com/";
 			var params = {
 				"exclude": "minutely",
 			};
+  			var apiLink = "https://api.darksky.net/forecast/" + apiKeyHelper.apiKey + "/" + coordinates + "?" + $.param(params);
+			var apiURL = apiLink;
+			if ((typeof useProxy === 'boolean' && useProxy === true)) {
+				apiURL = proxy + apiLink;
+			}
 			$.ajax({
-				url: "https://api.darksky.net/forecast/" + apiKeyHelper.apiKey + "/" + coordinates + "?" + $.param(params),
+				url: apiURL,
 				type: "GET",
 				async: false,
 			})
@@ -320,7 +327,7 @@
 		loadJSON(setWeatherDataCallback);
 		
 		//saveWeatherInfoStatic();
-		saveWeatherInfoAJAX();
+		saveWeatherInfoAJAX(true);
 		
 		var showAlerts = false;
 		var pageHTML = "<table border=0 cellpadding=0 cellspacing=0><tr>";

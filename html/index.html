@@ -1,40 +1,92 @@
 <html>
-            <head>
-                <META HTTP-EQUIV="refresh" CONTENT="300">
-                <style>
-                body {
-                    background: url(Background.png);
-                    background-size: 100% 100%;
-                    background-repeat: no-repeat;
-                }
-                </style>
-            </head>
+	<head>
+		<META HTTP-EQUIV="refresh" CONTENT="300">
+		<style>
+		body {
+			background: url(Background.png);
+			background-size: 100% 100%;
+			background-repeat: no-repeat;
+		}
+		body, html {
+			width: 100%; 
+			height: 100%; 
+			margin: 0; 
+			padding: 0;
+		}
+		.row-container {
+			display: table; 
+			empty-cells: show; 
+			border-collapse: collapse; 
+			width: 100%; 
+			height: 100%;
+		}
+		.first-row {
+			display: table-row; 
+			overflow: auto; 
+			/*background-color: lime;*/
+		}
+		.first-row iframe {
+			height: 100%; 
+			width: 50%; 
+			border: none; 
+			margin: 0; 
+			padding: 0; 
+		}
+		.second-row {
+			display: table-row; 
+			/*height: 100%;*/
+			/*background-color: red; */
+			/*overflow: hidden;*/
+		}
+		.second-row iframe {
+			width: 100%; 
+			height: 100%; 
+			border: none; 
+			margin: 0; 
+			padding: 0; 
+			display: block;
+		}
+		.third-row {
+			display: table-row; 
+			/*height: 100%;*/
+			/*background-color: yellow; */
+			/*overflow: hidden;*/
+		}
+		.third-row iframe {
+			width: 100%; 
+			height: 100%; 
+			border: none; 
+			margin: 0; 
+			padding: 0; 
+			display: block;
+		}
+		</style>
+	</head>
 
-            <body>
-                <!-- top section -->
-				<!--<iframe src="news.html" frameborder="0" height ="725" width="40%" scrolling="no"></iframe> -->
-				<div style="display:flex;align-items:center;justify-content: center;">
-					<iframe src="wmata_buses.html" frameborder="0" height="450" width="100%" scrolling="no"></iframe>
-				</div>
-				<div style="display:flex;align-items:center;justify-content: center;">
-					<iframe src="wmata_trains.html" frameborder="0" height="700" width="100%" scrolling="no"></iframe>
-				</div>
-				
-                <!-- bottom section -->
-				<!--<div style="text-align:center;width:100%">-->
-				<div style="display:flex;align-items:center;justify-content:center;">
-					<iframe src="weather.html" frameborder="0" height="820" width="1000" align="center"></iframe>
-				</div>
-				
-                <!-- top section -->
-                <!--<iframe src="Calendar.html" style="border-width:0" height="725" width="42%" frameborder="0" scrolling="no"></iframe>
-                <iframe src="News.html" frameborder="0" height ="725" width="40%" scrolling="no"></iframe>-->
+	<body>
+		<!-- top section -->
+		<!--<iframe src="news.html" frameborder="0" height ="725" width="40%" scrolling="no"></iframe> -->
+		<div class="row-container">
+			<div class="first-row">
+				<iframe src="wmata_buses.html" frameborder="0" scrolling="no" style="float:left;"></iframe>
+				<iframe src="wmata_trains.html" frameborder="0" scrolling="no" style="float:right;"></iframe>
+			</div>
+		
+		<!-- bottom section -->
+			<div class="second-row">
+				<iframe src="weather.html" frameborder="0" scrolling="no" class="weather"></iframe>
+			</div>
+		</div>
+		
+		<!-- top section -->
+		<!--<iframe src="Calendar.html" style="border-width:0" height="725" width="42%" frameborder="0" scrolling="no"></iframe>
+		<iframe src="News.html" frameborder="0" height ="725" width="40%" scrolling="no"></iframe>-->
 
-                <!-- bottom section -->
-               <!-- <br>
-                <iframe src="Stocks.html" frameborder="0" height ="325" width="15%" scrolling="no"></iframe>
-                <iframe src="Tasks.html" frameborder="0" height ="325" width="15%" scrolling="no"></iframe>
-                <iframe src="http://forecast.io/embed/#lat=x.x&lon=x.x&name=" frameborder="0" height="325" width="52%"></iframe> -->
-                <!--- <iframe src="Map.html" frameborder="0" height ="321" width="52%" scrolling="no"></iframe> --->
-            </body>
-        </html
+		<!-- bottom section -->
+	   <!-- <br>
+		<iframe src="Stocks.html" frameborder="0" height ="325" width="15%" scrolling="no"></iframe>
+		<iframe src="Tasks.html" frameborder="0" height ="325" width="15%" scrolling="no"></iframe>
+		<iframe src="http://forecast.io/embed/#lat=x.x&lon=x.x&name=" frameborder="0" height="325" width="52%"></iframe> -->
+		<!--- <iframe src="Map.html" frameborder="0" height ="321" width="52%" scrolling="no"></iframe> --->
+	</body>
+</html>

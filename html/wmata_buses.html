@@ -131,7 +131,7 @@
 			return currRows;
 		}
 		
-		function saveStopInfo(stopID){
+		function saveStopInfo(stopID, useProxy = false){
 			var currentStopData = staticStopData.Stops.filter(function( obj ) {
 			  return obj.StopID == stopID;
 			})[0];			
@@ -141,12 +141,19 @@
 			}
 			var busStop = allStopData[stopID];
 			
+			// To allow CORS, use proxy here
+			var proxy = "https://cors-anywhere.herokuapp.com/";
 			var params = {
 				"api_key": apiKeyHelper.apiKey,
 				"StopID": stopID,
 			};
+			var apiLink = "https://api.wmata.com/NextBusService.svc/json/jPredictions?" + $.param(params);
+			var apiURL = apiLink;
+			if ((typeof useProxy === 'boolean' && useProxy === true)) {
+				apiURL = proxy + apiLink;
+			}
 			$.ajax({
-				url: "https://api.wmata.com/NextBusService.svc/json/jPredictions?" + $.param(params),
+				url: proxy + apiLink,
 				type: "GET",
 				async: false,
 			})
@@ -205,16 +212,17 @@
 			saveStopInfo(stopCodeOrder[s]);
 		}
 		var daysOfStatusFeed = 7;
-		var pageHTML = displayStatusFeed(daysOfStatusFeed);
+		var pageHTML = displayStatusFeed(daysOfStatusFeed, false);
 		pageHTML += "<table class=''>";
 		pageHTML += "<tr>";
+		pageHTML += "<td class='wmata-side-title'>BUSES</td>";
 		for (var s = 0; s < stopCodeOrder.length; s++) {
 			pageHTML += "<td style='vertical-align:top;'>";
 			pageHTML += displayStopInfo(stopCodeOrder[s]);
 			pageHTML += "</td>";
 		}
 		pageHTML += "</tr>";
-		pageHTML += apiKeyHelper.apiKeyLastUpdated("https://developer.wmata.com", "WMATA Developer API", dateNow, timeNow, 8, stopCodeOrder.length);
+		pageHTML += apiKeyHelper.apiKeyLastUpdated("https://developer.wmata.com", "WMATA Developer API", dateNow, timeNow, 8, stopCodeOrder.length + 1);
 		pageHTML += "</table>";
 		displayObj.innerHTML = pageHTML;
     });
