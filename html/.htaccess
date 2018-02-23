@@ -1,0 +1,5 @@
+# Enable Apache CORS (cross-origin) access
+# https://enable-cors.org/server_apache.html
+# ------------------------------------------
+
+Header set Access-Control-Allow-Origin "*"
