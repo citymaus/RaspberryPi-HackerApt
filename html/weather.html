@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>DC Weather Data</title>
+	<!--<META HTTP-EQUIV="refresh" CONTENT="180">-->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="api/darksky/weather.js"></script>
     <script src="js/api_key.js"></script>
@@ -15,14 +16,13 @@
 <p id="display"></p>
 <script type="text/javascript">
     $(function() {
-		// Set DARKSKY API key in: 	/html/api/api_keys.txt
+		// Set DARKSKY API key in: 	/html/settings/api_keys.txt
 		//	DARK SKY API: 1000 requests per day, 41 per hour.
 		// 		Every 15 minutes: 96 requests/day
 		// 		Every 5 minutes: 288 requests/day
 		
 		var coordinates = "38.9281,-77.0342";
 		var darkSkyUrl_forecast = "https://api.darksky.net/forecast/";
-		//var userStationFile = "wmata/_display_train_stations.txt";
 		var refreshRate = 0;	// TODO
 		
 		var staticWeatherData = {};		
@@ -31,7 +31,6 @@
 		var allWeatherDaily = {};
 		
 		var displayObj = document.getElementById("display");
-		
 		
 		var dateObj = new Date();
 		var dateNow = dateObj.toLocaleDateString();
@@ -72,23 +71,19 @@
 				allWeatherAlerts.push(new WeatherAlert(weatherAlerts[i]));
 			}
 		}    
-		function saveWeatherInfoAJAX(useProxy = false) {
-			// To allow CORS, use proxy here
-			var proxy = "https://cors-anywhere.herokuapp.com/";
+		function saveWeatherInfoAJAX() {
 			var params = {
 				"exclude": "minutely",
 			};
   			var apiLink = "https://api.darksky.net/forecast/" + apiKeyHelper.apiKey + "/" + coordinates + "?" + $.param(params);
-			var apiURL = apiLink;
-			if ((typeof useProxy === 'boolean' && useProxy === true)) {
-				apiURL = proxy + apiLink;
-			}
 			$.ajax({
-				url: apiURL,
+				url: apiKeyHelper.getAPIUrl(apiLink),
 				type: "GET",
 				async: false,
 			})
-			.done(function(data) {
+			.done(function(data, textStatus, request) {
+				var responseHeaders = request.getAllResponseHeaders();
+				var numCalls = request.getResponseHeader('X-Forecast-API-Calls');
 				var weatherData = data;
 				var weatherHourly = weatherData.hourly;
 				var weatherDaily = weatherData.daily;
@@ -327,7 +322,7 @@
 		loadJSON(setWeatherDataCallback);
 		
 		//saveWeatherInfoStatic();
-		saveWeatherInfoAJAX(true);
+		saveWeatherInfoAJAX();
 		
 		var showAlerts = false;
 		var pageHTML = "<table border=0 cellpadding=0 cellspacing=0><tr>";

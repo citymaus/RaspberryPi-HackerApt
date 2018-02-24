@@ -1,6 +1,5 @@
 <html>
 	<head>
-		<META HTTP-EQUIV="refresh" CONTENT="300">
 		<style>
 		body {
 			background: url(Background.png);
@@ -20,25 +19,25 @@
 			width: 100%; 
 			height: 100%;
 		}
-		.first-row {
+		.wmata-row {
 			display: table-row; 
 			overflow: auto; 
 			/*background-color: lime;*/
 		}
-		.first-row iframe {
+		.wmata-row iframe {
 			height: 100%; 
 			width: 50%; 
 			border: none; 
 			margin: 0; 
 			padding: 0; 
 		}
-		.second-row {
+		.weather-row {
 			display: table-row; 
 			/*height: 100%;*/
 			/*background-color: red; */
 			/*overflow: hidden;*/
 		}
-		.second-row iframe {
+		.weather-row iframe {
 			width: 100%; 
 			height: 100%; 
 			border: none; 
@@ -67,15 +66,14 @@
 		<!-- top section -->
 		<!--<iframe src="news.html" frameborder="0" height ="725" width="40%" scrolling="no"></iframe> -->
 		<div class="row-container">
-			<div class="first-row">
-				<iframe src="wmata_buses.html" frameborder="0" scrolling="no" style="float:left;"></iframe>
-				<iframe src="wmata_trains.html" frameborder="0" scrolling="no" style="float:right;"></iframe>
-			</div>
-		
-		<!-- bottom section -->
-			<div class="second-row">
+			<div class="weather-row">
 				<iframe src="weather.html" frameborder="0" scrolling="no" class="weather"></iframe>
 			</div>
+		<!-- bottom section -->
+			<div class="wmata-row">
+				<iframe src="wmata_buses.html" frameborder="0" scrolling="no" style="float:left;"></iframe>
+				<iframe src="wmata_trains.html" frameborder="0" scrolling="no" style="float:right;"></iframe>
+			</div>		
 		</div>
 		
 		<!-- top section -->

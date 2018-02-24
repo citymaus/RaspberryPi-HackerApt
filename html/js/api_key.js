@@ -1,7 +1,12 @@
 class ApiKeyHelper {
 	constructor(apiKeyName) {
 		this.keyName = apiKeyName;
-		this.apiKey = "{set keys in /html/api/api_keys.txt}";
+		this.apiKey = "{set keys in /html/settings/api_keys.txt}";
+		// To allow CORS on stubborn Raspbian Chromium, use proxy to make API calls
+		this.useProxy = false;
+		//this.proxyUrl = "https://cors-anywhere.herokuapp.com/";
+		this.proxyUrl = "http://localhost:8080/";
+		this.apiUrl = "";
 		this.error = "";
 		
 		this.loadAPIKey(this.setAPIKey, this);
@@ -11,7 +16,7 @@ class ApiKeyHelper {
 		var xobj = new XMLHttpRequest();
 		xobj.overrideMimeType("application/json");
 		// Synchronous ajax call (false)
-		xobj.open('GET', 'api/api_keys.txt', false);
+		xobj.open('GET', 'settings/api_keys.txt', false);
 		xobj.onreadystatechange = function () {
 			  if (xobj.readyState == 4 && xobj.status == "200") {
 				callback(xobj.responseText, ptr);
@@ -28,8 +33,14 @@ class ApiKeyHelper {
 				var currentKey = lines[line].trim();
 				if (currentKey.indexOf(ptr.keyName) > -1) {
 					ptr.apiKey = currentKey.replace(ptr.keyName, "").replace(" KEY:", "").replace(":", "").trim();
-					return;
-				}			
+				} else {			
+					if (currentKey.indexOf("USEPROXY") > -1) {
+						var proxy = currentKey.replace("USEPROXY", "").replace(":", "").trim().toLowerCase();	
+						if (proxy.includes("yes") || proxy.includes("true")) {
+							ptr.useProxy = true;	
+						}					
+					}
+				}
 			}
 		}
 	}
@@ -43,5 +54,13 @@ class ApiKeyHelper {
 					+ " &nbsp;" + timeNow;
 		lastHTML += "</td></tr>";
 		return lastHTML;
+	}
+	getAPIUrl(apiUrl) {
+		var ajaxUrl = apiUrl;
+		if ((typeof this.useProxy === 'boolean' && this.useProxy === true)) {
+			var stripHttp = apiUrl.replace("http://", "").replace("https://", "");
+			ajaxUrl = this.proxyUrl + stripHttp;
+		}
+		return ajaxUrl;
 	}
 }

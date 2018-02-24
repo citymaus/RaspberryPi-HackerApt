@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>DC Metro Bus Stop Data</title>
+	<!--<META HTTP-EQUIV="refresh" CONTENT="60">-->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="js/wmata_bus.js"></script>
     <script src="js/api_key.js"></script>
@@ -13,9 +14,9 @@
 <p id="display"></p>
 <script type="text/javascript">
     $(function() {
-		// Set WMATA API key in: 	/html/api/api_keys.txt
+		// Set WMATA API key in: 	/html/settings/api_keys.txt
 		// Set requested bus stops in:
-		var userStopFile = "api/wmata/_display_bus_stops.txt";
+		var userStopFile = "settings/wmata_display_bus_stops.txt";
 		var refreshRate = 0;	// TODO
 		// TODO incidents
 	
@@ -131,7 +132,7 @@
 			return currRows;
 		}
 		
-		function saveStopInfo(stopID, useProxy = false){
+		function saveStopInfo(stopID){
 			var currentStopData = staticStopData.Stops.filter(function( obj ) {
 			  return obj.StopID == stopID;
 			})[0];			
@@ -141,19 +142,13 @@
 			}
 			var busStop = allStopData[stopID];
 			
-			// To allow CORS, use proxy here
-			var proxy = "https://cors-anywhere.herokuapp.com/";
 			var params = {
 				"api_key": apiKeyHelper.apiKey,
 				"StopID": stopID,
 			};
 			var apiLink = "https://api.wmata.com/NextBusService.svc/json/jPredictions?" + $.param(params);
-			var apiURL = apiLink;
-			if ((typeof useProxy === 'boolean' && useProxy === true)) {
-				apiURL = proxy + apiLink;
-			}
 			$.ajax({
-				url: proxy + apiLink,
+				url: apiKeyHelper.getAPIUrl(apiLink),
 				type: "GET",
 				async: false,
 			})
@@ -212,7 +207,7 @@
 			saveStopInfo(stopCodeOrder[s]);
 		}
 		var daysOfStatusFeed = 7;
-		var pageHTML = displayStatusFeed(daysOfStatusFeed, false);
+		var pageHTML = displayBusStatusFeed(daysOfStatusFeed);
 		pageHTML += "<table class=''>";
 		pageHTML += "<tr>";
 		pageHTML += "<td class='wmata-vehicle-title'><img src='img/buses.png'></td>";

@@ -13,14 +13,18 @@ class WmataStatus {
 }
 
 var wmataStatusData = [];	
-function loadWmataStatusFeed(displayObj, useProxy = false) {
-	// To allow CORS, use proxy here
-	var proxy = "https://cors-anywhere.herokuapp.com/";
+function loadWmataStatusFeed(displayObj) {
+	
 	var feed = "https://feeds.feedburner.com/WMATA_API_Updates?format=xml";	
 	var apiUrl = feed;
-	if ((typeof useProxy === 'boolean' && useProxy === true)) {
-		apiUrl = proxy + feed;
-	}
+	$.getScript('api_key.js', function ()
+	{
+		var apiKeyHelper = new ApiKeyHelper("WMATA");
+		apiUrl = apiKeyHelper.getAPIUrl(feed);		
+	});
+	
+	// To allow CORS, use proxy here
+	//var proxy = "https://cors-anywhere.herokuapp.com/";
 	$.ajax({
 		url: apiUrl, 
 		accepts:{
@@ -49,7 +53,7 @@ function addStatusData(data) {
 		));
 	});
 }		
-function displayStatusFeed(numDaysToRetrieve) {
+function displayBusStatusFeed(numDaysToRetrieve) {
 	var today = new Date();
 	var oneDay = 24*60*60*1000;
 	var currentUpdates = [];
