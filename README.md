@@ -1,5 +1,5 @@
 # HackerApt
-**HackerApt** is an Apache website designed to display on a RaspberryPi3-cobbled hardware setup.
+**HackerApt** is an Apache web application designed to display on a RaspberryPi3-cobbled hardware setup.
  
 HackerApt contains two projects.
 ## /html
@@ -20,7 +20,13 @@ Output files generated:
 ```
 *TODO:* set up a cron job to auto-run static data every month or so.
 
-
+## Hardware (Optional):
+- Monitor with HDMI input (preferably an IPS panel!)
+- Short HDMI cable (1 foot is ideal) ([Amazon](https://www.amazon.com/dp/B007PESCCC))
+- Raspberry Pi computer (plus wifi dongle, if using the Pi version 1 or 2) ([Amazon, with Micro USB charger](https://www.amazon.com/dp/B01C6FFNY4)
+- 8GB+ SD/Micro SD card ([Amazon](https://www.amazon.com/dp/B00M55C0VU))
+- Power Extension Cord ([Amazon](https://www.amazon.com/dp/B006ZON7Y6))
+- Photo Frame Wire ([Amazon](https://www.amazon.com/dp/B008REERTG))
 
 ## API Developer Keys Required:
 This website uses several third-party APIs (personal developer key required) for current data, through synchronous AJAX requests.
@@ -241,6 +247,7 @@ exit 0
 ```
 
 ### CRON tab Editor to run `rpi-hdmi.sh` on a set schedule
+`sudo crontab -e`
 ```
 # RULES:
 # ------
@@ -258,7 +265,7 @@ exit 0
 
 ## License
 
-Copyright (C) 2018 Steph Stubler <https://www.linkedin.com/in/stephstubler/>
+**Copyright (C) 2018 [Steph Stubler](https://www.linkedin.com/in/stephstubler)**
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
