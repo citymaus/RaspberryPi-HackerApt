@@ -23,8 +23,7 @@ Output files generated:
 
 ## API Keys Required:
 This website uses several third-party APIs (personal key required) for current data, through synchronous AJAX requests.
-### WMATA
-<https://developer.wmata.com/>
+### WMATA [<https://developer.wmata.com/>]
 - Default Tier request rate limited to 10 calls/second and 50,000 calls per day.
 #### Provides:
 - Bus Route and Stop Methods
@@ -35,8 +34,7 @@ This website uses several third-party APIs (personal key required) for current d
 - Real-Time Rail Predictions
 - Train Positions
 
-### DARKSKY
-<https://darksky.net/dev/docs>
+### DARKSKY [<https://darksky.net/dev/docs>]
 - First 1000 requests/day are free
 - Every API request beyond that costs $0.0001
 #### Provides:
@@ -46,10 +44,10 @@ This website uses several third-party APIs (personal key required) for current d
 - Hour-by-hour and day-by-day observations going back decades
 
 ## Media Credits: 
-### DRIPICONS-WEATHER <http://demo.amitjakhu.com/dripicons-weather/>
+### DRIPICONS-WEATHER [<http://demo.amitjakhu.com/dripicons-weather/>]
 - *Included in `/html/svg`*
 
-### FONTAWESOME <https://fontawesome.com/>
+### FONTAWESOME [<https://fontawesome.com/>]
 - *Included in `/html/webfonts`*
 
 # Raspbian OS Setup
@@ -79,10 +77,11 @@ Then,
 sudo chmod 777 install_nodejs.sh
 sudo install_nodejs.sh
 ```
-### CORS-ANYWHERE NodeJS Proxy <https://github.com/Rob--W/cors-anywhere>
+### CORS-ANYWHERE NodeJS Proxy [<https://github.com/Rob--W/cors-anywhere>]
 
 HackerApt uses the CORS-ANYWHERE NodeJS proxy server to allow cross-origin API requests on Raspbian Chromium.
--Install NodeJS/NPM packages above first, then install CORS-ANYWHERE:
+
+- Install NodeJS/NPM packages above first, then install CORS-ANYWHERE:
 ```
 cd /home/pi
 npm install cors-anywhere
@@ -111,7 +110,7 @@ WMATA KEY: {your WMATA developer key}
 DARKSKY KEY: {your DARKSKY developer key}
 USEPROXY: yes
 ```
-Set **USEPROXY** to yes if you see "Access-Control-Allow-Origin" errors in your application. This will enable CORS-ANYWHERE proxying to allow cross-origin client-side requests. Ensure that CORS-ANYWHERE server is running.
+Set **USEPROXY** to yes if you see "Access-Control-Allow-Origin" errors in your application. This will enable CORS-ANYWHERE proxying to allow cross-origin client-side requests. Ensure that CORS-ANYWHERE server is running on your RaspberryPi.
 
 
 ### `/html/settings/wmata_display_bus_stops.txt`
@@ -162,7 +161,7 @@ overscan_bottom=-32
 
 ## Desktop Shortcuts
 ### Fullscreen Webpage
-`sudo nano (/home/pi/Desktop/hackerapt_fullscreen.desktop)`
+`sudo nano /home/pi/Desktop/hackerapt_fullscreen.desktop`
 ```
 [Desktop Entry]
 Type=Application
@@ -173,7 +172,7 @@ Exec=chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-dat
 ```
 
 ### Maximized, but not Fullscreen Webpage
-`sudo nano (/home/pi/Desktop/hackerapt.desktop)`
+`sudo nano /home/pi/Desktop/hackerapt.desktop`
 ```
 [Desktop Entry]
 Type=Application
@@ -188,8 +187,8 @@ Exec=chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-dat
 - *TODO:* Add bash script that boots fullscreen or maximized HackerApt.
 
 ### Turn HDMI on/off during unused hours to save power.
-#### `/home/pi/rpi-hdmi.sh`
 Credit: <https://gist.github.com/AGWA/9874925>
+#### `/home/pi/rpi-hdmi.sh`
 ```
 #!/bin/sh
 
@@ -237,9 +236,10 @@ esac
 exit 0
 ```
 
-### CRON tab Editor to run rpi-hdmi.sh on a set schedule
+### CRON tab Editor to run `rpi-hdmi.sh` on a set schedule
 ```
 # RULES:
+# ------
 # Turn HDMI On (6:00am) M-F
 0 6 * * 1-5 /home/pi/rpi-hdmi.sh on 
 # Turn HDMI Off (9:00am) M-F
