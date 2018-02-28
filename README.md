@@ -8,23 +8,25 @@ HackerApt contains two projects.
 
 ## /src
 #### A Visual Studio 2017 console project to generate static data **(C#)**
-- Run Program.cs to create local JSON data of less-changing objects, such as WMATA station and bus-stop info, to reduce daily API calls.
-Output files generated: /html/api/wmata
+Run Program.cs to create local JSON data of less-changing objects, such as WMATA station and bus-stop info, to reduce daily API calls.
+
+Output files generated:
 ```
-- static_stationinfo.json
-- static_busstopinfo.json
-- static_busrouteinfo.json
+/html/api/wmata
+static_stationinfo.json
+static_busstopinfo.json
+static_busrouteinfo.json
 ```
 *TODO: set up a cron job to auto-run static data every month or so.*
 
 
-This website uses several third-party APIs (personal key required) for current data:
+This website uses several third-party APIs (personal key required) for current data.
 
 ## API Keys Required:
 ### WMATA
 <https://developer.wmata.com/>
 - Default Tier request rate limited to 10 calls/second and 50,000 calls per day.
-*Provides:*
+####Provides:
 - Bus Route and Stop Methods
 - Incidents
 - Misc Methods
@@ -37,7 +39,7 @@ This website uses several third-party APIs (personal key required) for current d
 <https://darksky.net/dev/docs>
 - First 1000 requests/day are free
 - Every API request beyond that costs $0.0001
-Provides:
+####Provides:
 - Current weather conditions
 - Minute-by-minute forecasts out to one hour
 - Hour-by-hour and day-by-day forecasts out to seven days
@@ -46,11 +48,11 @@ Provides:
 ## Media Credits: 
 ### DRIPICONS-WEATHER
 <http://demo.amitjakhu.com/dripicons-weather/>
-*(Included in **/html/svg**)*
+- *(Included in **/html/svg**)*
 
 ### FONTAWESOME
 <https://fontawesome.com/>
-*(Included in **/html/webfonts**)*
+- *(Included in **/html/webfonts**)*
 
 # Setup
 ## Raspbian packages to install:
@@ -68,16 +70,19 @@ HackerApt uses the CORS-ANYWHERE NodeJS proxy server to allow cross-origin API r
 Install NodeJS package, then clone the CORS-ANYWHERE project.
 
 ## API Settings
-Create an `api_keys.txt` file in `/html/settings`
+Create an `api_keys.txt` file in `/html/settings`.
+
 Sample key file:
 ```
 WMATA KEY: {your WMATA developer key}
 DARKSKY KEY: {your DARKSKY developer key}
 USEPROXY: yes
 ```
-(Set USEPROXY to yes if you see "Access-Control-Allow-Origin" errors. This will enable CORS-ANYWHERE, which needs to run at startup).
-### `wmata_display_bus_stops.txt`
-Lines preceded with # are comments and ignored
+Set USEPROXY to yes if you see "Access-Control-Allow-Origin" errors. This will enable CORS-ANYWHERE, which needs to run at startup.
+
+
+### `/html/settings/wmata_display_bus_stops.txt`
+*Lines preceded with `#` are considered comments and ignored.*
 ```
 #
 # Add bus stops by number here, one per line, in order of desired display.
@@ -91,8 +96,8 @@ Lines preceded with # are comments and ignored
 # -- 14th St. NW + N St. NW (Northbound)
 #1001362
 ```
-### `wmata_display_train_stations.txt`
-Lines preceded with # are comments and ignored
+### `/html/settings/wmata_display_train_stations.txt`
+*Lines preceded with `#` are considered comments and ignored.*
 ```
 #
 # Add train stations here, one per line, in order of desired display.
@@ -124,7 +129,7 @@ overscan_bottom=-32
 
 ## Desktop Shortcuts
 ### Fullscreen Webpage
-*(/home/pi/Desktop/hackerapt_fullscreen.desktop)*
+`sudo nano (/home/pi/Desktop/hackerapt_fullscreen.desktop)`
 ```
 [Desktop Entry]
 Type=Application
@@ -135,7 +140,7 @@ Exec=chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-dat
 ```
 
 ### Maximized, but not Fullscreen Webpage
-*(/home/pi/Desktop/hackerapt.desktop)*:
+`sudo nano (/home/pi/Desktop/hackerapt.desktop)`
 ```
 [Desktop Entry]
 Type=Application
@@ -146,11 +151,11 @@ Exec=chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-dat
 ```
 
 ## Raspbian System Startup
-TODO: Add bash script to auto-start CORS-ANYWHERE server on boot (server.js).
-TODO: Add bash script that boots fullscreen or maximized HackerApt.
+- *TODO:* Add bash script to auto-start CORS-ANYWHERE server on boot (server.js).
+- *TODO:* Add bash script that boots fullscreen or maximized HackerApt.
 
 Turn HDMI on/off during unused hours to save power.
-### /home/pi/rpi-hdmi.sh
+### `/home/pi/rpi-hdmi.sh`
 Credit: <https://gist.github.com/AGWA/9874925>
 ```
 #!/bin/sh
