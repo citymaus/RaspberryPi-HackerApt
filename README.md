@@ -2,15 +2,20 @@
  
 HackerApt contains two projects.
 
-1. A dynamic web application in **(/html folder)**
-- HackerApt displays (best with Raspbian Chromium) current weather and WMATA train/bus info. 
-- In the future might include news.
-2. A Visual Studio 2017 C# console project to generate static data **(/src folder)**
+### /html
+#### A client-side web application (html, css, js)
+- **HackerApt** displays (best with Raspbian Chromium) current weather and WMATA train/bus info. 
+- Future updates might include news.
+
+### /src
+#### A Visual Studio 2017 C# console project to generate static data
 - Run Program.cs to create local JSON data of less-changing objects, such as WMATA station and bus-stop info, to reduce daily API calls.
 Output files generated: /html/api/wmata
+```
 - static_stationinfo.json
 - static_busstopinfo.json
 - static_busrouteinfo.json
+```
 TODO: set up a cron job to auto-run every month or so.
 
 This website uses several third-party APIs (personal key required) for current data:
@@ -47,19 +52,20 @@ Provides:
 * https://fontawesome.com/
 (Included in /html/webfonts)
 
-Raspbian packages to install:
-Chromium browser:
-rpi-chromium-mods
-Apache web server:
-apache2
-NodeJS:
-nodejs
-Node Version Manager (NPM):
-npm
+## Raspbian packages to install:
+### Chromium browser:
+`rpi-chromium-mods`
+### Apache web server:
+`apache2`
+### NodeJS:
+`nodejs`
+### Node Version Manager (NPM):
+`npm`
 
+## CORS-ANYWHERE NodeJS Proxy
+* https://github.com/Rob--W/cors-anywhere
 HackerApt also uses the CORS-ANYWHERE NodeJS proxy server to allow cross-origin API requests on Raspbian Chromium.
-Install NodeJS package, then clone the CORS-ANYWHERE project:
-https://github.com/Rob--W/cors-anywhere
+Install NodeJS package, then clone the CORS-ANYWHERE project
 
 Create an "api_keys.txt" file in /html/settings
 Sample key file:
@@ -77,15 +83,17 @@ display_rotate=1
 # Use 24 bit colors
 framebuffer_depth=24
 
-#You’ll also want to check and make sure that disable_overscan=1 is commented out.
-# If black, uncolor pixels border your picture, modify these values until the picture fits your monitor perfectly.
+# You'll want to check and make sure that disable_overscan=1 is commented out.
+# If black pixels border your desktop image, modify these values until the picture fits your monitor perfectly.
 overscan_left=-32
 overscan_right=-32
 overscan_top=-32
 overscan_bottom=-32
 ```
 
-Create a Desktop Icon (/home/pi/Desktop/hackerapt_fullscreen.desktop) to display a fullscreen webpage:
+## Desktop Shortcuts
+### Fullscreen Webpage
+*(/home/pi/Desktop/hackerapt_fullscreen.desktop)*
 ```
 [Desktop Entry]
 Type=Application
@@ -95,7 +103,8 @@ Icon=/home/pi/Pictures/[some picture].png
 Exec=chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-data-dir --kiosk --start-maximized http://hackerapt.com/index.html
 ```
 
-Not-fullscreen version of the webpage (/home/pi/Desktop/hackerapt.desktop):
+### Maximized, but not Fullscreen Webpage
+*(/home/pi/Desktop/hackerapt.desktop)*:
 ```
 [Desktop Entry]
 Type=Application
@@ -105,13 +114,74 @@ Icon=/home/pi/Pictures/[some picture].png
 Exec=chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-data-dir http://hackerapt.com/index.html
 ```
 
-Or, have webpage boot at system startup.
-TODO: Add bash script that does this.
+## Raspbian System Startup
 TODO: Add bash script to auto-start CORS-ANYWHERE server on boot (server.js).
+TODO: Add bash script that boots fullscreen or maximized HackerApt.
 
 Turn HDMI on/off during unused hours to save power.
-TODO: Write cron job.
+### /home/pi/rpi-hdmi.sh
+Credit: https://gist.github.com/AGWA/9874925
+```
+#!/bin/sh
 
+# Enable and disable HDMI output on the Raspberry Pi
+# Goes in /home/pi/rpi-hdmi.sh
+
+is_off ()
+{
+	tvservice -s | grep "TV is off" >/dev/null
+}
+
+case $1 in
+	off)
+		tvservice -o
+	;;
+	on)
+		if is_off
+		then
+			tvservice -p
+			curr_vt=`fgconsole`
+			if [ "$curr_vt" = "1" ]
+			then
+				chvt 2
+				chvt 1
+			else
+				chvt 1
+				chvt "$curr_vt"
+			fi
+		fi
+	;;
+	status)
+		if is_off
+		then
+			echo off
+		else
+			echo on
+		fi
+	;;
+	*)
+		echo "Usage: $0 on|off|status" >&2
+		exit 2
+	;;
+esac
+
+exit 0
+```
+
+### CRON tab Editor
+```
+# RULES:
+# Turn HDMI On (6:00am) M-F
+0 6 * * 1-5 /home/pi/rpi-hdmi.sh on 
+# Turn HDMI Off (9:00am) M-F
+0 22 * * 1-5 /home/pi/rpi-hdmi.sh off
+# Turn HDMI On (5:45pm) M-F
+45 17 * * 1-5 /home/pi/rpi-hdmi.sh on 
+# Turn HDMI On (8:00am) SS
+0 8 * * 6-7 /home/pi/rpi-hdmi.sh on
+# Turn HDMI Off (11:59pm) EVERY DAY
+59 23 * * * /home/pi/rpi-hdmi.sh off 
+```
 
 ## License
 
