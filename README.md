@@ -194,6 +194,7 @@ Exec=chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-dat
 ```
 
 ## Raspbian System Startup
+### Display **HackerApt** web application on boot.
 `sudo nano /etc/rc.local`
 ```
 # Run HackerApt at Startup
@@ -204,8 +205,7 @@ chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-data-dir
 ```
 
 ### Turn HDMI on/off during unused hours to save power.
-Credit: <https://gist.github.com/AGWA/9874925>
-#### `/home/pi/rpi-hdmi.sh`
+#### `/home/pi/rpi-hdmi.sh` [Source](https://gist.github.com/AGWA/9874925)
 ```
 #!/bin/sh
 
