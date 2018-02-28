@@ -246,7 +246,7 @@ exit 0
 # Turn HDMI On (6:00am) M-F
 0 6 * * 1-5 /home/pi/rpi-hdmi.sh on 
 # Turn HDMI Off (9:00am) M-F
-0 22 * * 1-5 /home/pi/rpi-hdmi.sh off
+0 9 * * 1-5 /home/pi/rpi-hdmi.sh off
 # Turn HDMI On (5:45pm) M-F
 45 17 * * 1-5 /home/pi/rpi-hdmi.sh on 
 # Turn HDMI On (8:00am) SS
