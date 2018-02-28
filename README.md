@@ -30,7 +30,7 @@ Output files generated:
 
 ## API Developer Keys (Required):
 This website uses several free third-party APIs (personal developer key required) for current data, through synchronous AJAX requests.
-### <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/WMATA_Metro_Logo.svg/1200px-WMATA_Metro_Logo.svg.png" height="50px" style="vertical-align:middle">WMATA
+### <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/WMATA_Metro_Logo.svg/1200px-WMATA_Metro_Logo.svg.png" height="50px" style="vertical-align:middle"> WMATA
 #### <https://developer.wmata.com>
 - **Default Tier** request rate limited to 10 calls/second and 50,000 calls per day.
 #### Provides:
