@@ -47,11 +47,11 @@ This website uses several third-party APIs (personal developer key required) for
 - Hour-by-hour and day-by-day observations going back decades
 
 ## Media Credits: 
-### DRIPICONS-WEATHER ![alt text](https://image.flaticon.com/icons/svg/69/69652.svg "DRIPICONS Weather" =200x)
+### DRIPICONS-WEATHER ![DRIPICONS](https://image.flaticon.com/icons/svg/69/69652.svg =200x "DRIPICONS Weather")
 #### <http://demo.amitjakhu.com/dripicons-weather>
 - *Included in `/html/svg`*
 
-### FONTAWESOME ![alt text](https://upload.wikimedia.org/wikipedia/en/thumb/8/83/Font_Awesome_2017_Logo.svg/75px-Font_Awesome_2017_Logo.svg.png "Fontawesome" =200x)
+### FONTAWESOME ![FONTAWESOME](https://upload.wikimedia.org/wikipedia/en/thumb/8/83/Font_Awesome_2017_Logo.svg/75px-Font_Awesome_2017_Logo.svg.png =200x "Fontawesome")
 #### <https://fontawesome.com>
 - *Included in `/html/webfonts`*
 
