@@ -12,10 +12,10 @@ Run `src/WmataStaticData/Program.cs` to create local JSON data of less-changing 
 
 Output files generated:
 ```
-/html/api/wmata
-static_stationinfo.json
-static_busstopinfo.json
-static_busrouteinfo.json
+/html/api/wmata/
+    static_stationinfo.json
+    static_busstopinfo.json
+    static_busrouteinfo.json
 ```
 *TODO:* set up a cron job to auto-run static data every month or so.
 
@@ -46,13 +46,11 @@ This website uses several third-party APIs (personal key required) for current d
 - Hour-by-hour and day-by-day observations going back decades
 
 ## Media Credits: 
-### DRIPICONS-WEATHER
-<http://demo.amitjakhu.com/dripicons-weather/>
-- *(Included in **/html/svg**)*
+### DRIPICONS-WEATHER <http://demo.amitjakhu.com/dripicons-weather/>
+- *Included in `/html/svg`*
 
-### FONTAWESOME
-<https://fontawesome.com/>
-- *(Included in **/html/webfonts**)*
+### FONTAWESOME <https://fontawesome.com/>
+- *Included in `/html/webfonts`*
 
 # Raspbian OS Setup
 ## Raspbian packages to install:
@@ -61,7 +59,7 @@ This website uses several third-party APIs (personal key required) for current d
 ### Apache web server:
 `sudo apt-get install apache2 -y`
 ### NodeJS & Node Package Manager (NPM):
-`install_nodejs.sh`
+Create `/home/pi/install_nodejs.sh`:
 ```
 echo -e "\n--- Installing NodeJS & NPM ---\n"
 
@@ -75,20 +73,30 @@ nvm alias default node
 
 nvm ls
 ```
-`sudo install_nodejs.sh`
-### CORS-ANYWHERE NodeJS Proxy
-<https://github.com/Rob--W/cors-anywhere>
+Then,
+`
+```
+sudo chmod 777 install_nodejs.sh
+sudo install_nodejs.sh
+```
+### CORS-ANYWHERE NodeJS Proxy <https://github.com/Rob--W/cors-anywhere>
+
 HackerApt uses the CORS-ANYWHERE NodeJS proxy server to allow cross-origin API requests on Raspbian Chromium.
-Install NodeJS/NPM packages, then clone the CORS-ANYWHERE project.
+-Install NodeJS/NPM packages above first, then install CORS-ANYWHERE:
 ```
 cd /home/pi
 npm install cors-anywhere
 ```
 To RUN CORS-ANYWHERE once:
-`node /home/pi/node_modules/cors-anywhere/server.js`
+```
+node /home/pi/node_modules/cors-anywhere/server.js
+```
 
-To start CORS-ANYWHERE server at boot (convert to boot script), add these lines to:
-`sudo nano /etc/rc.local`
+To start CORS-ANYWHERE server at boot (convert to boot script), edit this file:
+```
+sudo nano /etc/rc.local
+```
+Add these lines:
 ```
 # Start CORS-ANYWHERE Server
 node /home/pi/node_modules/cors-anywhere/server.js < /dev/null &>> /home/pi/node_modules/cors-anywhere/log &
@@ -97,13 +105,13 @@ node /home/pi/node_modules/cors-anywhere/server.js < /dev/null &>> /home/pi/node
 ## API Settings
 Create an `api_keys.txt` file in `/html/settings`.
 
-Sample `api_keys.txt` file:
+### Sample `/html/settings/api_keys.txt` file:
 ```
 WMATA KEY: {your WMATA developer key}
 DARKSKY KEY: {your DARKSKY developer key}
 USEPROXY: yes
 ```
-Set **USEPROXY** to yes if you see "Access-Control-Allow-Origin" errors. This will enable CORS-ANYWHERE proxying. Ensure which needs to run at startup.
+Set **USEPROXY** to yes if you see "Access-Control-Allow-Origin" errors in your application. This will enable CORS-ANYWHERE proxying to allow cross-origin client-side requests. Ensure that CORS-ANYWHERE server is running.
 
 
 ### `/html/settings/wmata_display_bus_stops.txt`
@@ -179,8 +187,8 @@ Exec=chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-dat
 - *TODO:* Add bash script to auto-start CORS-ANYWHERE server on boot (server.js).
 - *TODO:* Add bash script that boots fullscreen or maximized HackerApt.
 
-Turn HDMI on/off during unused hours to save power.
-### `/home/pi/rpi-hdmi.sh`
+### Turn HDMI on/off during unused hours to save power.
+#### `/home/pi/rpi-hdmi.sh`
 Credit: <https://gist.github.com/AGWA/9874925>
 ```
 #!/bin/sh
@@ -229,7 +237,7 @@ esac
 exit 0
 ```
 
-### CRON tab Editor
+### CRON tab Editor to run rpi-hdmi.sh on a set schedule
 ```
 # RULES:
 # Turn HDMI On (6:00am) M-F
