@@ -23,14 +23,14 @@ Output files generated:
 ## Hardware (Optional):
 - Monitor with HDMI input (preferably an IPS panel!)
 - Short HDMI cable (1 foot is ideal) ([Amazon](https://www.amazon.com/dp/B007PESCCC))
-- Raspberry Pi computer (plus wifi dongle, if using the Pi version 1 or 2) ([Amazon, with Micro USB charger](https://www.amazon.com/dp/B01C6FFNY4)
+- Raspberry Pi computer (plus wifi dongle, if using the Pi version 1 or 2) ([Amazon, with Micro USB charger](https://www.amazon.com/dp/B01C6FFNY4))
 - 8GB+ SD/Micro SD card ([Amazon](https://www.amazon.com/dp/B00M55C0VU))
 - Power Extension Cord ([Amazon](https://www.amazon.com/dp/B006ZON7Y6))
 - Photo Frame Wire ([Amazon](https://www.amazon.com/dp/B008REERTG))
 
-## API Developer Keys Required:
-This website uses several third-party APIs (personal developer key required) for current data, through synchronous AJAX requests.
-### WMATA
+## API Developer Keys (Required):
+This website uses several free third-party APIs (personal developer key required) for current data, through synchronous AJAX requests.
+### WMATA <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/WMATA_Metro_Logo.svg/1200px-WMATA_Metro_Logo.svg.png" height="20px">
 #### <https://developer.wmata.com>
 - **Default Tier** request rate limited to 10 calls/second and 50,000 calls per day.
 #### Provides:
@@ -42,7 +42,7 @@ This website uses several third-party APIs (personal developer key required) for
 - [Real-Time Rail Predictions](https://developer.wmata.com/docs/services/547636a6f9182302184cda78)
 - [Train Positions](https://developer.wmata.com/docs/services/5763fa6ff91823096cac1057)
 
-### DARKSKY
+### DARKSKY <img src="https://darksky.net/images/darkskylogo.png" height="20px">
 #### <https://darksky.net/dev/docs>
 - First 1000 requests/day are free
 - Every API request beyond that costs $0.0001
@@ -53,11 +53,11 @@ This website uses several third-party APIs (personal developer key required) for
 - Hour-by-hour and day-by-day observations going back decades
 
 ## Media Credits: 
-### DRIPICONS-WEATHER <img src="https://image.flaticon.com/icons/svg/69/69652.svg" width="20px">
+### DRIPICONS-WEATHER <img src="https://image.flaticon.com/icons/svg/69/69652.svg" height="20px">
 #### <http://demo.amitjakhu.com/dripicons-weather>
 - *Included in `/html/svg`*
 
-### FONTAWESOME <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/83/Font_Awesome_2017_Logo.svg/75px-Font_Awesome_2017_Logo.svg.png" width="20px">
+### FONTAWESOME <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/83/Font_Awesome_2017_Logo.svg/75px-Font_Awesome_2017_Logo.svg.png" height="20px">
 #### <https://fontawesome.com>
 - *Included in `/html/webfonts`*
 
@@ -194,7 +194,14 @@ Exec=chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-dat
 ```
 
 ## Raspbian System Startup
-- *TODO:* Add bash script that boots fullscreen or maximized HackerApt.
+`sudo nano /etc/rc.local`
+```
+# Run HackerApt at Startup
+# FULLSCREEN:
+chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-data-dir --kiosk --start-maximized http://hackerapt.com/index.html
+# Or MAX SCREEN:
+# chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-data-dir http://hackerapt.com/index.html
+```
 
 ### Turn HDMI on/off during unused hours to save power.
 Credit: <https://gist.github.com/AGWA/9874925>
