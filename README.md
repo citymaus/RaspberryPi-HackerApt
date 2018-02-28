@@ -44,7 +44,7 @@ This website uses several third-party APIs (personal key required) for current d
 - Hour-by-hour and day-by-day observations going back decades
 
 ## Media Credits: 
-### DRIPICONS-WEATHER [<http://demo.amitjakhu.com/dripicons-weather/>]
+### DRIPICONS-WEATHER  ( <http://demo.amitjakhu.com/dripicons-weather/> )
 - *Included in `/html/svg`*
 
 ### FONTAWESOME [<https://fontawesome.com/>]
@@ -72,12 +72,11 @@ nvm alias default node
 nvm ls
 ```
 Then,
-`
 ```
 sudo chmod 777 install_nodejs.sh
 sudo install_nodejs.sh
 ```
-### CORS-ANYWHERE NodeJS Proxy [<https://github.com/Rob--W/cors-anywhere>]
+### CORS-ANYWHERE NodeJS Proxy - <https://github.com/Rob--W/cors-anywhere> 
 
 HackerApt uses the CORS-ANYWHERE NodeJS proxy server to allow cross-origin API requests on Raspbian Chromium.
 
@@ -91,7 +90,7 @@ To RUN CORS-ANYWHERE once:
 node /home/pi/node_modules/cors-anywhere/server.js
 ```
 
-To start CORS-ANYWHERE server at boot (convert to boot script), edit this file:
+To start CORS-ANYWHERE server at boot, edit this file:
 ```
 sudo nano /etc/rc.local
 ```
@@ -183,7 +182,6 @@ Exec=chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-dat
 ```
 
 ## Raspbian System Startup
-- *TODO:* Add bash script to auto-start CORS-ANYWHERE server on boot (server.js).
 - *TODO:* Add bash script that boots fullscreen or maximized HackerApt.
 
 ### Turn HDMI on/off during unused hours to save power.
