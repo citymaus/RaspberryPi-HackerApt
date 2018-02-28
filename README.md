@@ -3,12 +3,12 @@
 HackerApt contains two projects.
 ## /html
 #### A client-side web application **(html, css, js)**
-- */html/index.html* displays (best with Raspbian Chromium) current weather and WMATA train/bus info. 
+- `/html/index.html` displays (best with Raspbian Chromium) current weather and WMATA train/bus info. 
 - Future updates might include news/other interesting junk.
 
 ## /src
 #### A Visual Studio 2017 console project to generate static data **(C#)**
-Run Program.cs to create local JSON data of less-changing objects, such as WMATA station and bus-stop info, to reduce daily API calls.
+Run `src/WmataStaticData/Program.cs` to create local JSON data of less-changing objects, (such as WMATA station and bus-stop info), to reduce daily API calls.
 
 Output files generated:
 ```
@@ -17,16 +17,16 @@ static_stationinfo.json
 static_busstopinfo.json
 static_busrouteinfo.json
 ```
-*TODO: set up a cron job to auto-run static data every month or so.*
+*TODO:* set up a cron job to auto-run static data every month or so.
 
 
-This website uses several third-party APIs (personal key required) for current data.
 
 ## API Keys Required:
+This website uses several third-party APIs (personal key required) for current data, through synchronous AJAX requests.
 ### WMATA
 <https://developer.wmata.com/>
 - Default Tier request rate limited to 10 calls/second and 50,000 calls per day.
-####Provides:
+#### Provides:
 - Bus Route and Stop Methods
 - Incidents
 - Misc Methods
@@ -39,7 +39,7 @@ This website uses several third-party APIs (personal key required) for current d
 <https://darksky.net/dev/docs>
 - First 1000 requests/day are free
 - Every API request beyond that costs $0.0001
-####Provides:
+#### Provides:
 - Current weather conditions
 - Minute-by-minute forecasts out to one hour
 - Hour-by-hour and day-by-day forecasts out to seven days
@@ -54,31 +54,56 @@ This website uses several third-party APIs (personal key required) for current d
 <https://fontawesome.com/>
 - *(Included in **/html/webfonts**)*
 
-# Setup
+# Raspbian OS Setup
 ## Raspbian packages to install:
 ### Chromium browser:
-`rpi-chromium-mods`
+`sudo apt-get install -y rpi-chromium-mods`
 ### Apache web server:
-`apache2`
-### NodeJS:
-`nodejs`
-### Node Version Manager (NPM):
-`npm`
+`sudo apt-get install apache2 -y`
+### NodeJS & Node Package Manager (NPM):
+`install_nodejs.sh`
+```
+echo -e "\n--- Installing NodeJS & NPM ---\n"
+
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash > /dev/null 2>&1
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+source ~/.bashrc > /dev/null 2>&1
+
+nvm install node
+nvm alias default node
+
+nvm ls
+```
+`sudo install_nodejs.sh`
 ### CORS-ANYWHERE NodeJS Proxy
 <https://github.com/Rob--W/cors-anywhere>
 HackerApt uses the CORS-ANYWHERE NodeJS proxy server to allow cross-origin API requests on Raspbian Chromium.
-Install NodeJS package, then clone the CORS-ANYWHERE project.
+Install NodeJS/NPM packages, then clone the CORS-ANYWHERE project.
+```
+cd /home/pi
+npm install cors-anywhere
+```
+To RUN CORS-ANYWHERE once:
+`node /home/pi/node_modules/cors-anywhere/server.js`
+
+To start CORS-ANYWHERE server at boot (convert to boot script), add these lines to:
+`sudo nano /etc/rc.local`
+```
+# Start CORS-ANYWHERE Server
+node /home/pi/node_modules/cors-anywhere/server.js < /dev/null &>> /home/pi/node_modules/cors-anywhere/log &
+```
 
 ## API Settings
 Create an `api_keys.txt` file in `/html/settings`.
 
-Sample key file:
+Sample `api_keys.txt` file:
 ```
 WMATA KEY: {your WMATA developer key}
 DARKSKY KEY: {your DARKSKY developer key}
 USEPROXY: yes
 ```
-Set USEPROXY to yes if you see "Access-Control-Allow-Origin" errors. This will enable CORS-ANYWHERE, which needs to run at startup.
+Set **USEPROXY** to yes if you see "Access-Control-Allow-Origin" errors. This will enable CORS-ANYWHERE proxying. Ensure which needs to run at startup.
 
 
 ### `/html/settings/wmata_display_bus_stops.txt`
