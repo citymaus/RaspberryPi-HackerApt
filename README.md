@@ -28,13 +28,13 @@ This website uses several third-party APIs (personal developer key required) for
 #### <https://developer.wmata.com>
 - **Default Tier** request rate limited to 10 calls/second and 50,000 calls per day.
 #### Provides:
-- [Bus Route and Stop Methods] (https://developer.wmata.com/docs/services/54763629281d83086473f231)
-- [Incidents] (https://developer.wmata.com/docs/services/54763641281d83086473f232)
-- [Misc Methods] (https://developer.wmata.com/docs/services/5923434c08d33c0f201a600a)
-- [Rail Station Information] (https://developer.wmata.com/docs/services/5476364f031f590f38092507)
-- [Real-Time Bus Predictions] (https://developer.wmata.com/docs/services/5476365e031f590f38092508)
-- [Real-Time Rail Predictions] (https://developer.wmata.com/docs/services/547636a6f9182302184cda78)
-- [Train Positions] (https://developer.wmata.com/docs/services/5763fa6ff91823096cac1057)
+- [Bus Route and Stop Methods](https://developer.wmata.com/docs/services/54763629281d83086473f231)
+- [Incidents](https://developer.wmata.com/docs/services/54763641281d83086473f232)
+- [Misc Methods](https://developer.wmata.com/docs/services/5923434c08d33c0f201a600a)
+- [Rail Station Information](https://developer.wmata.com/docs/services/5476364f031f590f38092507)
+- [Real-Time Bus Predictions](https://developer.wmata.com/docs/services/5476365e031f590f38092508)
+- [Real-Time Rail Predictions](https://developer.wmata.com/docs/services/547636a6f9182302184cda78)
+- [Train Positions](https://developer.wmata.com/docs/services/5763fa6ff91823096cac1057)
 
 ### DARKSKY
 #### <https://darksky.net/dev/docs>
@@ -47,11 +47,11 @@ This website uses several third-party APIs (personal developer key required) for
 - Hour-by-hour and day-by-day observations going back decades
 
 ## Media Credits: 
-### DRIPICONS-WEATHER ![alt text](https://image.flaticon.com/icons/svg/69/69652.svg "DRIPICONS Weather")
+### DRIPICONS-WEATHER ![alt text](https://image.flaticon.com/icons/svg/69/69652.svg "DRIPICONS Weather" =200x)
 #### <http://demo.amitjakhu.com/dripicons-weather>
 - *Included in `/html/svg`*
 
-### FONTAWESOME ![alt text](https://en.wikipedia.org/wiki/Font_Awesome#/media/File:Font_Awesome_2017_Logo.svg "Fontawesome")
+### FONTAWESOME ![alt text](https://upload.wikimedia.org/wikipedia/en/thumb/8/83/Font_Awesome_2017_Logo.svg/75px-Font_Awesome_2017_Logo.svg.png "Fontawesome" =200x)
 #### <https://fontawesome.com>
 - *Included in `/html/webfonts`*
 
