@@ -1,14 +1,13 @@
 **HackerApt** is an Apache website designed to display on a RaspberryPi3-cobbled hardware setup.
  
 HackerApt contains two projects.
+## /html
+#### A client-side web application **(html, css, js)**
+- */html/index.html* displays (best with Raspbian Chromium) current weather and WMATA train/bus info. 
+- Future updates might include news/other interesting junk.
 
-### /html
-#### A client-side web application (html, css, js)
-- **HackerApt** displays (best with Raspbian Chromium) current weather and WMATA train/bus info. 
-- Future updates might include news.
-
-### /src
-#### A Visual Studio 2017 C# console project to generate static data
+## /src
+#### A Visual Studio 2017 console project to generate static data **(C#)**
 - Run Program.cs to create local JSON data of less-changing objects, such as WMATA station and bus-stop info, to reduce daily API calls.
 Output files generated: /html/api/wmata
 ```
@@ -16,13 +15,14 @@ Output files generated: /html/api/wmata
 - static_busstopinfo.json
 - static_busrouteinfo.json
 ```
-TODO: set up a cron job to auto-run every month or so.
+*TODO: set up a cron job to auto-run static data every month or so.*
+
 
 This website uses several third-party APIs (personal key required) for current data:
 
 ## API Keys Required:
 ### WMATA
-* https://developer.wmata.com/
+<https://developer.wmata.com/>
 - Default Tier request rate limited to 10 calls/second and 50,000 calls per day.
 *Provides:*
 - Bus Route and Stop Methods
@@ -34,7 +34,7 @@ This website uses several third-party APIs (personal key required) for current d
 - Train Positions
 
 ### DARKSKY
-* https://darksky.net/dev/docs
+<https://darksky.net/dev/docs>
 - First 1000 requests/day are free
 - Every API request beyond that costs $0.0001
 Provides:
@@ -45,13 +45,14 @@ Provides:
 
 ## Media Credits: 
 ### DRIPICONS-WEATHER
-* http://demo.amitjakhu.com/dripicons-weather/
-(Included in /html/svg)
+<http://demo.amitjakhu.com/dripicons-weather/>
+*(Included in **/html/svg**)*
 
 ### FONTAWESOME
-* https://fontawesome.com/
-(Included in /html/webfonts)
+<https://fontawesome.com/>
+*(Included in **/html/webfonts**)*
 
+# Setup
 ## Raspbian packages to install:
 ### Chromium browser:
 `rpi-chromium-mods`
@@ -61,21 +62,51 @@ Provides:
 `nodejs`
 ### Node Version Manager (NPM):
 `npm`
+### CORS-ANYWHERE NodeJS Proxy
+<https://github.com/Rob--W/cors-anywhere>
+HackerApt uses the CORS-ANYWHERE NodeJS proxy server to allow cross-origin API requests on Raspbian Chromium.
+Install NodeJS package, then clone the CORS-ANYWHERE project.
 
-## CORS-ANYWHERE NodeJS Proxy
-* https://github.com/Rob--W/cors-anywhere
-HackerApt also uses the CORS-ANYWHERE NodeJS proxy server to allow cross-origin API requests on Raspbian Chromium.
-Install NodeJS package, then clone the CORS-ANYWHERE project
-
-Create an "api_keys.txt" file in /html/settings
+## API Settings
+Create an `api_keys.txt` file in `/html/settings`
 Sample key file:
+```
 WMATA KEY: {your WMATA developer key}
 DARKSKY KEY: {your DARKSKY developer key}
 USEPROXY: yes
+```
 (Set USEPROXY to yes if you see "Access-Control-Allow-Origin" errors. This will enable CORS-ANYWHERE, which needs to run at startup).
+### `wmata_display_bus_stops.txt`
+Lines preceded with # are comments and ignored
+```
+#
+# Add bus stops by number here, one per line, in order of desired display.
+# -------------------------------------------------------------------
+# -- 16th St. NW + Irving St. NW (Southbound)
+1002872
+# -- 14th St. NW + Irving St. NW (Southbound)
+1003087
+# -- 16th St. NW + M St. NW (Northbound)
+#1001325
+# -- 14th St. NW + N St. NW (Northbound)
+#1001362
+```
+### `wmata_display_train_stations.txt`
+Lines preceded with # are comments and ignored
+```
+#
+# Add train stations here, one per line, in order of desired display.
+# 	- Can use partial name, for example, "Gallery Pl" instead of 
+#	  official, "Gallery Pl-Chinatown"
+# -------------------------------------------------------------------
+Columbia Heights
+Farragut North
+#L'Enfant
+#Farragut West
+```
 
-sudo nano /boot/config.txt
---------------------------
+## Raspbian OS Display Configuration
+`sudo nano /boot/config.txt`
 ```
 # Display orientation. Landscape = 0, Portrait = 1
 display_rotate=1
@@ -120,7 +151,7 @@ TODO: Add bash script that boots fullscreen or maximized HackerApt.
 
 Turn HDMI on/off during unused hours to save power.
 ### /home/pi/rpi-hdmi.sh
-Credit: https://gist.github.com/AGWA/9874925
+Credit: <https://gist.github.com/AGWA/9874925>
 ```
 #!/bin/sh
 
