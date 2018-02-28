@@ -30,7 +30,7 @@ Output files generated:
 
 ## API Developer Keys (Required):
 This website uses several free third-party APIs (personal developer key required) for current data, through synchronous AJAX requests.
-### WMATA <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/WMATA_Metro_Logo.svg/1200px-WMATA_Metro_Logo.svg.png" height="20px">
+### WMATA <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/WMATA_Metro_Logo.svg/1200px-WMATA_Metro_Logo.svg.png" height="50px">
 #### <https://developer.wmata.com>
 - **Default Tier** request rate limited to 10 calls/second and 50,000 calls per day.
 #### Provides:
@@ -42,7 +42,7 @@ This website uses several free third-party APIs (personal developer key required
 - [Real-Time Rail Predictions](https://developer.wmata.com/docs/services/547636a6f9182302184cda78)
 - [Train Positions](https://developer.wmata.com/docs/services/5763fa6ff91823096cac1057)
 
-### DARKSKY <img src="https://darksky.net/images/darkskylogo.png" height="20px">
+### DARKSKY <img src="https://www.vectorlogo.zone/logos/darksky/darksky-card.png" height="50px">
 #### <https://darksky.net/dev/docs>
 - First 1000 requests/day are free
 - Every API request beyond that costs $0.0001
