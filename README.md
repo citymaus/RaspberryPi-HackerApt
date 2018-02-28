@@ -1,3 +1,4 @@
+# HackerApt
 **HackerApt** is an Apache website designed to display on a RaspberryPi3-cobbled hardware setup.
  
 HackerApt contains two projects.
@@ -21,19 +22,19 @@ Output files generated:
 
 
 
-## API Keys Required:
-This website uses several third-party APIs (personal key required) for current data, through synchronous AJAX requests.
+## API Developer Keys Required:
+This website uses several third-party APIs (personal developer key required) for current data, through synchronous AJAX requests.
 ### WMATA
 #### <https://developer.wmata.com>
-- Default Tier request rate limited to 10 calls/second and 50,000 calls per day.
+- **Default Tier** request rate limited to 10 calls/second and 50,000 calls per day.
 #### Provides:
-- Bus Route and Stop Methods
-- Incidents
-- Misc Methods
-- Rail Station Information
-- Real-Time Bus Predictions
-- Real-Time Rail Predictions
-- Train Positions
+- [Bus Route and Stop Methods] (https://developer.wmata.com/docs/services/54763629281d83086473f231)
+- [Incidents] (https://developer.wmata.com/docs/services/54763641281d83086473f232)
+- [Misc Methods] (https://developer.wmata.com/docs/services/5923434c08d33c0f201a600a)
+- [Rail Station Information] (https://developer.wmata.com/docs/services/5476364f031f590f38092507)
+- [Real-Time Bus Predictions] (https://developer.wmata.com/docs/services/5476365e031f590f38092508)
+- [Real-Time Rail Predictions] (https://developer.wmata.com/docs/services/547636a6f9182302184cda78)
+- [Train Positions] (https://developer.wmata.com/docs/services/5763fa6ff91823096cac1057)
 
 ### DARKSKY
 #### <https://darksky.net/dev/docs>
@@ -46,11 +47,11 @@ This website uses several third-party APIs (personal key required) for current d
 - Hour-by-hour and day-by-day observations going back decades
 
 ## Media Credits: 
-### DRIPICONS-WEATHER  
+### DRIPICONS-WEATHER ![alt text](https://image.flaticon.com/icons/svg/69/69652.svg "DRIPICONS Weather")
 #### <http://demo.amitjakhu.com/dripicons-weather>
 - *Included in `/html/svg`*
 
-### FONTAWESOME
+### FONTAWESOME ![alt text](https://en.wikipedia.org/wiki/Font_Awesome#/media/File:Font_Awesome_2017_Logo.svg "Fontawesome")
 #### <https://fontawesome.com>
 - *Included in `/html/webfonts`*
 
