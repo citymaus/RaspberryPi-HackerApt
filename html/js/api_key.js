@@ -58,8 +58,7 @@ class ApiKeyHelper {
 	getAPIUrl(apiUrl) {
 		var ajaxUrl = apiUrl;
 		if ((typeof this.useProxy === 'boolean' && this.useProxy === true)) {
-			var stripHttp = apiUrl.replace("http://", "").replace("https://", "");
-			ajaxUrl = this.proxyUrl + stripHttp;
+			ajaxUrl = this.proxyUrl + apiUrl;
 		}
 		return ajaxUrl;
 	}

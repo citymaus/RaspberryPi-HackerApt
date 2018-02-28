@@ -1,22 +1,19 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>DC Metro Train Station Data</title>
-	<!--<META HTTP-EQUIV="refresh" CONTENT="60">-->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="js/wmata_train.js"></script>
-    <script src="js/api_key.js"></script>
-    <script src="js/wmata_status.js"></script>
+	<!--<meta http-equiv="refresh" content="60">-->
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script>
+    <script src="js/wmata_train.js" type="text/javascript"></script>
+    <script src="js/api_key.js" type="text/javascript"></script>
+    <script src="js/wmata_status.js" type="text/javascript"></script>
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/fontawesome-all.css" rel="stylesheet">
-</head>
-<body>
-<p id="display"></p>
-<script type="text/javascript">
+	<script type="text/javascript">
     $(function() {
 		// Set WMATA API key in: 	/html/settings/api_keys.txt
 		var userStationFile = "settings/wmata_display_train_stations.txt";
-		var refreshRate = 0;	// TODO
 		// TODO incidents
 	
 		var stationOrder = [];
@@ -118,9 +115,7 @@
 		// ----------------------------------------------------------
 
 		function createRow(currRows, line, cars, min, dest) {
-			currRows += "<tr>";
-			//currRows += "<td class='" + line + "'>" + line + "</td>";
-			
+			currRows += "<tr>";			
 			var textColor = "color:white;";
 			if (line.trim() == "YL") {
 				textColor = "color:black;";
@@ -204,12 +199,12 @@
 						for (var i = 0; i < currentStationData[today].FirstTrains.length; i++) {
 							var trainObj = currentStationData[today].FirstTrains[i];
 							currentStation.addEndTrain("First", trainObj.Time, trainObj.DestinationStation, trainObj.DestinationStationName
-		, trainObj.DestinationStationLines);
+														, trainObj.DestinationStationLines);
 						}
 						for (var i = 0; i < currentStationData[today].LastTrains.length; i++) {
 							var trainObj = currentStationData[today].LastTrains[i];
 							currentStation.addEndTrain("Last", trainObj.Time, trainObj.DestinationStation, trainObj.DestinationStationName
-		, trainObj.DestinationStationLines);
+														, trainObj.DestinationStationLines);
 						}
 					}
 				}
@@ -320,5 +315,8 @@
 		displayStationInfo(stationCodeList, stationOrderList);
     });
 </script>
+</head>
+<body>
+	<p id="display"></p>
 </body>
 </html>

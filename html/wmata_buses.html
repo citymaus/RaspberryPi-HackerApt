@@ -1,23 +1,20 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>DC Metro Bus Stop Data</title>
-	<!--<META HTTP-EQUIV="refresh" CONTENT="60">-->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="js/wmata_bus.js"></script>
-    <script src="js/api_key.js"></script>
-    <script src="js/wmata_status.js"></script>
+	<!--<meta http-equiv="refresh" content="60">-->
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script>
+    <script src="js/wmata_bus.js" type="text/javascript"></script>
+    <script src="js/api_key.js" type="text/javascript"></script>
+    <script src="js/wmata_status.js" type="text/javascript"></script>
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/fontawesome-all.css" rel="stylesheet">
-</head>
-<body>
-<p id="display"></p>
-<script type="text/javascript">
+	<script type="text/javascript">
     $(function() {
 		// Set WMATA API key in: 	/html/settings/api_keys.txt
 		// Set requested bus stops in:
 		var userStopFile = "settings/wmata_display_bus_stops.txt";
-		var refreshRate = 0;	// TODO
 		// TODO incidents
 	
 		var stopCodeOrder = [];
@@ -91,7 +88,6 @@
 			currRows += "<td class='B" + routeID + "'><span class='fa-stack fa-1x'><i class='fas fa-circle fa-stack-2x'></i>";
 			currRows += "<strong class='fa-stack-1x fa-stack-text fa-inverse'>" + routeID + "</strong></span></td>";
 			
-			//currRows += "<td class='B" + routeID + "'>" + routeID + "</td>";
 			currRows += "<td style='text-align:right;'";
 			if (min == "0") { 
 				currRows += " class='blink_me'"; 
@@ -198,7 +194,7 @@
 				
 		// Load up static helper files
 		var apiKeyHelper = new ApiKeyHelper("WMATA");
-		loadWmataStatusFeed(displayObj);
+		loadWmataStatusFeed(displayObj, apiKeyHelper);
 		loadJSON(setStopDataCallback);
 		loadRequestedStops(setRequestedStopsCallback);
 		
@@ -222,5 +218,8 @@
 		displayObj.innerHTML = pageHTML;
     });
 </script>
+</head>
+<body>
+	<p id="display"></p>
 </body>
 </html>

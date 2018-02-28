@@ -13,15 +13,10 @@ class WmataStatus {
 }
 
 var wmataStatusData = [];	
-function loadWmataStatusFeed(displayObj) {
+function loadWmataStatusFeed(displayObj, apiKeyHelper) {
 	
 	var feed = "https://feeds.feedburner.com/WMATA_API_Updates?format=xml";	
-	var apiUrl = feed;
-	$.getScript('api_key.js', function ()
-	{
-		var apiKeyHelper = new ApiKeyHelper("WMATA");
-		apiUrl = apiKeyHelper.getAPIUrl(feed);		
-	});
+	var apiUrl = apiKeyHelper.getAPIUrl(feed);
 	
 	// To allow CORS, use proxy here
 	//var proxy = "https://cors-anywhere.herokuapp.com/";
