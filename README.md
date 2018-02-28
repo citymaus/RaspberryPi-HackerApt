@@ -23,7 +23,8 @@ Output files generated:
 
 ## API Keys Required:
 This website uses several third-party APIs (personal key required) for current data, through synchronous AJAX requests.
-### WMATA [<https://developer.wmata.com/>]
+### WMATA
+#### <https://developer.wmata.com>
 - Default Tier request rate limited to 10 calls/second and 50,000 calls per day.
 #### Provides:
 - Bus Route and Stop Methods
@@ -34,7 +35,8 @@ This website uses several third-party APIs (personal key required) for current d
 - Real-Time Rail Predictions
 - Train Positions
 
-### DARKSKY [<https://darksky.net/dev/docs>]
+### DARKSKY
+#### <https://darksky.net/dev/docs>
 - First 1000 requests/day are free
 - Every API request beyond that costs $0.0001
 #### Provides:
@@ -44,10 +46,12 @@ This website uses several third-party APIs (personal key required) for current d
 - Hour-by-hour and day-by-day observations going back decades
 
 ## Media Credits: 
-### DRIPICONS-WEATHER  ( <http://demo.amitjakhu.com/dripicons-weather/> )
+### DRIPICONS-WEATHER  
+#### <http://demo.amitjakhu.com/dripicons-weather>
 - *Included in `/html/svg`*
 
-### FONTAWESOME [<https://fontawesome.com/>]
+### FONTAWESOME
+#### <https://fontawesome.com>
 - *Included in `/html/webfonts`*
 
 # Raspbian OS Setup
@@ -76,7 +80,8 @@ Then,
 sudo chmod 777 install_nodejs.sh
 sudo install_nodejs.sh
 ```
-### CORS-ANYWHERE NodeJS Proxy - <https://github.com/Rob--W/cors-anywhere> 
+### CORS-ANYWHERE NodeJS Proxy
+#### <https://github.com/Rob--W/cors-anywhere> 
 
 HackerApt uses the CORS-ANYWHERE NodeJS proxy server to allow cross-origin API requests on Raspbian Chromium.
 
