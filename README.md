@@ -183,6 +183,28 @@ overscan_right=-32
 overscan_top=-32
 overscan_bottom=-32
 ```
+### Edit autostart file for boot options
+`sudo nano ~/.config/lxsession/LXDE-pi/autostart`
+```
+@lxpanel --profile LXDE-pi
+@pcmanfm --desktop --profile LXDE-pi
+
+# Disable Screensaver
+@xset s off      # don't activate screensaver
+@xset -dpms      # disable DPMS (Energy Star) features.
+@xset s noblank  # don't blank the video device
+#@xscreensaver -no-splash
+
+# Tool to move the mouse pointer to the application menu launch button
+@point-rpi
+
+# Hide mouse after a few minutes of non-movement
+@unclutter -display :0 -noevents -grab &
+#@unclutter -idle 0
+
+# Start HackerApt
+@chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-data-dir --kiosk --incognito --start-maximized http://hackerapt.com/index.html
+```
 
 ## Desktop Shortcuts
 ### Fullscreen Webpage
