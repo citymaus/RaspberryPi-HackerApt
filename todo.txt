@@ -1,11 +1,10 @@
-- Flesh out .md file
-- Clean up CSS and code
+- Clean up CSS 
 - Add water waves to precipitation
 - Fix height issues in index
 - Fix candlestick height issues (temps over 75)
-- Fix WMATA train invalid date on Pi
+- Fix candlestick positioning issues
+- Fix autoheight of weather
 - Enable refreshing of pages (after dev work)
-- Enable HDMI off and on
 - Cron job for running of static WMATA data (monthly?)
 - Put into production
 

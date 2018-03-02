@@ -62,7 +62,15 @@ This website uses several free third-party APIs (personal developer key required
 - *Included in `/html/webfonts`*
 
 # Raspbian OS Setup
+## Configure Raspbian Defaults:
+`sudo raspi-config`
+- Boot to Desktop logged in as pi
+- Set timezone
 ## Raspbian packages to install:
+### xscreensaver (to disable screen sleep)
+`sudo apt-get install xscreensaver`
+### unclutter (hides mouse after a few minutes of non-movement)
+`sudo apt-get install unclutter`
 ### Chromium browser:
 `sudo apt-get install -y rpi-chromium-mods`
 ### Apache web server:
