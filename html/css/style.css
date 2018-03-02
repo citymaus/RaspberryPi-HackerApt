@@ -192,44 +192,42 @@
 .forecast-right {
 	float:right;
 	width:30%;
-	/*padding-right:10px; */
 }
 
 .weather-icon {
 	color: #FFFFFF;
-	/*float:center; */
 	font-size:80pt;
-	vertical-align: center;
-	/*width:100%; */
+	display: inline-block;
+	position: relative;
+	top: -20px;
 }
 
 .weather-uppercase {
 	text-transform: uppercase;
+}
+.day-Saturday, .day-Sunday {
+	/* background-color: #FFFF00;
+	border-radius: 4px; */
 }
 .weather-day {	
 	color: #FFFFFF;
 	vertical-align: top;
 	font-size: 19pt;
 	font-weight: bold;
-	float:left;
 	width:50%;
-	/*font-family: "Microsoft YaHei", Helvetica, sans-serif; */
-	/*font-family: "Cambria", Helvetica, sans-serif; */
+	display: inline-block;
 	font-family: "Cambria Math", Helvetica, sans-serif; 
-	/*font-family: "Oswald", sans-serif; */
-}
-.day-Saturday, .day-Sunday {
-	background-color: #FFFF00;
-	border-radius: 4px;
 }
 .weather-date {
 	text-align: right;
 	vertical-align: top;
 	padding-left: 10px;
-	float:right;
+	padding-top: -60px;
 	width:50%;
-	line-height: 0px;
-	top: -12px;
+	top: -23px;
+	right: -95px;
+	display: inline-block;
+	position: relative;
 }
 
 .precip-box {

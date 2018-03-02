@@ -133,14 +133,11 @@
 			pageHTML += "<tr><td style='vertical-align:top;' rowspan='2' class='weather-panel " 
 				+ weatherUtils.getDayBackgroundColor(currentHour.icon) + " today'>";
 			pageHTML += "<span class='weather-day weather-uppercase'>" + currentHour.getDay() + "</span> ";
-			pageHTML += "<span class='weather-uppercase weather-date'>" + currentHour.getDate() + "</span><br>";
-			pageHTML += currentHour.getTime() + "<br>";
+			pageHTML += "<span class='weather-uppercase weather-date'>" + currentHour.getDate() + "<br>" + currentHour.getTime(false) + "</span><br>";
 			
 			var todayHigh = Math.round(todayForecast.temperatureHigh);
 			var todayLow = Math.round(todayForecast.temperatureLow);
-			pageHTML += iconAndCandlestick('#ccc', weatherUtils, todayHigh, todayLow, todayHigh+10, todayLow, currentHour.icon);
-			//pageHTML += "<span class='weather-icon'><i class='icon diw-" + weatherUtils.getWeatherIcon(currentHour.icon);
-			//pageHTML += "' title='" + currentHour.icon + "'></i></span><br>";
+			pageHTML += iconAndCandlestick('#ccc', weatherUtils, todayHigh, todayLow, todayHigh, todayLow, currentHour.icon, true);
 			
 			pageHTML += "<table border=0 cellpadding=0 cellspacing=2 width='100%'><tr></tr><tr><td>";
 			pageHTML += "<span class='forecast-hi'>" + Math.round(currentHour.temperature) + "&#0176;</span></td>";
@@ -159,7 +156,7 @@
 				pageHTML += "<tr>";
 				pageHTML += "<td>" + currentForecast.getTime() + "</td>";
 				pageHTML += "<td align='center'><i class='weather-icon icon diw-" + weatherUtils.getWeatherIcon(currentForecast.icon);
-				pageHTML += "' style='font-size:25pt;' title='" + currentForecast.icon + "'></i></td></tr>";
+				pageHTML += "' style='font-size:25pt;position:relative;top:0px;' title='" + currentForecast.icon + "'></i></td></tr>";
 			}
 			pageHTML += "</table><br>";
 			
@@ -235,9 +232,9 @@
 				var currentDay = allWeatherDaily.allDays[day];
 				rowHTML += "<td class='forecast-next-seven weather-panel "
 								+ weatherUtils.getDayBackgroundColor(currentDay.icon) + "'>";
-				rowHTML += "<div class='day-" + currentDay.getDay() + "'>";
-				rowHTML += "<span class='weather-uppercase weather-day'>" + currentDay.getDay() + "</span>";
-				rowHTML += "<span class='weather-uppercase weather-date'>" + currentDay.getDate() + "</span>";
+				rowHTML += "<div class='weather-uppercase'>";
+				rowHTML += "<div class='day-" + currentDay.getDay() + " weather-day'>" + currentDay.getDay() + "</div>";
+				rowHTML += "<div class='weather-date'>" + currentDay.getDate() + "</div>";
 				rowHTML += "</div>";
 				
 				var rainBlue = "rgb(0, 170, 255)";
@@ -289,14 +286,17 @@
 			return rowHTML;
 		}
 		
-		function iconAndCandlestick(candleColor, weatherUtils, todayHigh, todayLow, highestHigh, lowestLow, icon) {
+		function iconAndCandlestick(candleColor, weatherUtils, todayHigh, todayLow, highestHigh, lowestLow, icon, isFirstPanel = false) {
 			var candleHTML = "";
+			var minimumCandlestickHeight = (isFirstPanel === true) ? 80 : 165;
 			var diff = todayHigh-todayLow;
 			if (diff == 0) { diff = 1; }
 			var candlestickLength = diff*4;
-			var fromTop = ((highestHigh-todayHigh)*4) - 60;
+			var fromTop = (isFirstPanel === true) ? -20 : ((highestHigh-todayHigh)*4) - highestHigh;
 			var totalPossibleCandlestickHeight = (highestHigh-lowestLow) * 5;
-			totalPossibleCandlestickHeight = 200;
+			if (totalPossibleCandlestickHeight < minimumCandlestickHeight) {
+				totalPossibleCandlestickHeight = minimumCandlestickHeight;
+			}
 			candleHTML += "<table border=0 cellpadding=5 cellspacing=0><tr></tr><tr>";
 			candleHTML += "<td style='height: " + totalPossibleCandlestickHeight + "px;width:50%'>";
 			candleHTML += 		"<i class='weather-icon icon diw-" + weatherUtils.getWeatherIcon(icon);
