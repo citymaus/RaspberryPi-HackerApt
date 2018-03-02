@@ -62,7 +62,11 @@ This website uses several free third-party APIs (personal developer key required
 - *Included in `/html/webfonts`*
 
 # Raspbian OS Setup
-## Configure Raspbian Defaults:
+## Update and Configure Raspbian Defaults:
+`sudo apt-get update`
+- Downloads OS package lists from the repositories for information on the newest versions of packages and their dependencies
+`sudo apt-get upgrade`
+- Install the newest versions of all packages currently installed on the system from the sources enumerated
 `sudo raspi-config`
 - Boot to Desktop logged in as pi
 - Set timezone
