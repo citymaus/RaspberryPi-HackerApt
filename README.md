@@ -206,6 +206,13 @@ overscan_bottom=-32
 @chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-data-dir --kiosk --incognito --start-maximized http://hackerapt.com/index.html
 ```
 
+## Disable Screensaver / Screen blanking
+`sudo nano /etc/lightdm/lightdm.conf`
+Add below `[Seat:*]` line:
+```
+xserver-command=X -s 0 -dpms
+```
+
 ## Desktop Shortcuts
 ### Fullscreen Webpage
 `sudo nano /home/pi/Desktop/hackerapt_fullscreen.desktop`
@@ -215,7 +222,7 @@ Type=Application
 Name=HackerApt (Fullscreen)
 Comment=Weather, trains, buses, and news
 Icon=/home/pi/Pictures/[some picture].png
-Exec=chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-data-dir --kiosk --start-maximized http://hackerapt.com/index.html
+Exec=chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-data-dir --kiosk --incognito --start-maximized http://hackerapt.com/index.html
 ```
 
 ### Maximized, but not Fullscreen Webpage
