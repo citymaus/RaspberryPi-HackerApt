@@ -1,9 +1,9 @@
-- Flesh out .md file
-- Clean up CSS and code
+- Clean up CSS 
 - Add water waves to precipitation
 - Fix height issues in index
 - Fix date spacing issue in weather
 - Fix candlestick height issues (temps over 75)
+- Fix autoheight of weather
 - Cron job for running of static WMATA data (monthly?)
 - Script for HDMI on/off with motion sensor?
 

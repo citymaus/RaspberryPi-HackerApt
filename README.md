@@ -62,7 +62,21 @@ This website uses several free third-party APIs (personal developer key required
 - *Included in `/html/webfonts`*
 
 # Raspbian OS Setup
+## Update and Configure Raspbian Defaults:
+`sudo apt-get update`
+- Downloads OS package lists from the repositories for information on the newest versions of packages and their dependencies
+
+`sudo apt-get upgrade`
+- Install the newest versions of all packages currently installed on the system from the sources enumerated
+
+`sudo raspi-config`
+- Boot to Desktop logged in as pi
+- Set timezone
 ## Raspbian packages to install:
+### xscreensaver (to disable screen sleep)
+`sudo apt-get install xscreensaver`
+### unclutter (hides mouse after a few minutes of non-movement)
+`sudo apt-get install unclutter`
 ### Chromium browser:
 `sudo apt-get install -y rpi-chromium-mods`
 ### Apache web server:
@@ -169,6 +183,35 @@ overscan_right=-32
 overscan_top=-32
 overscan_bottom=-32
 ```
+### Edit autostart file for boot options
+`sudo nano ~/.config/lxsession/LXDE-pi/autostart`
+```
+@lxpanel --profile LXDE-pi
+@pcmanfm --desktop --profile LXDE-pi
+
+# Disable Screensaver
+@xset s off      # don't activate screensaver
+@xset -dpms      # disable DPMS (Energy Star) features.
+@xset s noblank  # don't blank the video device
+#@xscreensaver -no-splash
+
+# Tool to move the mouse pointer to the application menu launch button
+@point-rpi
+
+# Hide mouse after a few minutes of non-movement
+@unclutter -display :0 -noevents -grab &
+#@unclutter -idle 0
+
+# Start HackerApt
+@chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-data-dir --kiosk --incognito --start-maximized http://hackerapt.com/index.html
+```
+
+## Disable Screensaver / Screen blanking
+`sudo nano /etc/lightdm/lightdm.conf`
+Add below `[Seat:*]` line:
+```
+xserver-command=X -s 0 -dpms
+```
 
 ## Desktop Shortcuts
 ### Fullscreen Webpage
@@ -179,7 +222,7 @@ Type=Application
 Name=HackerApt (Fullscreen)
 Comment=Weather, trains, buses, and news
 Icon=/home/pi/Pictures/[some picture].png
-Exec=chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-data-dir --kiosk --start-maximized http://hackerapt.com/index.html
+Exec=chromium-browser --noerrdialogs --disable-session-crashed-bubble --user-data-dir --kiosk --incognito --start-maximized http://hackerapt.com/index.html
 ```
 
 ### Maximized, but not Fullscreen Webpage

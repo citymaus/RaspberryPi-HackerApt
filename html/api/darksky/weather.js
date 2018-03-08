@@ -112,8 +112,8 @@ class WeatherDaily {
 	getDate() {
 		return this.util.getDate(this.time);
 	}
-	getTime() {
-		return this.util.getTime(this.time);
+	getTime(leadingZero = true) {
+		return this.util.getTime(this.time, leadingZero);
 	}
 }
 class WeatherAlert {	
@@ -165,9 +165,20 @@ class WeatherUtils {
 		}
 		return this.months[dateObj.getMonth()] + " " + day;
 	}
-	getTime(timeInSecs) {	
+	getTime(timeInSecs, leadingZero) {	
 		var dateObj = new Date(timeInSecs * 1000);
-		return dateObj.toLocaleTimeString();
+		var hours = dateObj.getHours();
+		var h = (leadingZero === true) ? this.addZero(hours%12) : hours%12;
+		var m = this.addZero(dateObj.getMinutes());
+		var s = (hours >= 12) ? "PM" : "AM";
+		//return dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+		return h + ":" + m + " " + s;
+	}
+	addZero(i) {
+		if (i < 10) {
+			i = "0" + i;
+		}
+		return i;
 	}
 	getShortenedSummary(iconName) {
 		var summary = "";
