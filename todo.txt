@@ -2,10 +2,8 @@
 - Clean up CSS and code
 - Add water waves to precipitation
 - Fix height issues in index
+- Fix date spacing issue in weather
 - Fix candlestick height issues (temps over 75)
-- Fix WMATA train invalid date on Pi
-- Enable refreshing of pages (after dev work)
-- Enable HDMI off and on
 - Cron job for running of static WMATA data (monthly?)
-- Put into production
+- Script for HDMI on/off with motion sensor?
 
