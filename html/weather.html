@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>DC Weather Data</title>
@@ -22,7 +22,8 @@
 		
 		var coordinates = "38.9281,-77.0342";
 		var darkSkyUrl_forecast = "https://api.darksky.net/forecast/";
-		var refreshRate = 0;	// TODO
+        var refreshRate = 0;	// TODO
+        var staticSeason = "summer";
 		
 		var staticWeatherData = {};		
 		var allWeatherAlerts = [];
@@ -46,7 +47,7 @@
 			var xobj = new XMLHttpRequest();
 				xobj.overrideMimeType("application/json");
 			// Synchronous ajax call (false)
-			xobj.open('GET', 'api/darksky/static_dcexample.json', false);
+			xobj.open('GET', 'api/darksky/static_dcexample_' + staticSeason + '.json', false);
 			xobj.onreadystatechange = function () {
 				  if (xobj.readyState == 4 && xobj.status == "200") {
 					callback(xobj.responseText);
@@ -66,10 +67,12 @@
 			allWeatherHourly = new WeatherHourlies(weatherHourly);
 			allWeatherDaily = new WeatherDailies(weatherDaily);
 
-			for (var i = 0; i < weatherAlerts.length; i++) {
-				allWeatherAlerts.push(new WeatherAlert(weatherAlerts[i]));
-			}
-		}    
+            if (weatherAlerts != null) {
+                for (var i = 0; i < weatherAlerts.length; i++) {
+                    allWeatherAlerts.push(new WeatherAlert(weatherAlerts[i]));
+                }
+            }
+        }    
 		function saveWeatherInfoAJAX() {
 			var params = {
 				"exclude": "minutely",
@@ -131,9 +134,14 @@
 			var currentHour = allWeatherHourly.allHours[0];
 			var todayForecast = allWeatherDaily.allDays[0];
 			pageHTML += "<tr><td style='vertical-align:top;' rowspan='2' class='weather-panel " 
-				+ weatherUtils.getDayBackgroundColor(currentHour.icon) + " today'>";
-			pageHTML += "<span class='weather-day weather-uppercase'>" + currentHour.getDay() + "</span> ";
-			pageHTML += "<span class='weather-uppercase weather-date'>" + currentHour.getDate() + "<br>" + currentHour.getTime(false) + "</span><br>";
+                + weatherUtils.getDayBackgroundColor(currentHour.icon) + " today'>";
+            
+            //pageHTML += "<div class='day-" + currentDay.getDay() + " weather-day'>" + currentDay.getDay() + "</div>";
+            pageHTML += "<span class='weather-day weather-uppercase'>" + currentHour.getDay() + "</span>";
+            pageHTML += "<span class='weather-today-time'>" + currentHour.getTime(false) + "</span>";
+            pageHTML += "<div class='weather-today-date weather-uppercase'>" + currentHour.getDate() + "</div>";
+			//pageHTML += "<span class='weather-day weather-uppercase'>" + currentHour.getDay() + "</span> ";
+			//pageHTML += "<span class='weather-uppercase weather-date'>" + currentHour.getDate() + "<br>" + currentHour.getTime(false) + "</span><br>";
 			
 			var todayHigh = Math.round(todayForecast.temperatureHigh);
 			var todayLow = Math.round(todayForecast.temperatureLow);
@@ -156,7 +164,9 @@
 				pageHTML += "<tr>";
 				pageHTML += "<td>" + currentForecast.getTime() + "</td>";
 				pageHTML += "<td align='center'><i class='weather-icon icon diw-" + weatherUtils.getWeatherIcon(currentForecast.icon);
-				pageHTML += "' style='font-size:25pt;position:relative;top:0px;' title='" + currentForecast.icon + "'></i></td></tr>";
+                pageHTML += "' style='font-size:25pt;position:relative;top:0px;' title='" + currentForecast.icon + "'></i></td>";
+                pageHTML += "<td align='center'><span class='forecast-hourly'>" + Math.round(currentForecast.temperature) + "&#0176;</span></td>";
+                pageHTML += "</tr>";
 			}
 			pageHTML += "</table><br>";
 			
@@ -165,10 +175,10 @@
 			
 						
 			pageHTML += "<table border=0 cellpadding=10 cellspacing=0 class='forecast-sunrise-sunset'>";					
-			pageHTML += "<tr><td align='center'><i class='icon diw-sun-low' title='sunrise'></i></td><td>";
-			pageHTML += weatherUtils.getTime(todayForecast.sunriseTime) + "</td><tr>";
-			pageHTML += "<td align='center'><i class='icon diw-sun-lower' title='sunset'></i></td><td>";
-			pageHTML += weatherUtils.getTime(todayForecast.sunsetTime) + "</td></tr></table>";		
+            pageHTML += "<tr><td align='center' class='forecast-sunrise'><i class='icon diw-sun-low' title='sunrise'></i></td>";
+            pageHTML += "<td class='forecast-sunrise-time'>" + weatherUtils.getTime(todayForecast.sunriseTime) + "</td><tr>";
+            pageHTML += "<td align='center' class='forecast-sunset'><i class='icon diw-sun-lower' title='sunset'></i></td>";
+            pageHTML += "<td class='forecast-sunset-time'>" + weatherUtils.getTime(todayForecast.sunsetTime) + "</td></tr></table>";		
 
 			// BOTTOM TABLE: high/low, summary, and precip
 			pageHTML += "<br><table border=0 cellpadding=4 cellspacing=0 width='100%'><tr></tr><tr>";
@@ -304,7 +314,7 @@
 			candleHTML += "</td>";
 			candleHTML += "<td style='height: " + totalPossibleCandlestickHeight + "px;width:50%;'>";	
 			candleHTML += 		"<div class='temp-range-candlestick' ";
-			candleHTML += 		"style='height: " + candlestickLength + "px; top: " + fromTop + "px; background-color: " + candleColor + ";'>";
+			candleHTML += 		"style='height: " + candlestickLength + "px; top: " + fromTop + "px; left: 20px; background-color: " + candleColor + ";'>";
 			candleHTML += 			"<span class='candlestick_high_temp'>" + todayHigh + "&deg;</span>";
 			candleHTML += 			"<span class='candlestick_low_temp'>" + todayLow + "&deg;</span>";
 			candleHTML += 		"</div>";
@@ -320,8 +330,8 @@
 		}
 		loadJSON(setWeatherDataCallback);
 		
-		//saveWeatherInfoStatic();
-		saveWeatherInfoAJAX();
+		saveWeatherInfoStatic();
+		//saveWeatherInfoAJAX();
 		
 		var showAlerts = true;
 		var pageHTML = "<table border=0 cellpadding=0 cellspacing=0><tr>";

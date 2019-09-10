@@ -179,8 +179,23 @@
 	/*border: 2px solid #777; */
 	border: 2px solid #000;
 }
+.forecast-sunrise {
+    background-color: #ff9933;
+}
+.forecast-sunrise-time {
+    background-color: #ff8033;
+}
+.forecast-sunset {
+    background-color: #ff9999;
+}
+.forecast-sunset-time {
+    background-color: #ff8080;
+}
 .forecast-next-seven {
 	width:180px;
+}
+.forecast-hourly {
+    font-size: 16pt;
 }
 .forecast-hi {
 	font-size: 18pt;
@@ -219,15 +234,31 @@
 	font-family: "Cambria Math", Helvetica, sans-serif; 
 }
 .weather-date {
-	text-align: right;
+	text-align: left;
 	vertical-align: top;
-	padding-left: 10px;
 	padding-top: -60px;
 	width:50%;
 	top: -23px;
-	right: -95px;
-	display: inline-block;
-	position: relative;
+}
+.weather-today-date {
+    text-align: left;
+    vertical-align: top;
+    padding-top: -60px;
+    width: 50%;
+    top: -19px;
+    display: inline-block;
+    position: relative;
+}
+.weather-today-time {
+    text-align: right;
+    vertical-align: top;
+    padding-left: 10px;
+    padding-top: -60px;
+    width:50%;
+    top: -23px;
+    right: -95px;
+    display: inline-block;
+    position: relative;
 }
 
 .precip-box {
