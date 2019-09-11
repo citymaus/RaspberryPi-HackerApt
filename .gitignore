@@ -1,1 +1,6 @@
-﻿/src/Web/obj/*
+﻿src/Web/obj/*
+packages/*
+packages/*
+src/.vs/*
+src/obj/*
+.vs/*

@@ -3,7 +3,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace WmataStaticData
+namespace StaticDataBuilder
 {
     public class StaticWeatherDataBuilder
     {
@@ -79,7 +79,6 @@ namespace WmataStaticData
                 }
             }
 
-            //string path = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, @"html\api\darksky\" + filename);
             // Create JSON
             using (StreamWriter file = new StreamWriter(path, false))
             {

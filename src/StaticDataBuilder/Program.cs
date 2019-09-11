@@ -2,13 +2,13 @@
 #undef STATICDARKSKY
 using System;
 
-namespace WmataStaticData
+namespace StaticDataBuilder
 {
     class Program
     {
         static void Main(string[] args)
         {
-            var overwriteData = true;
+            var overwriteData = false;
             
             var wmataApiKey = new ApiKeyHelper("WMATA").ApiKey;
             var darkSkyApiKey = new ApiKeyHelper("DARKSKY").ApiKey;
@@ -25,7 +25,7 @@ namespace WmataStaticData
 
 #if STATICDARKSKY
             var staticWeatherDataBuilder = new StaticWeatherDataBuilder(darkSkyApiKey, overwriteData);
-            staticWeatherDataBuilder.MakeWeatherRequest();
+            staticWeatherDataBuilder.MakeWeatherRequest().Wait();
 #endif
 
             Console.WriteLine();

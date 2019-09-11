@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json;
 
-namespace WmataStaticData
+namespace StaticDataBuilder
 {
     public class StopDataBuilder
     {
