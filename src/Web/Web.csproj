@@ -69,8 +69,8 @@
     <None Include="..\..\html\api\wmata\static_busstopinfo.md" Link="api\wmata\static_busstopinfo.md" />
     <None Include="..\..\html\api\wmata\static_stationinfo.md" Link="api\wmata\static_stationinfo.md" />
     <None Include="..\..\html\hackerapt.com.conf" Link="hackerapt.com.conf" />
-    <None Include="..\..\html\js\api_key.js" Link="js\api_key.js" />
     <None Include="..\..\html\js\moment.min.js" Link="js\moment.min.js" />
+    <None Include="..\..\html\js\settings_helper.js" Link="js\settings_helper.js" />
     <None Include="..\..\html\js\wmata_bus.js" Link="js\wmata_bus.js" />
     <None Include="..\..\html\js\wmata_status.js" Link="js\wmata_status.js" />
     <None Include="..\..\html\js\wmata_train.js" Link="js\wmata_train.js" />
