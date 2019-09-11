@@ -28,7 +28,7 @@
         // --------------------------------------------------
         // UPDATE FOR STATIC DATA
         // --------------------------------------------------
-        var useStatic = false;
+        var useStatic = true;
         var staticSeason = "summer";
         var staticFileVersion = "1";
         var staticIgnoreAlerts = true;
@@ -315,8 +315,8 @@
 			candleHTML += 		"' title='" + icon + "'></i>";
 			candleHTML += "</td>";
 			candleHTML += "<td style='height: " + totalPossibleCandlestickHeight + "px;width:50%;'>";	
-			candleHTML += 		"<div class='temp-range-candlestick' ";
-			candleHTML += 		"style='height: " + candlestickLength + "px; top: " + fromTop + "px; left: 20px; background-color: " + candleColor + ";'>";
+            candleHTML += 		"<div class='temperature-candlestick' ";
+			candleHTML += 		"style='height: " + candlestickLength + "px; top: " + fromTop + "px; background-color: " + candleColor + ";'>";
 			candleHTML += 			"<span class='candlestick_high_temp'>" + todayHigh + "&deg;</span>";
 			candleHTML += 			"<span class='candlestick_low_temp'>" + todayLow + "&deg;</span>";
 			candleHTML += 		"</div>";

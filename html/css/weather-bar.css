@@ -1,15 +1,11 @@
-/*body {
-  font-family: 'Open Sans', sans-serif;
-  text-align: center;
-}
-*/
-.temp-range-candlestick {
+.temperature-candlestick {
 	position: relative;
 	width: 20px;
 	margin: 18px auto 0;
 	font-size: 13px;
     font-weight: bold;
 	border-radius: 200px;
+    right: -20px;
 	
 	background-color: #ccc;
     background-size: 30px 30px;
