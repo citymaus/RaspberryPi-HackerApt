@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json;
 
@@ -11,13 +12,15 @@ namespace WmataStaticData
         private static string _apiKey;
         private const string _stopFilename = "static_busstopinfo";
         private const string _routeFilename = "static_busrouteinfo";
+        private static bool _overwriteData;
 
-        public StopDataBuilder(string apiKey)
+        public StopDataBuilder(string apiKey, bool overwriteData = true)
         {
             _apiKey = apiKey;
+            _overwriteData = overwriteData;
         }
 
-        public async void MakeStopRequest()
+        public async Task MakeStopRequest()
         {
             var client = new HttpClient();
             var queryString = HttpUtility.ParseQueryString(string.Empty);
@@ -86,18 +89,32 @@ namespace WmataStaticData
             }
             markdownOutput += "</tbody></table>";
 
+            var directory = Path.GetDirectoryName(Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, @"html\api\wmata\"));
+            var path = Path.Combine(directory, _stopFilename);
+
+            if (!_overwriteData)
+            {
+                var fileVersion = 1;
+                while (File.Exists(path + ".json"))
+                {
+                    var updatedFile = _stopFilename + "-" + fileVersion;
+                    path = Path.Combine(directory, updatedFile);
+                    fileVersion++;
+                }
+            }
+
             // Create markdown file
-            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\api\wmata\" + _stopFilename + ".md", false))
+            using (StreamWriter file = new StreamWriter(path + ".md", false))
             {
                 file.Write(markdownOutput);
             }
             // Create HTML file
-            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\api\wmata\" + _stopFilename + ".html", false))
+            using (StreamWriter file = new StreamWriter(path + ".html", false))
             {
                 file.Write(markdownOutput);
             }
             // Create JSON
-            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\api\wmata\" + _stopFilename + ".json", false))
+            using (StreamWriter file = new StreamWriter(path + ".json", false))
             {
                 file.Write(JsonConvert.SerializeObject(stopsJSON));
             }
@@ -125,21 +142,42 @@ namespace WmataStaticData
                                   + "</td></tr>\n";
             }
             markdownOutput += "</tbody></table>";
+
+            var directory = Path.GetDirectoryName(Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, @"html\api\wmata\"));
+            var path = Path.Combine(directory, _routeFilename);
+
+            if (!_overwriteData)
+            {
+                var fileVersion = 1;
+                while (File.Exists(path + ".json"))
+                {
+                    var updatedFile = _routeFilename + "-" + fileVersion;
+                    path = Path.Combine(directory, updatedFile);
+                    fileVersion++;
+                }
+            }
+
             // Create markdown file
-            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\api\wmata\" + _routeFilename + ".md", false))
+            using (StreamWriter file = new StreamWriter(path + ".md", false))
             {
                 file.Write(markdownOutput);
             }
             // Create HTML file
-            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\api\wmata\" + _routeFilename + ".html", false))
+            using (StreamWriter file = new StreamWriter(path + ".html", false))
             {
                 file.Write(markdownOutput);
             }
             // Create JSON
-            using (StreamWriter file = new StreamWriter(@"..\..\..\..\html\api\wmata\" + _routeFilename + ".json", false))
+            using (StreamWriter file = new StreamWriter(path + ".json", false))
             {
                 file.Write(JsonConvert.SerializeObject(routesJSON));
             }
+
+            Console.WriteLine();
+            Console.WriteLine("Files created:");
+            Console.WriteLine(path + ".md");
+            Console.WriteLine(path + ".html");
+            Console.WriteLine(path + ".json");
         }
     }
 }

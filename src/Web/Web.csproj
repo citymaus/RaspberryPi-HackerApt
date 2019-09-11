@@ -1,0 +1,179 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\html\api\darksky\static_dcexample_summer-1.json" Link="api\darksky\static_dcexample_summer-1.json" />
+    <Content Include="..\..\html\api\darksky\static_dcexample_summer.json" Link="api\darksky\static_dcexample_summer.json" />
+    <Content Include="..\..\html\api\darksky\static_dcexample_winter.json" Link="api\darksky\static_dcexample_winter.json" />
+    <Content Include="..\..\html\api\wmata\static_busrouteinfo.html" Link="api\wmata\static_busrouteinfo.html" />
+    <Content Include="..\..\html\api\wmata\static_busrouteinfo.json" Link="api\wmata\static_busrouteinfo.json" />
+    <Content Include="..\..\html\api\wmata\static_busstopinfo.html" Link="api\wmata\static_busstopinfo.html" />
+    <Content Include="..\..\html\api\wmata\static_busstopinfo.json" Link="api\wmata\static_busstopinfo.json" />
+    <Content Include="..\..\html\api\wmata\static_stationinfo.html" Link="api\wmata\static_stationinfo.html" />
+    <Content Include="..\..\html\api\wmata\static_stationinfo.json" Link="api\wmata\static_stationinfo.json" />
+    <Content Include="..\..\html\api\wmata\station_info.html" Link="api\wmata\station_info.html" />
+    <Content Include="..\..\html\css\dripicons-style.css" Link="css\dripicons-style.css" />
+    <Content Include="..\..\html\css\dripicons-webfont.css" Link="css\dripicons-webfont.css" />
+    <Content Include="..\..\html\css\fontawesome-all.css" Link="css\fontawesome-all.css" />
+    <Content Include="..\..\html\css\icons-reference.html" Link="css\icons-reference.html" />
+    <Content Include="..\..\html\css\style.css" Link="css\style.css" />
+    <Content Include="..\..\html\css\weather-bar.css" Link="css\weather-bar.css" />
+    <Content Include="..\..\html\img\buses.png" Link="img\buses.png" />
+    <Content Include="..\..\html\img\trains.png" Link="img\trains.png" />
+    <Content Include="..\..\html\index.html" Link="index.html" />
+    <Content Include="..\..\html\news.html" Link="news.html" />
+    <Content Include="..\..\html\settings\api_keys.txt" Link="settings\api_keys.txt" />
+    <Content Include="..\..\html\settings\wmata_display_bus_stops.txt" Link="settings\wmata_display_bus_stops.txt" />
+    <Content Include="..\..\html\settings\wmata_display_train_stations.txt" Link="settings\wmata_display_train_stations.txt" />
+    <Content Include="..\..\html\weather.html" Link="weather.html" />
+    <Content Include="..\..\html\webfonts\dripicons-weather.eot" Link="webfonts\dripicons-weather.eot" />
+    <Content Include="..\..\html\webfonts\dripicons-weather.ttf" Link="webfonts\dripicons-weather.ttf" />
+    <Content Include="..\..\html\webfonts\dripicons-weather.woff" Link="webfonts\dripicons-weather.woff" />
+    <Content Include="..\..\html\webfonts\fa-brands-400.eot" Link="webfonts\fa-brands-400.eot" />
+    <Content Include="..\..\html\webfonts\fa-brands-400.ttf" Link="webfonts\fa-brands-400.ttf" />
+    <Content Include="..\..\html\webfonts\fa-brands-400.woff" Link="webfonts\fa-brands-400.woff" />
+    <Content Include="..\..\html\webfonts\fa-regular-400.eot" Link="webfonts\fa-regular-400.eot" />
+    <Content Include="..\..\html\webfonts\fa-regular-400.ttf" Link="webfonts\fa-regular-400.ttf" />
+    <Content Include="..\..\html\webfonts\fa-regular-400.woff" Link="webfonts\fa-regular-400.woff" />
+    <Content Include="..\..\html\webfonts\fa-solid-900.eot" Link="webfonts\fa-solid-900.eot" />
+    <Content Include="..\..\html\webfonts\fa-solid-900.ttf" Link="webfonts\fa-solid-900.ttf" />
+    <Content Include="..\..\html\webfonts\fa-solid-900.woff" Link="webfonts\fa-solid-900.woff" />
+    <Content Include="..\..\html\wmata_buses.html" Link="wmata_buses.html" />
+    <Content Include="..\..\html\wmata_trains.html" Link="wmata_trains.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="api\darksky\" />
+    <Folder Include="api\wmata\" />
+    <Folder Include="js\" />
+    <Folder Include="css\" />
+    <Folder Include="img\" />
+    <Folder Include="webfonts\" />
+    <Folder Include="svg\" />
+    <Folder Include="settings\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\html\.gitignore" Link=".gitignore" />
+    <None Include="..\..\html\.htaccess" Link=".htaccess" />
+    <None Include="..\..\html\api\darksky\weather.js" Link="api\darksky\weather.js" />
+    <None Include="..\..\html\api\wmata\static_busrouteinfo.md" Link="api\wmata\static_busrouteinfo.md" />
+    <None Include="..\..\html\api\wmata\static_busstopinfo.md" Link="api\wmata\static_busstopinfo.md" />
+    <None Include="..\..\html\api\wmata\static_stationinfo.md" Link="api\wmata\static_stationinfo.md" />
+    <None Include="..\..\html\hackerapt.com.conf" Link="hackerapt.com.conf" />
+    <None Include="..\..\html\js\api_key.js" Link="js\api_key.js" />
+    <None Include="..\..\html\js\moment.min.js" Link="js\moment.min.js" />
+    <None Include="..\..\html\js\wmata_bus.js" Link="js\wmata_bus.js" />
+    <None Include="..\..\html\js\wmata_status.js" Link="js\wmata_status.js" />
+    <None Include="..\..\html\js\wmata_train.js" Link="js\wmata_train.js" />
+    <None Include="..\..\html\svg\cloud-drizzle-lightning-moon.svg" Link="svg\cloud-drizzle-lightning-moon.svg" />
+    <None Include="..\..\html\svg\cloud-drizzle-lightning-sun-2.svg" Link="svg\cloud-drizzle-lightning-sun-2.svg" />
+    <None Include="..\..\html\svg\cloud-drizzle-lightning-sun.svg" Link="svg\cloud-drizzle-lightning-sun.svg" />
+    <None Include="..\..\html\svg\cloud-drizzle-lightning.svg" Link="svg\cloud-drizzle-lightning.svg" />
+    <None Include="..\..\html\svg\cloud-drizzle-moon.svg" Link="svg\cloud-drizzle-moon.svg" />
+    <None Include="..\..\html\svg\cloud-drizzle-sun-2.svg" Link="svg\cloud-drizzle-sun-2.svg" />
+    <None Include="..\..\html\svg\cloud-drizzle-sun.svg" Link="svg\cloud-drizzle-sun.svg" />
+    <None Include="..\..\html\svg\cloud-drizzle.svg" Link="svg\cloud-drizzle.svg" />
+    <None Include="..\..\html\svg\cloud-fog-2.svg" Link="svg\cloud-fog-2.svg" />
+    <None Include="..\..\html\svg\cloud-fog-moon.svg" Link="svg\cloud-fog-moon.svg" />
+    <None Include="..\..\html\svg\cloud-fog-sun-2.svg" Link="svg\cloud-fog-sun-2.svg" />
+    <None Include="..\..\html\svg\cloud-fog-sun.svg" Link="svg\cloud-fog-sun.svg" />
+    <None Include="..\..\html\svg\cloud-fog.svg" Link="svg\cloud-fog.svg" />
+    <None Include="..\..\html\svg\cloud-hail-lightning-moon.svg" Link="svg\cloud-hail-lightning-moon.svg" />
+    <None Include="..\..\html\svg\cloud-hail-lightning-sun-2.svg" Link="svg\cloud-hail-lightning-sun-2.svg" />
+    <None Include="..\..\html\svg\cloud-hail-lightning-sun.svg" Link="svg\cloud-hail-lightning-sun.svg" />
+    <None Include="..\..\html\svg\cloud-hail-lightning.svg" Link="svg\cloud-hail-lightning.svg" />
+    <None Include="..\..\html\svg\cloud-hail-moon.svg" Link="svg\cloud-hail-moon.svg" />
+    <None Include="..\..\html\svg\cloud-hail-sun-2.svg" Link="svg\cloud-hail-sun-2.svg" />
+    <None Include="..\..\html\svg\cloud-hail-sun.svg" Link="svg\cloud-hail-sun.svg" />
+    <None Include="..\..\html\svg\cloud-hail.svg" Link="svg\cloud-hail.svg" />
+    <None Include="..\..\html\svg\cloud-lightning-moon.svg" Link="svg\cloud-lightning-moon.svg" />
+    <None Include="..\..\html\svg\cloud-lightning-sun-2.svg" Link="svg\cloud-lightning-sun-2.svg" />
+    <None Include="..\..\html\svg\cloud-lightning-sun.svg" Link="svg\cloud-lightning-sun.svg" />
+    <None Include="..\..\html\svg\cloud-lightning.svg" Link="svg\cloud-lightning.svg" />
+    <None Include="..\..\html\svg\cloud-moon.svg" Link="svg\cloud-moon.svg" />
+    <None Include="..\..\html\svg\cloud-rain-2-moon.svg" Link="svg\cloud-rain-2-moon.svg" />
+    <None Include="..\..\html\svg\cloud-rain-2-sun-2.svg" Link="svg\cloud-rain-2-sun-2.svg" />
+    <None Include="..\..\html\svg\cloud-rain-2-sun.svg" Link="svg\cloud-rain-2-sun.svg" />
+    <None Include="..\..\html\svg\cloud-rain-2.svg" Link="svg\cloud-rain-2.svg" />
+    <None Include="..\..\html\svg\cloud-rain-lightning-moon.svg" Link="svg\cloud-rain-lightning-moon.svg" />
+    <None Include="..\..\html\svg\cloud-rain-lightning-sun-2.svg" Link="svg\cloud-rain-lightning-sun-2.svg" />
+    <None Include="..\..\html\svg\cloud-rain-lightning-sun.svg" Link="svg\cloud-rain-lightning-sun.svg" />
+    <None Include="..\..\html\svg\cloud-rain-lightning.svg" Link="svg\cloud-rain-lightning.svg" />
+    <None Include="..\..\html\svg\cloud-rain-moon.svg" Link="svg\cloud-rain-moon.svg" />
+    <None Include="..\..\html\svg\cloud-rain-sun-2.svg" Link="svg\cloud-rain-sun-2.svg" />
+    <None Include="..\..\html\svg\cloud-rain-sun.svg" Link="svg\cloud-rain-sun.svg" />
+    <None Include="..\..\html\svg\cloud-rain.svg" Link="svg\cloud-rain.svg" />
+    <None Include="..\..\html\svg\cloud-snow-moon.svg" Link="svg\cloud-snow-moon.svg" />
+    <None Include="..\..\html\svg\cloud-snow-sun-2.svg" Link="svg\cloud-snow-sun-2.svg" />
+    <None Include="..\..\html\svg\cloud-snow-sun.svg" Link="svg\cloud-snow-sun.svg" />
+    <None Include="..\..\html\svg\cloud-snow.svg" Link="svg\cloud-snow.svg" />
+    <None Include="..\..\html\svg\cloud-sun-2.svg" Link="svg\cloud-sun-2.svg" />
+    <None Include="..\..\html\svg\cloud-sun.svg" Link="svg\cloud-sun.svg" />
+    <None Include="..\..\html\svg\cloud-wind-2-moon.svg" Link="svg\cloud-wind-2-moon.svg" />
+    <None Include="..\..\html\svg\cloud-wind-2-sun-2.svg" Link="svg\cloud-wind-2-sun-2.svg" />
+    <None Include="..\..\html\svg\cloud-wind-2-sun.svg" Link="svg\cloud-wind-2-sun.svg" />
+    <None Include="..\..\html\svg\cloud-wind-2.svg" Link="svg\cloud-wind-2.svg" />
+    <None Include="..\..\html\svg\cloud-wind-moon.svg" Link="svg\cloud-wind-moon.svg" />
+    <None Include="..\..\html\svg\cloud-wind-sun-2.svg" Link="svg\cloud-wind-sun-2.svg" />
+    <None Include="..\..\html\svg\cloud-wind-sun.svg" Link="svg\cloud-wind-sun.svg" />
+    <None Include="..\..\html\svg\cloud-wind.svg" Link="svg\cloud-wind.svg" />
+    <None Include="..\..\html\svg\cloud.svg" Link="svg\cloud.svg" />
+    <None Include="..\..\html\svg\clouds-moon.svg" Link="svg\clouds-moon.svg" />
+    <None Include="..\..\html\svg\clouds-sun-2.svg" Link="svg\clouds-sun-2.svg" />
+    <None Include="..\..\html\svg\clouds-sun.svg" Link="svg\clouds-sun.svg" />
+    <None Include="..\..\html\svg\clouds.svg" Link="svg\clouds.svg" />
+    <None Include="..\..\html\svg\compass-east.svg" Link="svg\compass-east.svg" />
+    <None Include="..\..\html\svg\compass-north.svg" Link="svg\compass-north.svg" />
+    <None Include="..\..\html\svg\compass-south.svg" Link="svg\compass-south.svg" />
+    <None Include="..\..\html\svg\compass-west.svg" Link="svg\compass-west.svg" />
+    <None Include="..\..\html\svg\degrees-celcius.svg" Link="svg\degrees-celcius.svg" />
+    <None Include="..\..\html\svg\degrees-fahrenheit.svg" Link="svg\degrees-fahrenheit.svg" />
+    <None Include="..\..\html\svg\drizzle.svg" Link="svg\drizzle.svg" />
+    <None Include="..\..\html\svg\flag.svg" Link="svg\flag.svg" />
+    <None Include="..\..\html\svg\fog.svg" Link="svg\fog.svg" />
+    <None Include="..\..\html\svg\hail.svg" Link="svg\hail.svg" />
+    <None Include="..\..\html\svg\lightning.svg" Link="svg\lightning.svg" />
+    <None Include="..\..\html\svg\moon-100.svg" Link="svg\moon-100.svg" />
+    <None Include="..\..\html\svg\moon-25.svg" Link="svg\moon-25.svg" />
+    <None Include="..\..\html\svg\moon-50.svg" Link="svg\moon-50.svg" />
+    <None Include="..\..\html\svg\moon-75.svg" Link="svg\moon-75.svg" />
+    <None Include="..\..\html\svg\moon-stars.svg" Link="svg\moon-stars.svg" />
+    <None Include="..\..\html\svg\ocean-clip-art.svg" Link="svg\ocean-clip-art.svg" />
+    <None Include="..\..\html\svg\rain.svg" Link="svg\rain.svg" />
+    <None Include="..\..\html\svg\raindrop.svg" Link="svg\raindrop.svg" />
+    <None Include="..\..\html\svg\snow.svg" Link="svg\snow.svg" />
+    <None Include="..\..\html\svg\sun-eclipse.svg" Link="svg\sun-eclipse.svg" />
+    <None Include="..\..\html\svg\sun-low.svg" Link="svg\sun-low.svg" />
+    <None Include="..\..\html\svg\sun-lower.svg" Link="svg\sun-lower.svg" />
+    <None Include="..\..\html\svg\sun-rise.svg" Link="svg\sun-rise.svg" />
+    <None Include="..\..\html\svg\sun-set.svg" Link="svg\sun-set.svg" />
+    <None Include="..\..\html\svg\sun.svg" Link="svg\sun.svg" />
+    <None Include="..\..\html\svg\thermometer-100.svg" Link="svg\thermometer-100.svg" />
+    <None Include="..\..\html\svg\thermometer-25.svg" Link="svg\thermometer-25.svg" />
+    <None Include="..\..\html\svg\thermometer-50.svg" Link="svg\thermometer-50.svg" />
+    <None Include="..\..\html\svg\thermometer-75.svg" Link="svg\thermometer-75.svg" />
+    <None Include="..\..\html\svg\tornado.svg" Link="svg\tornado.svg" />
+    <None Include="..\..\html\svg\umbrella-drizzle.svg" Link="svg\umbrella-drizzle.svg" />
+    <None Include="..\..\html\svg\umbrella.svg" Link="svg\umbrella.svg" />
+    <None Include="..\..\html\svg\wet.svg" Link="svg\wet.svg" />
+    <None Include="..\..\html\svg\wind.svg" Link="svg\wind.svg" />
+    <None Include="..\..\html\web.config" Link="web.config" />
+    <None Include="..\..\html\webfonts\dripicons-weather.svg" Link="webfonts\dripicons-weather.svg" />
+    <None Include="..\..\html\webfonts\fa-brands-400.svg" Link="webfonts\fa-brands-400.svg" />
+    <None Include="..\..\html\webfonts\fa-brands-400.woff2" Link="webfonts\fa-brands-400.woff2" />
+    <None Include="..\..\html\webfonts\fa-regular-400.svg" Link="webfonts\fa-regular-400.svg" />
+    <None Include="..\..\html\webfonts\fa-regular-400.woff2" Link="webfonts\fa-regular-400.woff2" />
+    <None Include="..\..\html\webfonts\fa-solid-900.svg" Link="webfonts\fa-solid-900.svg" />
+    <None Include="..\..\html\webfonts\fa-solid-900.woff2" Link="webfonts\fa-solid-900.woff2" />
+  </ItemGroup>
+
+</Project>
