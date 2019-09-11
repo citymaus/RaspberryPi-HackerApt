@@ -6,7 +6,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script>
     <script src="api/darksky/weather.js" type="text/javascript"></script>
-    <script src="js/api_key.js" type="text/javascript"></script>
+    <script src="js/settings_helper.js" type="text/javascript"></script>
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/weather-bar.css" rel="stylesheet">
 	<link href="css/fontawesome-all.css" rel="stylesheet">
@@ -90,9 +90,9 @@
 			var params = {
 				"exclude": "minutely",
 			};
-  			var apiLink = "https://api.darksky.net/forecast/" + apiKeyHelper.apiKey + "/" + coordinates + "?" + $.param(params);
+            var apiLink = "https://api.darksky.net/forecast/" + settingsHelper.apiKey + "/" + coordinates + "?" + $.param(params);
 			$.ajax({
-				url: apiKeyHelper.getAPIUrl(apiLink),
+                url: settingsHelper.getAPIUrl(apiLink),
 				type: "GET",
 				async: false,
 			})
@@ -326,9 +326,9 @@
 		}
 		
 		// Load up static helper files
-		var apiKeyHelper = new ApiKeyHelper("DARKSKY");
-		if (apiKeyHelper.error != "") {
-			displayObj.innerHTML = apiKeyHelper.error;			
+        var settingsHelper = new SettingsHelper("DARKSKY");
+        if (settingsHelper.error != "") {
+            displayObj.innerHTML = settingsHelper.error;			
 		}
 		loadJSON(setWeatherDataCallback);
 
@@ -343,7 +343,7 @@
 		pageHTML += "<td style='vertical-align:top;' colspan=2>";
 		pageHTML += displayWeatherInfo(showAlerts);
 		pageHTML += "</td></tr>";
-		pageHTML += apiKeyHelper.apiKeyLastUpdated("https://darksky.net/poweredby/", "Powered by Dark Sky", dateNow, timeNow, 18);
+        pageHTML += settingsHelper.apiKeyLastUpdated("https://darksky.net/poweredby/", "Powered by Dark Sky", dateNow, timeNow, 18);
 		pageHTML += "</table>";
 		displayObj.innerHTML = pageHTML;
 	});

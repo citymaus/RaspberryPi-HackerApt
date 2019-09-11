@@ -1,4 +1,4 @@
-class ApiKeyHelper {
+class SettingsHelper {
 	constructor(apiKeyName) {
 		this.keyName = apiKeyName;
 		this.apiKey = "{set keys in /html/settings/api_keys.txt}";

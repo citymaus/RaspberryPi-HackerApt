@@ -6,7 +6,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script>
     <script src="js/wmata_train.js" type="text/javascript"></script>
-    <script src="js/api_key.js" type="text/javascript"></script>
+    <script src="js/settings_helper.js" type="text/javascript"></script>
     <script src="js/wmata_status.js" type="text/javascript"></script>
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/fontawesome-all.css" rel="stylesheet">
@@ -171,7 +171,7 @@
 		
 		function displayStationInfo(stationCodeList, stationNameOrder){
 			var params = {
-				"api_key": apiKeyHelper.apiKey,
+                "api_key": settingsHelper.apiKey,
 			};
 			$.ajax({
 				url: "https://api.wmata.com/StationPrediction.svc/json/GetPrediction/" + stationCodeList + "?" + $.param(params),
@@ -300,7 +300,7 @@
 					pageTable += tableData;
 				}
 			    pageTable += "</tr>";
-				pageTable += apiKeyHelper.apiKeyLastUpdated("https://developer.wmata.com", "WMATA Developer API", dateNow, timeNow, 8, stationNameOrder.length + 1);
+                pageTable += settingsHelper.apiKeyLastUpdated("https://developer.wmata.com", "WMATA Developer API", dateNow, timeNow, 8, stationNameOrder.length + 1);
 				pageTable += "</table>";
 				displayObj.innerHTML = pageTable;
 			})
@@ -311,7 +311,7 @@
 		}		
 		
 		// Load up static helper files
-		var apiKeyHelper = new ApiKeyHelper("WMATA");
+        var settingsHelper = new SettingsHelper("WMATA");
 		loadJSON(setStationDataCallback);
 		loadRequestedStations(setRequestedStationsCallback);
 		

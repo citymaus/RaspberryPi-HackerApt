@@ -47,7 +47,7 @@ namespace StaticDataBuilder
                 file.WriteLine("WMATA KEY: <add key here>");
                 file.WriteLine("DARKSKY KEY: <add key here>");
                 file.WriteLine("USEPROXY: yes");
-                file.WriteLine("MODE: production");
+                file.WriteLine("MODE: release");
             }
             Console.WriteLine();
             Console.WriteLine("API key file created:");
