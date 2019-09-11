@@ -28,7 +28,7 @@
         // --------------------------------------------------
         // UPDATE FOR STATIC DATA
         // --------------------------------------------------
-        var useStatic = true;
+        var useStatic = false;
         var staticSeason = "summer";
         var staticFileVersion = "1";
         var staticIgnoreAlerts = true;
@@ -305,12 +305,12 @@
 			var diff = todayHigh-todayLow;
 			if (diff == 0) { diff = 1; }
 			var candlestickLength = diff*4;
-            var fromTop = (isFirstPanel === true) ? -70 : ((highestHigh - todayHigh) * 4) - highestHigh;
+            var fromTop = (isFirstPanel === true) ? -65 : ((highestHigh - todayHigh) * 4) - highestHigh;
 
             var totalCandlestickArea = fromTop + candlestickLength;
             if (totalCandlestickArea > 100) {
                 // TODO calculate
-                fromTop = -70;
+                fromTop = (isFirstPanel === true) ? -60 : -70;
             }
 
             var totalPossibleCandlestickHeight = (highestHigh - lowestLow) * 5;
