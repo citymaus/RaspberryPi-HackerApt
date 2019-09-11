@@ -168,6 +168,14 @@
 	border-spacing: 8px;
     border-collapse: separate;
 }
+.now-box {
+    padding-left: 5px;
+}
+.now-temp {
+    position: relative;
+    top: -2px;
+    padding-bottom: 18px;
+}
 .forecast-summary {	
 	float:left;
 	margin-bottom:10px;

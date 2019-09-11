@@ -158,7 +158,8 @@
 			pageHTML += iconAndCandlestick('#ccc', weatherUtils, todayHigh, todayLow, todayHigh, todayLow, currentHour.icon, true);
 			
 			pageHTML += "<table border=0 cellpadding=0 cellspacing=2 width='100%'><tr></tr><tr><td>";
-			pageHTML += "<span class='forecast-hi'>" + Math.round(currentHour.temperature) + "&#0176;</span></td>";
+            pageHTML += "<span class='weather-uppercase now-box'>Now:</span><br/>";
+            pageHTML += "<div class='now-temp now-box'><span class='forecast-hi'>&nbsp;" + Math.round(currentHour.temperature) + "&#0176;</span></div></td>";
 			pageHTML += "<td style='align:right;'>";
 			pageHTML += "<span class='forecast-summary'>" + currentHour.summary + "</span>";
 			pageHTML += "</td></tr></table>";
