@@ -304,8 +304,15 @@
 			var diff = todayHigh-todayLow;
 			if (diff == 0) { diff = 1; }
 			var candlestickLength = diff*4;
-			var fromTop = (isFirstPanel === true) ? -20 : ((highestHigh-todayHigh)*4) - highestHigh;
-			var totalPossibleCandlestickHeight = (highestHigh-lowestLow) * 5;
+            var fromTop = (isFirstPanel === true) ? -70 : ((highestHigh - todayHigh) * 4) - highestHigh;
+
+            var totalCandlestickArea = fromTop + candlestickLength;
+            if (totalCandlestickArea > 100) {
+                // TODO calculate
+                fromTop = -70;
+            }
+
+            var totalPossibleCandlestickHeight = (highestHigh - lowestLow) * 5;
 			if (totalPossibleCandlestickHeight < minimumCandlestickHeight) {
 				totalPossibleCandlestickHeight = minimumCandlestickHeight;
 			}
@@ -314,12 +321,14 @@
 			candleHTML += 		"<i class='weather-icon icon diw-" + weatherUtils.getWeatherIcon(icon);
 			candleHTML += 		"' title='" + icon + "'></i>";
 			candleHTML += "</td>";
-			candleHTML += "<td style='height: " + totalPossibleCandlestickHeight + "px;width:50%;'>";	
+            candleHTML += "<td style='height: " + totalPossibleCandlestickHeight + "px;width:50%;'>";	
+            candleHTML +=   "<div class='candlestick-container'>"
             candleHTML += 		"<div class='temperature-candlestick' ";
 			candleHTML += 		"style='height: " + candlestickLength + "px; top: " + fromTop + "px; background-color: " + candleColor + ";'>";
 			candleHTML += 			"<span class='candlestick_high_temp'>" + todayHigh + "&deg;</span>";
 			candleHTML += 			"<span class='candlestick_low_temp'>" + todayLow + "&deg;</span>";
 			candleHTML += 		"</div>";
+            candleHTML +=   "</div>";
 			candleHTML += "</td>";
 			candleHTML += "</tr></table>";
 			return candleHTML;
