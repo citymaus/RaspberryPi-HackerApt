@@ -3,9 +3,12 @@ class ApiKeyHelper {
 		this.keyName = apiKeyName;
 		this.apiKey = "{set keys in /html/settings/api_keys.txt}";
 		// To allow CORS on stubborn Raspbian Chromium, use proxy to make API calls
-		this.useProxy = false;
-		//this.proxyUrl = "https://cors-anywhere.herokuapp.com/";
-		this.proxyUrl = "http://localhost:8080/";
+        this.useProxy = false;
+        this.production = true;
+        // Testing with Localhost:
+        this.testingProxyUrl = "https://cors-anywhere.herokuapp.com/";
+        // Production on RaspberryPi:
+		this.productionProxyUrl = "http://localhost:8080/";
 		this.apiUrl = "";
 		this.error = "";
 		
@@ -39,7 +42,13 @@ class ApiKeyHelper {
 						if (proxy.includes("yes") || proxy.includes("true")) {
 							ptr.useProxy = true;	
 						}					
-					}
+                    }
+                    if (currentKey.indexOf("MODE") > -1) {
+                        var proxy = currentKey.replace("MODE", "").replace(":", "").trim().toLowerCase();
+                        if (proxy.includes("debug")) {
+                            ptr.production = false;
+                        }
+                    }
 				}
 			}
 		}
@@ -56,9 +65,11 @@ class ApiKeyHelper {
 		return lastHTML;
 	}
 	getAPIUrl(apiUrl) {
-		var ajaxUrl = apiUrl;
+        var ajaxUrl = apiUrl;
+        var proxyUrl = this.production ? this.productionProxyUrl : this.testingProxyUrl;
+
 		if ((typeof this.useProxy === 'boolean' && this.useProxy === true)) {
-			ajaxUrl = this.proxyUrl + apiUrl;
+			ajaxUrl = proxyUrl + apiUrl;
 		}
 		return ajaxUrl;
 	}

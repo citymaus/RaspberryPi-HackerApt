@@ -19,11 +19,20 @@
 		// 		Every 5 minutes: 288 requests/day
 		//		Every 3 minutes: 480 requests/day (selected)
 		// 		Every 2 minutes: 720 requests/day
-		
+
+        // Washington, DC
 		var coordinates = "38.9281,-77.0342";
 		var darkSkyUrl_forecast = "https://api.darksky.net/forecast/";
         var refreshRate = 0;	// TODO
+
+        // --------------------------------------------------
+        // UPDATE FOR STATIC DATA
+        // --------------------------------------------------
+        var useStatic = false;
         var staticSeason = "summer";
+        var staticFileVersion = "1";
+        var staticIgnoreAlerts = true;
+        // --------------------------------------------------
 		
 		var staticWeatherData = {};		
 		var allWeatherAlerts = [];
@@ -45,9 +54,13 @@
 		// ----------------------------------------------------------
 		function loadJSON(callback) {
 			var xobj = new XMLHttpRequest();
-				xobj.overrideMimeType("application/json");
+            xobj.overrideMimeType("application/json");
+
 			// Synchronous ajax call (false)
-			xobj.open('GET', 'api/darksky/static_dcexample_' + staticSeason + '.json', false);
+            var staticVersion = staticFileVersion ? ("-" + staticFileVersion) : "";
+            var staticFilename = 'api/darksky/static_dcexample_' + staticSeason + staticVersion + '.json';
+
+            xobj.open('GET', staticFilename, false);
 			xobj.onreadystatechange = function () {
 				  if (xobj.readyState == 4 && xobj.status == "200") {
 					callback(xobj.responseText);
@@ -67,7 +80,7 @@
 			allWeatherHourly = new WeatherHourlies(weatherHourly);
 			allWeatherDaily = new WeatherDailies(weatherDaily);
 
-            if (weatherAlerts != null) {
+            if (weatherAlerts != null && !staticIgnoreAlerts) {
                 for (var i = 0; i < weatherAlerts.length; i++) {
                     allWeatherAlerts.push(new WeatherAlert(weatherAlerts[i]));
                 }
@@ -136,12 +149,9 @@
 			pageHTML += "<tr><td style='vertical-align:top;' rowspan='2' class='weather-panel " 
                 + weatherUtils.getDayBackgroundColor(currentHour.icon) + " today'>";
             
-            //pageHTML += "<div class='day-" + currentDay.getDay() + " weather-day'>" + currentDay.getDay() + "</div>";
             pageHTML += "<span class='weather-day weather-uppercase'>" + currentHour.getDay() + "</span>";
             pageHTML += "<span class='weather-today-time'>" + currentHour.getTime(false) + "</span>";
             pageHTML += "<div class='weather-today-date weather-uppercase'>" + currentHour.getDate() + "</div>";
-			//pageHTML += "<span class='weather-day weather-uppercase'>" + currentHour.getDay() + "</span> ";
-			//pageHTML += "<span class='weather-uppercase weather-date'>" + currentHour.getDate() + "<br>" + currentHour.getTime(false) + "</span><br>";
 			
 			var todayHigh = Math.round(todayForecast.temperatureHigh);
 			var todayLow = Math.round(todayForecast.temperatureLow);
@@ -152,11 +162,7 @@
 			pageHTML += "<td style='align:right;'>";
 			pageHTML += "<span class='forecast-summary'>" + currentHour.summary + "</span>";
 			pageHTML += "</td></tr></table>";
-			
-			//pageHTML += "<span class='forecast-hi'>" + Math.round(currentHour.temperature) + "&#0176;</span>";
-			//pageHTML += "&nbsp;";
-			//pageHTML += "<span class='forecast-summary'>" + currentHour.summary + "</span><br>";
-			
+						
 			// EVERY THREE HOURS
 			pageHTML += "<table border=0 cellpadding=5 cellspacing=0 class='forecast-next-hours'>";
 			for (var h = 2; h < 9; h += 3) {	
@@ -169,10 +175,6 @@
                 pageHTML += "</tr>";
 			}
 			pageHTML += "</table><br>";
-			
-			//pageHTML += "<span class='forecast-hi'>" + Math.round(todayForecast.temperatureHigh) + "&#0176;</span>" + " / ";
-			//pageHTML += Math.round(todayForecast.temperatureLow) + "&#0176;<br>";
-			
 						
 			pageHTML += "<table border=0 cellpadding=10 cellspacing=0 class='forecast-sunrise-sunset'>";					
             pageHTML += "<tr><td align='center' class='forecast-sunrise'><i class='icon diw-sun-low' title='sunrise'></i></td>";
@@ -329,10 +331,13 @@
 			displayObj.innerHTML = apiKeyHelper.error;			
 		}
 		loadJSON(setWeatherDataCallback);
-		
-		saveWeatherInfoStatic();
-		//saveWeatherInfoAJAX();
-		
+
+        if (useStatic) {
+            saveWeatherInfoStatic();
+        } else {
+            saveWeatherInfoAJAX();
+        }
+
 		var showAlerts = true;
 		var pageHTML = "<table border=0 cellpadding=0 cellspacing=0><tr>";
 		pageHTML += "<td style='vertical-align:top;' colspan=2>";

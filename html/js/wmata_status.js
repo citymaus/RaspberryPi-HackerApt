@@ -32,8 +32,13 @@ function loadWmataStatusFeed(displayObj, apiKeyHelper) {
 		addStatusData(data);
 	})
 	.fail(function(xhr, status, error) {
-		var err = eval("(" + xhr.responseText + ")");
-		displayObj.innerHTML += "<br>Error: " + err.message;
+        var err = eval("(" + xhr.responseText + ")");
+        if (err) {
+            displayObj.innerHTML += "<br>Error: " + err.message;
+        }
+        if (error) {
+            displayObj.innerHTML += "<br>Error: " + error;
+        }
 	});	
 }
 function addStatusData(data) {					

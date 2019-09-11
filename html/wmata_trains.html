@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>DC Metro Train Station Data</title>
@@ -153,8 +153,14 @@
 				var timeMath = Math.ceil((trainTime - dateObj) / oneMinute);
 				var displayBookend = ((timeMath <= 160) && (timeMath > -60));
 				if (displayBookend) {
-					currRows += "<tr>";
-					currRows += "<td class='" + line + "'>" + line + "</td>";
+                    currRows += "<tr>";
+                    var textColor = "color:white;";
+                    if (line.trim() == "YL") {
+                        textColor = "color:black;";
+                    }
+                    currRows += "<td class='" + line + "'><span class='fa-stack fa-1x'><i class='fas fa-circle fa-stack-2x'></i>";
+                    currRows += "<strong class='fa-stack-1x fa-stack-text'>"
+                        + "<span style='" + textColor + "'>" + line + "</span></strong></span></td>";
 					currRows += "<td colspan='2' class='bookendTrain'>" + type + " train to <b>" + dest + "</b>:</td>";
 					currRows += "<td style='text-align:right;'><b>" + trainTime.toLocaleTimeString() + "</b><br>(" + timeMath + " mins)</td>";
 					currRows += "</tr>";
